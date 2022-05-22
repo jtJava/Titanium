@@ -8,6 +8,7 @@ import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import java.util.HashMap;
 import java.util.Map;
 import me.jaden.titanium.Settings;
+import me.jaden.titanium.Titanium;
 import me.jaden.titanium.check.impl.book.BookA;
 import me.jaden.titanium.check.impl.book.BookB;
 import me.jaden.titanium.check.impl.book.BookC;
@@ -23,12 +24,15 @@ import me.jaden.titanium.check.impl.spam.SpamB;
 import me.jaden.titanium.check.impl.spam.SpamC;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 public class CheckManager {
     private final Map<Class<? extends Check>, Check> checks = new HashMap<>();
 
     public CheckManager() {
-        this.initializePacketHandler();
+        this.initializeListeners();
 
         ServerVersion serverVersion = PacketEvents.getAPI().getServerManager().getVersion();
 
@@ -63,7 +67,7 @@ public class CheckManager {
         }
     }
 
-    private void initializePacketHandler() {
+    private void initializeListeners() {
         PacketEvents.getAPI().getEventManager().registerListener(new SimplePacketListenerAbstract() {
             @Override
             public void onPacketPlayReceive(PacketPlayReceiveEvent event) {
@@ -95,6 +99,15 @@ public class CheckManager {
                 }
             }
         });
+        Titanium plugin = Titanium.getPlugin();
+        plugin.getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler(ignoreCancelled = true)
+            public void onEvent(Event event) {
+                for (Check check : checks.values()) {
+                    check.onEvent(event);
+                }
+            }
+        }, plugin);
     }
 
     private void addChecks(Check... checks) {

@@ -12,6 +12,7 @@ import me.jaden.titanium.data.PlayerData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
 public interface Check {
     default void flag(ProtocolPacketEvent<Object> event) {
@@ -22,7 +23,7 @@ public interface Check {
         } catch (Exception ignored) {
         }
         user.closeConnection();
-        Bukkit.getLogger().info("[Titanium] Disconnected " + user.getProfile().getName() + " for flagging " + this.getClass().getName());
+        Bukkit.getLogger().info("[Titanium] Disconnected " + user.getProfile().getName() + " for flagging " + this.getClass().getSimpleName());
     }
 
     default ServerVersion getLowestServerVersion() {
@@ -33,9 +34,15 @@ public interface Check {
         return PacketEvents.getAPI().getServerManager().getVersion();
     }
 
-    void handle(PacketReceiveEvent event, PlayerData playerData);
+    default void handle(PacketReceiveEvent event, PlayerData playerData) {
+
+    }
 
     default void handle(PacketSendEvent event, PlayerData playerData) {
+
+    }
+
+    default void onEvent(Event event) {
 
     }
 

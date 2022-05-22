@@ -7,9 +7,6 @@ import me.jaden.titanium.Settings;
 @Setter
 @Getter
 public class PlayerData {
-    // Crasher
-    private boolean possiblyViewingLectern;
-
     // Spam
     private int lastBookEditTick;
     private int lastDropItemTick;
