@@ -26,19 +26,11 @@ public class DataManager {
         PacketEvents.getAPI().getEventManager().registerListener(new PacketListenerCommon() {
             @Override
             public void onUserLogin(UserLoginEvent event) {
-                System.out.println("login");
-                addPlayerData(event.getUser());
-            }
-
-            @Override
-            public void onUserConnect(UserConnectEvent event) {
-                System.out.println("connect");
                 addPlayerData(event.getUser());
             }
 
             @Override
             public void onUserDisconnect(UserDisconnectEvent event) {
-                System.out.println("disconnect");
                 removePlayerData(event.getUser());
             }
         });

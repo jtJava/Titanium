@@ -29,7 +29,6 @@ public class Settings {
                 .put("books.max-book-total-size-multiplier", 0.98D)
                 .build());
 
-
         this.maxPacketsPerSecond = configuration.getInt("limits.max-packets-per-second", 1000);
         this.maxBookPageSize = configuration.getInt("books.max-book-page-size", 2560);
         this.maxBookTotalSizeMultiplier = configuration.getDouble("books.max-book-page-size", 0.98D);

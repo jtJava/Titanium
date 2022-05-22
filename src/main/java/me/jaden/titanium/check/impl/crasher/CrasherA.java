@@ -35,7 +35,6 @@ public class CrasherA implements Check {
     public void handle(PacketSendEvent event, PlayerData data) {
         if (event.getPacketType() == PacketType.Play.Server.OPEN_WINDOW) {
             WrapperPlayServerOpenWindow wrapper = new WrapperPlayServerOpenWindow(event);
-            System.out.println(wrapper.getLegacyType());
             data.setPossiblyViewingLectern(wrapper.getType() == 16 || wrapper.getLegacyType().equals("minecraft:lectern"));
         }
     }

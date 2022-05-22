@@ -24,7 +24,6 @@ public class InvalidA implements Check {
 
             Location location = wrapper.getLocation();
             if (this.containsInvalidValues(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch())) {
-                System.out.println("kicked");
                 event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
             }
         } else if (event.getPacketType() == PacketType.Play.Client.VEHICLE_MOVE) {
@@ -32,7 +31,6 @@ public class InvalidA implements Check {
 
             Vector3d position = wrapper.getPosition();
             if (this.containsInvalidValues(position.getX(), position.getY(), position.getZ(), wrapper.getYaw(), wrapper.getPitch())) {
-                System.out.println("kicked");
                 event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
             }
         }

@@ -28,6 +28,7 @@ public final class Titanium extends JavaPlugin {
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
         PacketEvents.getAPI().getSettings().checkForUpdates(true).bStats(true);
         PacketEvents.getAPI().load();
+
     }
 
     @Override
@@ -45,5 +46,7 @@ public final class Titanium extends JavaPlugin {
             Bukkit.getLogger().warning("[Titanium] Late bind is disabled, this can allow players" +
                     " to join your server before the plugin loads leaving you vulnerable to crashers.");
         }
+
+        PacketEvents.getAPI().init();
     }
 }
