@@ -18,8 +18,7 @@ public class InvalidD implements Check {
             if (!this.getPlayer(event).isPresent()) return;
 
             if (wrapper.getSlot() < 0 || wrapper.getSlot() >= 9) {
-                event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-            }
+                flag(event);            }
         }
     }
 }

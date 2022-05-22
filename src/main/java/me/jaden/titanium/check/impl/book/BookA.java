@@ -27,8 +27,7 @@ public class BookA implements Check {
                 int byteLength = testString.getBytes(java.nio.charset.StandardCharsets.UTF_8).length;
                 if (byteLength > 256 * 4) {
                     // page too large
-                    event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-                    return;
+                    flag(event);                    return;
                 }
                 byteTotal += byteLength;
                 int length = testString.length();
@@ -50,8 +49,7 @@ public class BookA implements Check {
 
             if (byteTotal > byteAllowed) {
                 // book too large
-                event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-            }
+                flag(event);            }
         }
 
     }

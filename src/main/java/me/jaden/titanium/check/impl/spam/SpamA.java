@@ -14,8 +14,7 @@ public class SpamA implements Check {
         if (event.getPacketType() == PacketType.Play.Client.EDIT_BOOK) {
             int currentTick = Ticker.getInstance().getCurrentTick();
             if (data.getLastBookEditTick() + 20 > currentTick) {
-                event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-            } else {
+                flag(event);            } else {
                 data.setLastBookEditTick(currentTick);
             }
         } else if (event.getPacketType() == PacketType.Play.Client.PLUGIN_MESSAGE) {
@@ -27,8 +26,7 @@ public class SpamA implements Check {
 
             int currentTick = Ticker.getInstance().getCurrentTick();
             if (data.getLastBookEditTick() + 20 > currentTick) {
-                event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-            } else {
+                flag(event);            } else {
                 data.setLastBookEditTick(currentTick);
             }
         }

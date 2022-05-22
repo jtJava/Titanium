@@ -37,8 +37,7 @@ public class SpamB implements Check {
                     // Else we increment the drop count and check the amount.
                     data.incrementDropCount();
                     if (data.getDropCount() >= 20) {
-                        event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-                    }
+                        flag(event);                    }
                 }
             }
         }

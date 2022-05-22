@@ -5,12 +5,26 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.event.PacketSendEvent;
 import com.github.retrooper.packetevents.event.ProtocolPacketEvent;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
+import com.github.retrooper.packetevents.protocol.player.User;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDisconnect;
 import java.util.Optional;
 import me.jaden.titanium.data.PlayerData;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public interface Check {
+    default void flag(ProtocolPacketEvent<Object> event) {
+        event.setCancelled(true);
+        User user = event.getUser();
+        try {
+            user.sendPacket(new WrapperPlayServerDisconnect(Component.text("Timed out!")));
+        } catch (Exception ignored) {
+        }
+        user.closeConnection();
+        Bukkit.getLogger().info("[Titanium] Disconnected " + user.getProfile().getName() + " for flagging " + this.getClass().getName());
+    }
+
     default ServerVersion getLowestServerVersion() {
         return ServerVersion.V_1_8_8;
     }

@@ -21,8 +21,7 @@ public class InvalidC implements Check {
             Player player = this.getPlayer(event).get();
 
             if (!(wrapper.getSlot() >= 0 && wrapper.getSlot() < player.getInventory().getContents().length)) {
-                event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-            }
+                flag(event);            }
         }
     }
 }

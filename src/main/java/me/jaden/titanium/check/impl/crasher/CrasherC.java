@@ -18,18 +18,15 @@ public class CrasherC implements Check {
         if (event.getPacketType() == PacketType.Play.Client.CHAT_MESSAGE) {
             WrapperPlayClientChatMessage wrapper = new WrapperPlayClientChatMessage(event);
             if (wrapper.getMessage().contains("${jndi:ldap")) {
-                event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-            }
+                flag(event);            }
         } else if (event.getPacketType() == PacketType.Play.Client.NAME_ITEM) {
             WrapperPlayClientNameItem wrapper = new WrapperPlayClientNameItem(event);
             if (wrapper.getItemName().contains("$jndi:ldap")) {
-                event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-            }
+                flag(event);            }
         } else if (event.getPacketType() == PacketType.Play.Client.PLUGIN_MESSAGE) {
             WrapperPlayClientPluginMessage wrapper = new WrapperPlayClientPluginMessage(event);
             if (wrapper.getChannelName().contains("$jndi:ldap")) {
-                event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-            }
+                flag(event);            }
         }
     }
 
@@ -38,8 +35,7 @@ public class CrasherC implements Check {
         if (event.getPacketType() == PacketType.Play.Server.CHAT_MESSAGE) {
             WrapperPlayServerChatMessage wrapper = new WrapperPlayServerChatMessage(event);
             if (wrapper.getChatComponentJson().contains("$jndi:ldap")) {
-                event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-            }
+                flag(event);            }
         }
     }
 }

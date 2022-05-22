@@ -21,17 +21,14 @@ public class BookD implements Check {
                 com.github.retrooper.packetevents.protocol.item.ItemStack wrappedItemStack = wrapper.getItemStack().get();
 
                 if (wrappedItemStack.getType() == ItemTypes.BOOK || wrappedItemStack.getType() == ItemTypes.WRITTEN_BOOK || wrappedItemStack.getType() == ItemTypes.WRITABLE_BOOK) {
-                    event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-                }
+                    flag(event);                }
             }
         } else if (event.getPacketType() == PacketType.Play.Client.PLUGIN_MESSAGE) {
             WrapperPlayClientPluginMessage wrapper = new WrapperPlayClientPluginMessage(event);
             // Make sure it's a book payload
             if (wrapper.getChannelName().contains("MC|BEdit") || wrapper.getChannelName().contains("MC|BSign")) {
-                event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-            }
+                flag(event);            }
         } else if (event.getPacketType() == PacketType.Play.Client.EDIT_BOOK) {
-            event.getUser().sendPacket(new WrapperPlayServerDisconnect("You are sending too many packets!"));
-        }
+            flag(event);        }
     }
 }

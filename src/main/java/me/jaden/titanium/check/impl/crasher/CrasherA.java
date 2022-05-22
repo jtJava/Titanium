@@ -25,9 +25,10 @@ public class CrasherA implements Check {
             boolean packetCheck = data.isPossiblyViewingLectern();
             boolean bukkitCheck = player.getOpenInventory().getTopInventory().getType() == InventoryType.LECTERN;
 
-            if ((packetCheck || bukkitCheck) && wrapper.getWindowClickType() == WrapperPlayClientClickWindow.WindowClickType.QUICK_MOVE) {
-                event.setCancelled(true);
-            }
+            boolean playerInventory = wrapper.getWindowId() == 0;
+
+            if ((packetCheck || bukkitCheck) && !playerInventory && wrapper.getWindowClickType() == WrapperPlayClientClickWindow.WindowClickType.QUICK_MOVE) {
+                flag(event);            }
         }
     }
 
