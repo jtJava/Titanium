@@ -7,9 +7,11 @@ import com.github.retrooper.packetevents.event.simple.PacketPlaySendEvent;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import java.util.HashMap;
 import java.util.Map;
+import me.jaden.titanium.Settings;
 import me.jaden.titanium.check.impl.book.BookA;
 import me.jaden.titanium.check.impl.book.BookB;
 import me.jaden.titanium.check.impl.book.BookC;
+import me.jaden.titanium.check.impl.book.BookD;
 import me.jaden.titanium.check.impl.crasher.CrasherA;
 import me.jaden.titanium.check.impl.crasher.CrasherC;
 import me.jaden.titanium.check.impl.invalid.InvalidA;
@@ -43,15 +45,17 @@ public class CheckManager {
                 new InvalidD(),
 
                 // Crasher
-                new CrasherC(),
-
-                new BookC()
+                new CrasherC()
         );
 
-        if (serverVersion.isNewerThan(ServerVersion.V_1_13)) {
-            this.addChecks(new BookA());
+        if (Settings.getSettings().isNoBooks()) {
+            this.addChecks(new BookD());
         } else {
-            this.addChecks(new BookB());
+            if (serverVersion.isNewerThan(ServerVersion.V_1_13)) {
+                this.addChecks(new BookA());
+            } else {
+                this.addChecks(new BookB(), new BookC());
+            }
         }
 
         if (serverVersion.isNewerThan(ServerVersion.V_1_10)) {

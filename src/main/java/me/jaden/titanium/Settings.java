@@ -11,6 +11,8 @@ public class Settings {
     @Getter
     private static Settings settings;
 
+    private final boolean noBooks;
+
     private final int maxPacketsPerSecond;
 
     private final int maxBookPageSize; // default paper value
@@ -27,10 +29,12 @@ public class Settings {
                 .put("limits.max-packets-per-second", 1000)
                 .put("books.max-book-page-size", 2560)
                 .put("books.max-book-total-size-multiplier", 0.98D)
+                .put("books.no-books", false)
                 .build());
 
         this.maxPacketsPerSecond = configuration.getInt("limits.max-packets-per-second", 1000);
         this.maxBookPageSize = configuration.getInt("books.max-book-page-size", 2560);
         this.maxBookTotalSizeMultiplier = configuration.getDouble("books.max-book-page-size", 0.98D);
+        this.noBooks = configuration.getBoolean("books.no-books", false);
     }
 }

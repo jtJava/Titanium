@@ -1,6 +1,9 @@
 books:
   max-book-page-size: 2560
   max-book-total-size-multiplier: 0.98
+
+  ## Enable this if you don't need any book functionality on your server.
+  no-books: false
 limits:
   ## There is no perfect value for this.
   ## On 1.8, you should be able to get away with 200-300.
