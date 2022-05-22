@@ -20,7 +20,8 @@ public class PlayerData {
     }
 
     public double incrementPacketCount(double multiplier) {
-        return packetCount *= multiplier;
+        double packetCount = Math.max(this.packetCount, 1);
+        return packetCount * multiplier;
     }
 
     public double decrementPacketAllowance() {

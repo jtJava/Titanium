@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -41,6 +42,7 @@ public class Settings {
                         ImmutableMap.<String, Object>builder()
                                 .put("HELD_ITEM_CHANGE", 1.0D)
                                 .put("ANIMATION", 1.0D)
+                                .build()
                         )
                 .build());
 
@@ -51,13 +53,11 @@ public class Settings {
 
         this.noBooks = configuration.getBoolean("books.no-books", false);
 
-        Map<String, Object> multiplierMap = (Map<String, Object>) configuration.get("spam.multipliers");
-        if (multiplierMap != null) {
-            multiplierMap.forEach((packetType, multiplier) -> {
-                String normalizedPacketType = packetType.toUpperCase().replace(" ", "_");
-                this.multipliedPackets.put(PacketType.Play.Client.valueOf(normalizedPacketType), (Double) multiplier);
-            });
-        }
+        Map<String, Object> multiplierMap = configuration.getConfigurationSection("spam.multipliers").getValues(false);
+        multiplierMap.forEach((packetType, multiplier) -> {
+            String normalizedPacketType = packetType.toUpperCase().replace(" ", "_");
+            this.multipliedPackets.put(PacketType.Play.Client.valueOf(normalizedPacketType), (Double) multiplier);
+        });
 
     }
 }
