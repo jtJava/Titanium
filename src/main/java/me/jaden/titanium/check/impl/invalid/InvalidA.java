@@ -23,13 +23,15 @@ public class InvalidA implements PacketCheck {
 
             Location location = wrapper.getLocation();
             if (this.containsInvalidValues(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch())) {
-                flag(event);            }
+                flag(event);
+            }
         } else if (event.getPacketType() == PacketType.Play.Client.VEHICLE_MOVE) {
             WrapperPlayClientVehicleMove wrapper = new WrapperPlayClientVehicleMove(event);
 
             Vector3d position = wrapper.getPosition();
             if (this.containsInvalidValues(position.getX(), position.getY(), position.getZ(), wrapper.getYaw(), wrapper.getPitch())) {
-                flag(event);            }
+                flag(event);
+            }
         }
     }
 

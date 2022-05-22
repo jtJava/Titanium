@@ -12,7 +12,6 @@ import me.jaden.titanium.data.PlayerData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
 public interface PacketCheck extends BukkitCheck {
     default void flag(ProtocolPacketEvent<Object> event) {

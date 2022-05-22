@@ -7,6 +7,7 @@ import lombok.Setter;
 import me.jaden.titanium.check.CheckManager;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.util.Ticker;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -48,5 +49,8 @@ public final class Titanium extends JavaPlugin {
         }
 
         PacketEvents.getAPI().init();
+
+        //bStats
+        new Metrics(this, 15258);
     }
 }

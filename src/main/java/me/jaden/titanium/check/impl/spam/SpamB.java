@@ -36,7 +36,8 @@ public class SpamB implements PacketCheck {
                     // Else we increment the drop count and check the amount.
                     data.incrementDropCount();
                     if (data.getDropCount() >= 20) {
-                        flag(event);                    }
+                        flag(event);
+                    }
                 }
             }
         }

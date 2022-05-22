@@ -3,10 +3,8 @@ package me.jaden.titanium;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.packettype.PacketTypeCommon;
 import com.google.common.collect.ImmutableMap;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -43,7 +41,7 @@ public class Settings {
                                 .put("HELD_ITEM_CHANGE", 1.0D)
                                 .put("ANIMATION", 1.0D)
                                 .build()
-                        )
+                )
                 .build());
 
         this.maxPacketsPerSecond = configuration.getInt("limits.max-packets-per-second", 1000);

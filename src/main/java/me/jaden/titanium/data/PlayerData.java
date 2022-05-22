@@ -10,6 +10,7 @@ public class PlayerData {
     // Spam
     private int lastBookEditTick;
     private int lastDropItemTick;
+    private int lastCraftRequestTick;
     private int dropCount;
 
     private double packetAllowance = Settings.getSettings().getMaxPacketsPerSecond();

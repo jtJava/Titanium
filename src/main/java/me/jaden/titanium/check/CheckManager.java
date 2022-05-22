@@ -11,8 +11,6 @@ import me.jaden.titanium.Settings;
 import me.jaden.titanium.Titanium;
 import me.jaden.titanium.check.impl.book.BookA;
 import me.jaden.titanium.check.impl.book.BookB;
-import me.jaden.titanium.check.impl.book.BookC;
-import me.jaden.titanium.check.impl.book.BookD;
 import me.jaden.titanium.check.impl.crasher.CrasherA;
 import me.jaden.titanium.check.impl.crasher.CrasherC;
 import me.jaden.titanium.check.impl.invalid.InvalidA;
@@ -24,7 +22,6 @@ import me.jaden.titanium.check.impl.spam.SpamB;
 import me.jaden.titanium.check.impl.spam.SpamC;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -55,13 +52,9 @@ public class CheckManager {
         );
 
         if (Settings.getSettings().isNoBooks()) {
-            this.addPacketChecks(new BookD());
+            this.addPacketChecks(new BookB());
         } else {
-            if (serverVersion.isNewerThan(ServerVersion.V_1_13)) {
-                this.addPacketChecks(new BookA());
-            } else {
-                this.addPacketChecks(new BookB(), new BookC());
-            }
+            this.addPacketChecks(new BookA());
         }
 
         if (serverVersion.isNewerThan(ServerVersion.V_1_10)) {

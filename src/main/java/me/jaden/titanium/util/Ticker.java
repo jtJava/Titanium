@@ -16,9 +16,9 @@ public class Ticker {
         instance = this;
 
         Titanium plugin = Titanium.getPlugin();
-        plugin.getServer().getScheduler().runTaskTimer(plugin, () -> currentTick++, 1, 1);
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> currentTick++, 1, 1);
 
-        plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             double maxPacketsPerSecond = Settings.getSettings().getMaxPacketsPerSecond();
             double maxPacketAllowance = maxPacketsPerSecond * 3;
 

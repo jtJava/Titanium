@@ -13,7 +13,8 @@ public class SpamA implements PacketCheck {
         if (event.getPacketType() == PacketType.Play.Client.EDIT_BOOK) {
             int currentTick = Ticker.getInstance().getCurrentTick();
             if (data.getLastBookEditTick() + 20 > currentTick) {
-                flag(event);            } else {
+                flag(event);
+            } else {
                 data.setLastBookEditTick(currentTick);
             }
         } else if (event.getPacketType() == PacketType.Play.Client.PLUGIN_MESSAGE) {
@@ -25,7 +26,8 @@ public class SpamA implements PacketCheck {
 
             int currentTick = Ticker.getInstance().getCurrentTick();
             if (data.getLastBookEditTick() + 20 > currentTick) {
-                flag(event);            } else {
+                flag(event);
+            } else {
                 data.setLastBookEditTick(currentTick);
             }
         }
