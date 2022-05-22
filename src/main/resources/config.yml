@@ -1,0 +1,5 @@
+books:
+  max-book-page-size: 2560
+  max-book-total-size-multiplier: 0.98
+limits:
+  max-packets-per-second: 700

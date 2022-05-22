@@ -1,0 +1,58 @@
+package me.jaden.titanium.data;
+
+import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.event.PacketListenerCommon;
+import com.github.retrooper.packetevents.event.UserConnectEvent;
+import com.github.retrooper.packetevents.event.UserDisconnectEvent;
+import com.github.retrooper.packetevents.event.UserLoginEvent;
+import com.github.retrooper.packetevents.protocol.player.User;
+import java.util.HashMap;
+import java.util.Map;
+import lombok.Getter;
+
+public class DataManager {
+    @Getter
+    private static DataManager instance;
+    @Getter
+    private final Map<User, PlayerData> playerData = new HashMap<>();
+
+    public DataManager() {
+        instance = this;
+
+        this.initializePacketListeners();
+    }
+
+    private void initializePacketListeners() {
+        PacketEvents.getAPI().getEventManager().registerListener(new PacketListenerCommon() {
+            @Override
+            public void onUserLogin(UserLoginEvent event) {
+                System.out.println("login");
+                addPlayerData(event.getUser());
+            }
+
+            @Override
+            public void onUserConnect(UserConnectEvent event) {
+                System.out.println("connect");
+                addPlayerData(event.getUser());
+            }
+
+            @Override
+            public void onUserDisconnect(UserDisconnectEvent event) {
+                System.out.println("disconnect");
+                removePlayerData(event.getUser());
+            }
+        });
+    }
+
+    public PlayerData getPlayerData(User user) {
+        return this.playerData.get(user);
+    }
+
+    public void addPlayerData(User user) {
+        this.playerData.put(user, new PlayerData());
+    }
+
+    public void removePlayerData(User user) {
+        this.playerData.remove(user);
+    }
+}
