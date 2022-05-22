@@ -14,7 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-public interface Check {
+public interface PacketCheck extends BukkitCheck {
     default void flag(ProtocolPacketEvent<Object> event) {
         event.setCancelled(true);
         User user = event.getUser();
@@ -39,10 +39,6 @@ public interface Check {
     }
 
     default void handle(PacketSendEvent event, PlayerData playerData) {
-
-    }
-
-    default void onEvent(Event event) {
 
     }
 

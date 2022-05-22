@@ -7,17 +7,16 @@ import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDisconnect;
 import io.github.retrooper.packetevents.util.SpigotReflectionUtil;
 import java.util.List;
 import me.jaden.titanium.Settings;
-import me.jaden.titanium.check.Check;
+import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
 // This is BookA for legacy servers which don't have the edit book packet
-public class BookB implements Check {
+public class BookB implements PacketCheck {
     private final int maxBookPageSize = Settings.getSettings().getMaxBookPageSize(); // default paper value
     private final double maxBookTotalSizeMultiplier = Settings.getSettings().getMaxBookTotalSizeMultiplier(); // default paper value
 

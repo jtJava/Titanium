@@ -6,15 +6,14 @@ import com.github.retrooper.packetevents.protocol.world.Location;
 import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientVehicleMove;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDisconnect;
 import com.google.common.primitives.Floats;
-import me.jaden.titanium.check.Check;
+import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 
 // PaperMC
 // net/minecraft/server/network/ServerGamePacketListenerImpl.java:515
 // net/minecraft/server/network/ServerGamePacketListenerImpl.java:1283
-public class InvalidA implements Check {
+public class InvalidA implements PacketCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData data) {
         if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) {

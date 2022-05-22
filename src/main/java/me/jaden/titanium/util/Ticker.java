@@ -19,8 +19,8 @@ public class Ticker {
         plugin.getServer().getScheduler().runTaskTimer(plugin, () -> currentTick++, 1, 1);
 
         plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
-            int maxPacketsPerSecond = Settings.getSettings().getMaxPacketsPerSecond();
-            int maxPacketAllowance = maxPacketsPerSecond * 3;
+            double maxPacketsPerSecond = Settings.getSettings().getMaxPacketsPerSecond();
+            double maxPacketAllowance = maxPacketsPerSecond * 3;
 
             for (PlayerData value : DataManager.getInstance().getPlayerData().values()) {
                 value.setPacketAllowance(Math.min(maxPacketAllowance, value.getPacketAllowance() + maxPacketsPerSecond));

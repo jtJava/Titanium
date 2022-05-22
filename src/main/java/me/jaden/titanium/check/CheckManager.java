@@ -27,16 +27,18 @@ import me.jaden.titanium.data.PlayerData;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class CheckManager {
-    private final Map<Class<? extends Check>, Check> checks = new HashMap<>();
+    private final Map<Class<? extends PacketCheck>, PacketCheck> packetChecks = new HashMap<>();
+    private final Map<Class<? extends BukkitCheck>, BukkitCheck> bukkitChecks = new HashMap<>();
 
     public CheckManager() {
         this.initializeListeners();
 
         ServerVersion serverVersion = PacketEvents.getAPI().getServerManager().getVersion();
 
-        this.addChecks(
+        this.addPacketChecks(
                 // Spam (This should always be at the top for performance reasons)
                 new SpamA(),
                 new SpamB(),
@@ -53,17 +55,17 @@ public class CheckManager {
         );
 
         if (Settings.getSettings().isNoBooks()) {
-            this.addChecks(new BookD());
+            this.addPacketChecks(new BookD());
         } else {
             if (serverVersion.isNewerThan(ServerVersion.V_1_13)) {
-                this.addChecks(new BookA());
+                this.addPacketChecks(new BookA());
             } else {
-                this.addChecks(new BookB(), new BookC());
+                this.addPacketChecks(new BookB(), new BookC());
             }
         }
 
         if (serverVersion.isNewerThan(ServerVersion.V_1_10)) {
-            this.addChecks(new CrasherA());
+            this.addBukkitChecks(new CrasherA());
         }
     }
 
@@ -71,7 +73,7 @@ public class CheckManager {
         PacketEvents.getAPI().getEventManager().registerListener(new SimplePacketListenerAbstract() {
             @Override
             public void onPacketPlayReceive(PacketPlayReceiveEvent event) {
-                for (Check check : checks.values()) {
+                for (PacketCheck check : packetChecks.values()) {
                     if (event.isCancelled()) {
                         return;
                     }
@@ -86,7 +88,7 @@ public class CheckManager {
 
             @Override
             public void onPacketPlaySend(PacketPlaySendEvent event) {
-                for (Check check : checks.values()) {
+                for (PacketCheck check : packetChecks.values()) {
                     if (event.isCancelled()) {
                         return;
                     }
@@ -102,17 +104,23 @@ public class CheckManager {
         Titanium plugin = Titanium.getPlugin();
         plugin.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler(ignoreCancelled = true)
-            public void onEvent(Event event) {
-                for (Check check : checks.values()) {
-                    check.onEvent(event);
+            public void onEvent(InventoryClickEvent event) {
+                for (BukkitCheck check : bukkitChecks.values()) {
+                    check.onInventoryClick(event);
                 }
             }
         }, plugin);
     }
 
-    private void addChecks(Check... checks) {
-        for (Check check : checks) {
-            this.checks.put(check.getClass(), check);
+    private void addPacketChecks(PacketCheck... checks) {
+        for (PacketCheck check : checks) {
+            this.packetChecks.put(check.getClass(), check);
+        }
+    }
+
+    private void addBukkitChecks(BukkitCheck... checks) {
+        for (BukkitCheck check : checks) {
+            this.bukkitChecks.put(check.getClass(), check);
         }
     }
 }

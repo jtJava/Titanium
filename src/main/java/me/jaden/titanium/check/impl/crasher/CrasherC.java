@@ -7,12 +7,11 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCh
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientNameItem;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerChatMessage;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDisconnect;
-import me.jaden.titanium.check.Check;
+import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 
 // Yes, I know this isn't properly fixed. This should be fixed in the spigot.
-public class CrasherC implements Check {
+public class CrasherC implements PacketCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
         if (event.getPacketType() == PacketType.Play.Client.CHAT_MESSAGE) {

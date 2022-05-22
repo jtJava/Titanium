@@ -1,6 +1,11 @@
 package me.jaden.titanium;
 
+import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.protocol.packettype.PacketTypeCommon;
 import com.google.common.collect.ImmutableMap;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,8 +20,10 @@ public class Settings {
 
     private final int maxPacketsPerSecond;
 
-    private final int maxBookPageSize; // default paper value
-    private final double maxBookTotalSizeMultiplier; // default paper value
+    private final int maxBookPageSize;
+    private final double maxBookTotalSizeMultiplier;
+
+    private Map<PacketTypeCommon, Double> multipliedPackets = new HashMap<>();
 
     public Settings(Titanium plugin) {
         settings = this;
@@ -30,11 +37,27 @@ public class Settings {
                 .put("books.max-book-page-size", 2560)
                 .put("books.max-book-total-size-multiplier", 0.98D)
                 .put("books.no-books", false)
+                .put("spam.multipliers",
+                        ImmutableMap.<String, Object>builder()
+                                .put("HELD_ITEM_CHANGE", 1.0D)
+                                .put("ANIMATION", 1.0D)
+                        )
                 .build());
 
         this.maxPacketsPerSecond = configuration.getInt("limits.max-packets-per-second", 1000);
+
         this.maxBookPageSize = configuration.getInt("books.max-book-page-size", 2560);
         this.maxBookTotalSizeMultiplier = configuration.getDouble("books.max-book-page-size", 0.98D);
+
         this.noBooks = configuration.getBoolean("books.no-books", false);
+
+        Map<String, Object> multiplierMap = (Map<String, Object>) configuration.get("spam.multipliers");
+        if (multiplierMap != null) {
+            multiplierMap.forEach((packetType, multiplier) -> {
+                String normalizedPacketType = packetType.toUpperCase().replace(" ", "_");
+                this.multipliedPackets.put(PacketType.Play.Client.valueOf(normalizedPacketType), (Double) multiplier);
+            });
+        }
+
     }
 }

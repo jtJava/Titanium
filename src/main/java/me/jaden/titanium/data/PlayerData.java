@@ -11,18 +11,19 @@ public class PlayerData {
     private int lastBookEditTick;
     private int lastDropItemTick;
     private int dropCount;
-    private int packetAllowance = Settings.getSettings().getMaxPacketsPerSecond();
-    private int packetCount;
+
+    private double packetAllowance = Settings.getSettings().getMaxPacketsPerSecond();
+    private double packetCount;
 
     public int incrementDropCount() {
         return dropCount++;
     }
 
-    public int incrementPacketCount() {
-        return packetCount++;
+    public double incrementPacketCount(double multiplier) {
+        return packetCount *= multiplier;
     }
 
-    public int decrementPacketAllowance() {
+    public double decrementPacketAllowance() {
         return packetAllowance--;
     }
 }

@@ -11,3 +11,9 @@ limits:
   ## In order to prevent people getting kicked for lag, the max PPS is higher than shown below.
   ## Every server is different, you'll have to find a good value yourself.
   max-packets-per-second: 700
+spam:
+  ## Packet names can be found @ https://wiki.vg/Protocol in the Serverbound section.
+  ## Valid format: HELD_ITEM_CHANGE or HELD ITEM CHANGE (Capitalization does not matter.)
+  multipliers:
+    HELD_ITEM_CHANGE: 1.0
+    ANIMATION: 1.0

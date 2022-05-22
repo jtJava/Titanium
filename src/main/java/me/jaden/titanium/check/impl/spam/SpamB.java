@@ -4,8 +4,7 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.player.DiggingAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerDigging;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDisconnect;
-import me.jaden.titanium.check.Check;
+import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.util.Ticker;
 import org.bukkit.GameMode;
@@ -13,7 +12,7 @@ import org.bukkit.entity.Player;
 
 // PaperMC
 // net.minecraft.server.network.ServerGamePacketListenerImpl#handlePlayerAction
-public class SpamB implements Check {
+public class SpamB implements PacketCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData data) {
         if (event.getPacketType() == PacketType.Play.Client.PLAYER_DIGGING) {

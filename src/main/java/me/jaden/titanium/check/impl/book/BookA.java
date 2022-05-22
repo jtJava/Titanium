@@ -3,15 +3,14 @@ package me.jaden.titanium.check.impl.book;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEditBook;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDisconnect;
 import java.util.List;
 import me.jaden.titanium.Settings;
-import me.jaden.titanium.check.Check;
+import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 
 // PaperMC
 // net.minecraft.server.network.ServerGamePacketListenerImpl#handleEditBook
-public class BookA implements Check {
+public class BookA implements PacketCheck {
     private final int maxBookPageSize = Settings.getSettings().getMaxBookPageSize(); // default paper value
     private final double maxBookTotalSizeMultiplier = Settings.getSettings().getMaxBookTotalSizeMultiplier(); // default paper value
 
