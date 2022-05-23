@@ -1,11 +1,14 @@
 package me.jaden.titanium.check.impl.book;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
+import com.github.retrooper.packetevents.netty.buffer.ByteBufHelper;
+import com.github.retrooper.packetevents.netty.buffer.UnpooledByteBufAllocationHelper;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
-import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.nbt.NBTString;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.wrapper.PacketWrapper;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEditBook;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerBlockPlacement;
@@ -33,25 +36,45 @@ public class BookA implements PacketCheck {
             WrapperPlayClientPluginMessage wrapper = new WrapperPlayClientPluginMessage(event);
 
             // Make sure it's a book payload
-            if (!(wrapper.getChannelName().contains("MC|BEdit") || wrapper.getChannelName().contains("MC|BSign")))
-                return;
+            if (wrapper.getChannelName().contains("MC|BEdit") || wrapper.getChannelName().contains("MC|BSign")) {
+                Object buffer = null;
+                try {
+                    buffer = UnpooledByteBufAllocationHelper.buffer();
+                    ByteBufHelper.writeBytes(buffer, wrapper.getData());
+                    PacketWrapper<?> universalWrapper = PacketWrapper.createUniversalPacketWrapper(buffer);
+                    com.github.retrooper.packetevents.protocol.item.ItemStack wrappedItemStack = universalWrapper.readItemStack();
 
-            ItemStack wrappedItemStack = wrapper.readItemStack();
+                    pageList.addAll(this.getPages(wrappedItemStack));
+                    if (invalidTitleOrAuthor(wrappedItemStack)) flag(event);
+                } finally {
+                    ByteBufHelper.release(buffer);
+                }
+            }
 
-            pageList.addAll(this.getPages(wrappedItemStack));
         } else if (event.getPacketType() == PacketType.Play.Client.PLAYER_BLOCK_PLACEMENT) {
             WrapperPlayClientPlayerBlockPlacement wrapper = new WrapperPlayClientPlayerBlockPlacement(event);
 
             if (wrapper.getItemStack().isPresent()) {
                 pageList.addAll(this.getPages(wrapper.getItemStack().get()));
+                if (invalidTitleOrAuthor(wrapper.getItemStack().get())) flag(event);
             }
         } else if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
             WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
 
             if (wrapper.getItemStack() != null) {
                 pageList.addAll(this.getPages(wrapper.getItemStack()));
+                if (invalidTitleOrAuthor(wrapper.getItemStack())) flag(event);
             }
+        } else if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
+            WrapperPlayClientClickWindow wrapper = new WrapperPlayClientClickWindow(event);
+            if (wrapper.getCarriedItemStack() != null) {
+                pageList.addAll(this.getPages(wrapper.getCarriedItemStack()));
+                if (invalidTitleOrAuthor(wrapper.getCarriedItemStack())) flag(event);
+            }
+        } else {
+            return;
         }
+
 
         long byteTotal = 0;
         double multiplier = Math.min(1D, this.maxBookTotalSizeMultiplier);
@@ -86,6 +109,19 @@ public class BookA implements PacketCheck {
             // book too large
             flag(event);
         }
+    }
+
+    private boolean invalidTitleOrAuthor(ItemStack itemStack) {
+        if (itemStack.getNBT() != null) {
+            String title = itemStack.getNBT().getStringTagValueOrNull("title");
+            if (title != null && title.length() > 100) {
+                return true;
+            }
+
+            String author = itemStack.getNBT().getStringTagValueOrNull("author");
+            return author != null && author.length() > 16;
+        }
+        return false;
     }
 
     private List<String> getPages(ItemStack itemStack) {

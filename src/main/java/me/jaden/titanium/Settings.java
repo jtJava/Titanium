@@ -15,10 +15,13 @@ public class Settings {
     @Getter
     private static Settings settings;
 
-    private final boolean noBooks;
-
     private final int maxPacketsPerSecond;
 
+    private final int maxExplosions;
+
+    private final int maxSignCharactersPerLine;
+
+    private final boolean noBooks;
     private final int maxBookPageSize;
     private final double maxBookTotalSizeMultiplier;
 
@@ -33,6 +36,8 @@ public class Settings {
 
         configuration.addDefaults(ImmutableMap.<String, Object>builder()
                 .put("limits.max-packets-per-second", 1000)
+                .put("fireworks.max-explosions", 25)
+                .put("signs.max-characters-per-line", 16)
                 .put("books.max-book-page-size", 2560)
                 .put("books.max-book-total-size-multiplier", 0.98D)
                 .put("books.no-books", false)
@@ -45,6 +50,10 @@ public class Settings {
                 .build());
 
         this.maxPacketsPerSecond = configuration.getInt("limits.max-packets-per-second", 1000);
+
+        this.maxExplosions = configuration.getInt("fireworks.max-explosions", 25);
+
+        this.maxSignCharactersPerLine = configuration.getInt("signs.max-characters-per-line", 16);
 
         this.maxBookPageSize = configuration.getInt("books.max-book-page-size", 2560);
         this.maxBookTotalSizeMultiplier = configuration.getDouble("books.max-book-page-size", 0.98D);

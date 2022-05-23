@@ -2,8 +2,8 @@ package me.jaden.titanium.data;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketListenerCommon;
+import com.github.retrooper.packetevents.event.UserConnectEvent;
 import com.github.retrooper.packetevents.event.UserDisconnectEvent;
-import com.github.retrooper.packetevents.event.UserLoginEvent;
 import com.github.retrooper.packetevents.protocol.player.User;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class DataManager {
     private void initializePacketListeners() {
         PacketEvents.getAPI().getEventManager().registerListener(new PacketListenerCommon() {
             @Override
-            public void onUserLogin(UserLoginEvent event) {
+            public void onUserConnect(UserConnectEvent event) {
                 addPlayerData(event.getUser());
             }
 

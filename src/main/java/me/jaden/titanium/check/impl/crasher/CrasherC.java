@@ -6,7 +6,6 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientChatMessage;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientNameItem;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerChatMessage;
 import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 
@@ -34,11 +33,11 @@ public class CrasherC implements PacketCheck {
 
     @Override
     public void handle(PacketSendEvent event, PlayerData playerData) {
-        if (event.getPacketType() == PacketType.Play.Server.CHAT_MESSAGE) {
+        /*if (event.getPacketType() == PacketType.Play.Server.CHAT_MESSAGE) {
             WrapperPlayServerChatMessage wrapper = new WrapperPlayServerChatMessage(event);
             if (wrapper.getChatComponentJson().contains("$jndi:ldap")) {
                 flag(event);
             }
-        }
+        }*/
     }
 }

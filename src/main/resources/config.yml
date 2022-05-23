@@ -1,3 +1,7 @@
+fireworks:
+  max-explosions: 25
+signs:
+  max-characters-per-line: 16
 books:
   max-book-page-size: 2560
   max-book-total-size-multiplier: 0.98
@@ -6,11 +10,11 @@ books:
   no-books: false
 limits:
   ## There is no perfect value for this.
-  ## On 1.8, you should be able to get away with 200-300.
-  ## On 1.18.2, you may need to increase this from 700.
   ## In order to prevent people getting kicked for lag, the max PPS is higher than shown below.
   ## Every server is different, you'll have to find a good value yourself.
-  max-packets-per-second: 700
+  ## I got this value by assuming a player is clicking 20 CPS, moving, and receiving 2 transactions a tick.
+  ## I am also assuming a player could possibly lagspike for 15 seconds, allowing them to send 1200 packets in one second.
+  max-packets-per-second: 500
 spam:
   ## Packet names can be found @ https://wiki.vg/Protocol in the Serverbound section.
   ## Valid format: HELD_ITEM_CHANGE or HELD ITEM CHANGE (Capitalization does not matter.)

@@ -13,10 +13,12 @@ import me.jaden.titanium.check.impl.book.BookA;
 import me.jaden.titanium.check.impl.book.BookB;
 import me.jaden.titanium.check.impl.crasher.CrasherA;
 import me.jaden.titanium.check.impl.crasher.CrasherC;
+import me.jaden.titanium.check.impl.firework.FireworkA;
 import me.jaden.titanium.check.impl.invalid.InvalidA;
 import me.jaden.titanium.check.impl.invalid.InvalidB;
 import me.jaden.titanium.check.impl.invalid.InvalidC;
 import me.jaden.titanium.check.impl.invalid.InvalidD;
+import me.jaden.titanium.check.impl.sign.SignA;
 import me.jaden.titanium.check.impl.spam.SpamA;
 import me.jaden.titanium.check.impl.spam.SpamB;
 import me.jaden.titanium.check.impl.spam.SpamC;
@@ -48,7 +50,13 @@ public class CheckManager {
                 new InvalidD(),
 
                 // Crasher
-                new CrasherC()
+                new CrasherC(),
+
+                // Firework
+                new FireworkA(),
+
+                // Sign
+                new SignA()
         );
 
         if (Settings.getSettings().isNoBooks()) {

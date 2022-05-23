@@ -48,9 +48,9 @@ public final class Titanium extends JavaPlugin {
                     " to join your server before the plugin loads leaving you vulnerable to crashers.");
         }
 
-        PacketEvents.getAPI().init();
-
         //bStats
         new Metrics(this, 15258);
+
+        PacketEvents.getAPI().init();
     }
 }
