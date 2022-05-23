@@ -27,3 +27,24 @@ spam:
   multipliers:
     HELD_ITEM_CHANGE: 1.0
     ANIMATION: 1.0
+commands:
+  - "//calc"
+  - "//calculate"
+  - "//eval"
+  - "//evaluate"
+  - "//solve"
+  - "//asc"
+  - "//ascend"
+  - "//desc"
+  - "//descend"
+  - "/to"
+  - "/hd readtext"
+  - "/holo readtext"
+  - "/hologram readtext"
+  - "/holograms readtext"
+  - "/holographicdisplays readtext"
+  - "/pex promote"
+  - "/pex demote"
+  - "/promote"
+  - "/demote"
+  - "/execute"

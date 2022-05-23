@@ -3,7 +3,9 @@ package me.jaden.titanium;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.packettype.PacketTypeCommon;
 import com.google.common.collect.ImmutableMap;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +16,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class Settings {
     @Getter
     private static Settings settings;
+
+    private List<String> disallowedCommands;
 
     private final int maxPacketsPerSecond;
 
@@ -50,6 +54,27 @@ public class Settings {
                                 .put("ANIMATION", 1.0D)
                                 .build()
                 )
+                .put("commands", Arrays.asList(
+                                "//calc",
+                                "//calculate",
+                                "//eval",
+                                "//evaluate",
+                                "//solve",
+                                "//asc",
+                                "//ascend",
+                                "//desc",
+                                "//descend",
+                                "/to",
+                                "/hd readtext",
+                                "/hologram readtext",
+                                "/holographicdisplays readtext",
+                                "/pex promote",
+                                "/pex demote",
+                                "/promote",
+                                "/demote",
+                                "/execute"
+                        )
+                )
                 .build());
 
         this.maxPacketsPerSecond = configuration.getInt("limits.max-packets-per-second", 1000);
@@ -68,6 +93,8 @@ public class Settings {
             String normalizedPacketType = packetType.toUpperCase().replace(" ", "_");
             this.multipliedPackets.put(PacketType.Play.Client.valueOf(normalizedPacketType), (Double) multiplier);
         });
+
+        this.disallowedCommands = configuration.getStringList("commands");
 
     }
 }

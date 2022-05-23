@@ -1,0 +1,35 @@
+package me.jaden.titanium.check.impl.command;
+
+import com.github.retrooper.packetevents.event.PacketReceiveEvent;
+import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientChatMessage;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientTabComplete;
+import java.util.List;
+import me.jaden.titanium.Settings;
+import me.jaden.titanium.check.PacketCheck;
+import me.jaden.titanium.data.PlayerData;
+
+public class CommandA implements PacketCheck {
+    private final List<String> disallowedCommands = Settings.getSettings().getDisallowedCommands();
+
+    @Override
+    public void handle(PacketReceiveEvent event, PlayerData playerData) {
+        if (event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE) {
+            WrapperPlayClientTabComplete wrapper = new WrapperPlayClientTabComplete(event);
+            for (String disallowedCommand : disallowedCommands) {
+                if (wrapper.getText().startsWith(disallowedCommand)) {
+                    event.setCancelled(true);
+                    break;
+                }
+            }
+        } else if (event.getPacketType() == PacketType.Play.Client.CHAT_MESSAGE) {
+            WrapperPlayClientChatMessage wrapper = new WrapperPlayClientChatMessage(event);
+            for (String disallowedCommand : disallowedCommands) {
+                if (wrapper.getMessage().startsWith(disallowedCommand)) {
+                    event.setCancelled(true);
+                    break;
+                }
+            }
+        }
+    }
+}

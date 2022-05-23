@@ -25,6 +25,7 @@ public class Ticker {
             for (PlayerData value : DataManager.getInstance().getPlayerData().values()) {
                 value.setPacketAllowance(Math.min(maxPacketAllowance, value.getPacketAllowance() + maxPacketsPerSecond));
                 value.setPacketCount(0);
+                value.setBytesSent(0);
             }
         }, 20, 20);
     }

@@ -16,6 +16,12 @@ public class PlayerData {
     private double packetAllowance = Settings.getSettings().getMaxPacketsPerSecond();
     private double packetCount;
 
+    private int bytesSent;
+
+    public int incrementBytesSent(int amount) {
+        return bytesSent += amount;
+    }
+
     public int incrementDropCount() {
         return dropCount++;
     }
