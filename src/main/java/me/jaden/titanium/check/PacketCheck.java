@@ -14,7 +14,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public interface PacketCheck extends BukkitCheck {
-    default void flag(ProtocolPacketEvent<Object> event) {
+
+    default void flag(ProtocolPacketEvent<Object> event){
+        flag(event, "");
+    }
+    default void flag(ProtocolPacketEvent<Object> event, String verbose) {
         event.setCancelled(true);
         User user = event.getUser();
         try {
@@ -22,7 +26,7 @@ public interface PacketCheck extends BukkitCheck {
         } catch (Exception ignored) {
         }
         user.closeConnection();
-        Bukkit.getLogger().info("[Titanium] Disconnected " + user.getProfile().getName() + " for flagging " + this.getClass().getSimpleName());
+        Bukkit.getLogger().info("[Titanium] Disconnected " + user.getProfile().getName() + " for flagging " + this.getClass().getSimpleName() + " (" + verbose + ")");
     }
 
     default ServerVersion getLowestServerVersion() {

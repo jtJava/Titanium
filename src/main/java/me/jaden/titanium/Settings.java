@@ -25,6 +25,8 @@ public class Settings {
     private final int maxBookPageSize;
     private final double maxBookTotalSizeMultiplier;
 
+    private final int maxBytes;
+
     private Map<PacketTypeCommon, Double> multipliedPackets = new HashMap<>();
 
     public Settings(Titanium plugin) {
@@ -36,6 +38,7 @@ public class Settings {
 
         configuration.addDefaults(ImmutableMap.<String, Object>builder()
                 .put("limits.max-packets-per-second", 1000)
+                .put("limits.max-bytes", 64000)
                 .put("fireworks.max-explosions", 25)
                 .put("signs.max-characters-per-line", 16)
                 .put("books.max-book-page-size", 2560)
@@ -50,6 +53,7 @@ public class Settings {
                 .build());
 
         this.maxPacketsPerSecond = configuration.getInt("limits.max-packets-per-second", 1000);
+        this.maxBytes = configuration.getInt("limits.max-bytes");
 
         this.maxExplosions = configuration.getInt("fireworks.max-explosions", 25);
 
