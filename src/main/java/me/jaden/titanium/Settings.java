@@ -61,7 +61,6 @@ public class Settings {
 
         this.maxBookPageSize = configuration.getInt("books.max-book-page-size", 2560);
         this.maxBookTotalSizeMultiplier = configuration.getDouble("books.max-book-page-size", 0.98D);
-
         this.noBooks = configuration.getBoolean("books.no-books", false);
 
         Map<String, Object> multiplierMap = configuration.getConfigurationSection("spam.multipliers").getValues(false);

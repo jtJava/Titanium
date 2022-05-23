@@ -13,23 +13,21 @@ import me.jaden.titanium.data.PlayerData;
 public class BookB implements PacketCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData data) {
-        if(event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION){
+        if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
             WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
-            if(wrapper.getItemStack() != null){
-                if(wrapper.getItemStack().getType() == ItemTypes.WRITTEN_BOOK ||wrapper.getItemStack().getType() == ItemTypes.WRITABLE_BOOK){
+            if (wrapper.getItemStack() != null) {
+                if (wrapper.getItemStack().getType() == ItemTypes.WRITTEN_BOOK || wrapper.getItemStack().getType() == ItemTypes.WRITABLE_BOOK) {
                     flag(event);
                 }
             }
-        }
-        if(event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW){
+        } else if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
             WrapperPlayClientClickWindow wrapper = new WrapperPlayClientClickWindow(event);
-            if(wrapper.getCarriedItemStack() != null){
-                if(wrapper.getCarriedItemStack().getType() == ItemTypes.WRITTEN_BOOK ||wrapper.getCarriedItemStack().getType() == ItemTypes.WRITABLE_BOOK){
+            if (wrapper.getCarriedItemStack() != null) {
+                if (wrapper.getCarriedItemStack().getType() == ItemTypes.WRITTEN_BOOK || wrapper.getCarriedItemStack().getType() == ItemTypes.WRITABLE_BOOK) {
                     flag(event);
                 }
             }
-        }
-        if (event.getPacketType() == PacketType.Play.Client.PLAYER_BLOCK_PLACEMENT) {
+        } else if (event.getPacketType() == PacketType.Play.Client.PLAYER_BLOCK_PLACEMENT) {
             WrapperPlayClientPlayerBlockPlacement wrapper = new WrapperPlayClientPlayerBlockPlacement(event);
 
             if (wrapper.getItemStack().isPresent()) {
