@@ -18,7 +18,6 @@ public class CrasherD implements PacketCheck {
         //Sequential Access Indexing
         //Where is ByteBufHelper#capacity?
         int writerIndex = ByteBufHelper.writerIndex(event.getByteBuf());
-        System.out.println(writerIndex);
         if(writerIndex > maxBytes){
             flag(event, "writerIndex: " + writerIndex);
         }
