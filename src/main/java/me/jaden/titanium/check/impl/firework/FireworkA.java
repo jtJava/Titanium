@@ -44,7 +44,7 @@ public class FireworkA implements PacketCheck {
             NBTCompound fireworkNBT = itemStack.getNBT().getCompoundTagOrNull("Fireworks");
             if (fireworkNBT != null) {
                 NBTList<NBTCompound> explosionsNBT = fireworkNBT.getCompoundListTagOrNull("Explosions");
-                return explosionsNBT.size() <= this.maxExplosions;
+                return explosionsNBT.size() >= this.maxExplosions;
             }
         }
         return false;
