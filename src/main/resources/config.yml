@@ -27,7 +27,10 @@ spam:
   multipliers:
     HELD_ITEM_CHANGE: 1.0
     ANIMATION: 1.0
+
 commands:
+  ## This should be a list of commands you do not want executed on your server.
+  ## Any chat message or tab completion starting with these will be blocked.
   - "//calc"
   - "//calculate"
   - "//eval"
