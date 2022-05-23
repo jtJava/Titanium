@@ -15,6 +15,12 @@ limits:
   ## I got this value by assuming a player is clicking 20 CPS, moving, and receiving 2 transactions a tick.
   ## I am also assuming a player could possibly lagspike for 15 seconds, allowing them to send 1200 packets in one second.
   max-packets-per-second: 500
+
+  ## This is the maximum readable bytes a ByteBuf is allowed to contain.
+  ## You might want this lower or higher depending on your server and server version.
+  ## Every server is different, you'll have to find a good value yourself.
+  ## Set to -1 to disable
+  max-bytes: 64000
 spam:
   ## Packet names can be found @ https://wiki.vg/Protocol in the Serverbound section.
   ## Valid format: HELD_ITEM_CHANGE or HELD ITEM CHANGE (Capitalization does not matter.)

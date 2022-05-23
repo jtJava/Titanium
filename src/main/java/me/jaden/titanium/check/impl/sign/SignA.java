@@ -16,7 +16,7 @@ public class SignA implements PacketCheck {
             WrapperPlayClientUpdateSign wrapper = new WrapperPlayClientUpdateSign(event);
             for (String textLine : wrapper.getTextLines()) {
                 if (textLine.length() > this.maxCharactersPerLine) { // Magic number, you can only put 15 letters on a sign though.
-                    flag(event);
+                    flag(event, "length: " + textLine.length());
                 }
             }
         }
