@@ -24,6 +24,7 @@ import me.jaden.titanium.check.impl.sign.SignA;
 import me.jaden.titanium.check.impl.spam.SpamA;
 import me.jaden.titanium.check.impl.spam.SpamB;
 import me.jaden.titanium.check.impl.spam.SpamC;
+import me.jaden.titanium.check.impl.spam.SpamD;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
@@ -45,6 +46,7 @@ public class CheckManager {
                 new SpamA(),
                 new SpamB(),
                 new SpamC(),
+                new SpamD(),
 
                 // Invalid
                 new InvalidA(),
