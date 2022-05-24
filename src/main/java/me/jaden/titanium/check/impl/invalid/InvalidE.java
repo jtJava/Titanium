@@ -1,16 +1,15 @@
-package me.jaden.titanium.check.impl.spam;
+package me.jaden.titanium.check.impl.invalid;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.netty.buffer.ByteBufHelper;
 import com.github.retrooper.packetevents.netty.buffer.UnpooledByteBufAllocationHelper;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
 import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 
-public class SpamE implements PacketCheck {
+public class InvalidE implements PacketCheck {
 
     //Fixes console spammer with register/unregister payloads
 
