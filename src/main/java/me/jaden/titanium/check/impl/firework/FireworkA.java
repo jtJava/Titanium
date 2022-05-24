@@ -8,14 +8,14 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerBlockPlacement;
-import me.jaden.titanium.Settings;
 import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
+import me.jaden.titanium.settings.TitaniumConfig;
 
 // PaperMC
 // net.minecraft.server.network.ServerGamePacketListenerImpl#handleEditBook
 public class FireworkA implements PacketCheck {
-    private final int maxExplosions = Settings.getSettings().getMaxExplosions(); // default paper value
+    private final int maxExplosions = TitaniumConfig.getInstance().getMaxExplosions(); // default paper value
 
     @Override
     public void handle(PacketReceiveEvent event, PlayerData data) {

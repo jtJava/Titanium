@@ -51,3 +51,10 @@ commands:
   - "/promote"
   - "/demote"
   - "/execute"
+
+permissions:
+  notification: "titanium.notification"
+
+messages:
+  kick-notification: "[Titanium] Disconnected %player% for flagging %checkname% (%info%)"
+  disconnect-message: "Timed out"

@@ -2,7 +2,7 @@ package me.jaden.titanium.data;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.jaden.titanium.Settings;
+import me.jaden.titanium.settings.TitaniumConfig;
 
 @Setter
 @Getter
@@ -13,7 +13,7 @@ public class PlayerData {
     private int lastCraftRequestTick;
     private int dropCount;
 
-    private double packetAllowance = Settings.getSettings().getMaxPacketsPerSecond();
+    private double packetAllowance = TitaniumConfig.getInstance().getMaxPacketsPerSecond();
     private double packetCount;
 
     private int bytesSent;

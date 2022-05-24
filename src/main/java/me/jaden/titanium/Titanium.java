@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.jaden.titanium.check.CheckManager;
 import me.jaden.titanium.data.DataManager;
+import me.jaden.titanium.settings.TitaniumConfig;
 import me.jaden.titanium.util.Ticker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -17,7 +18,7 @@ public final class Titanium extends JavaPlugin {
     @Getter
     private static Titanium plugin;
 
-    private Settings settings;
+    private TitaniumConfig titaniumConfig;
 
     private Ticker ticker;
 
@@ -36,7 +37,7 @@ public final class Titanium extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        this.settings = new Settings(this);
+        this.titaniumConfig = new TitaniumConfig(this);
 
         this.ticker = new Ticker();
 

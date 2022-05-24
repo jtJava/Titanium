@@ -15,15 +15,15 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPl
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
 import java.util.ArrayList;
 import java.util.List;
-import me.jaden.titanium.Settings;
 import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
+import me.jaden.titanium.settings.TitaniumConfig;
 
 // PaperMC
 // net.minecraft.server.network.ServerGamePacketListenerImpl#handleEditBook
 public class BookA implements PacketCheck {
-    private final int maxBookPageSize = Settings.getSettings().getMaxBookPageSize(); // default paper value
-    private final double maxBookTotalSizeMultiplier = Settings.getSettings().getMaxBookTotalSizeMultiplier(); // default paper value
+    private final int maxBookPageSize = TitaniumConfig.getInstance().getMaxBookPageSize(); // default paper value
+    private final double maxBookTotalSizeMultiplier = TitaniumConfig.getInstance().getMaxBookTotalSizeMultiplier(); // default paper value
 
     @Override
     public void handle(PacketReceiveEvent event, PlayerData data) {

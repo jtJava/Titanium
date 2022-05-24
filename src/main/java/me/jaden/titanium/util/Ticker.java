@@ -1,10 +1,10 @@
 package me.jaden.titanium.util;
 
 import lombok.Getter;
-import me.jaden.titanium.Settings;
 import me.jaden.titanium.Titanium;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
+import me.jaden.titanium.settings.TitaniumConfig;
 
 public class Ticker {
     @Getter
@@ -19,7 +19,7 @@ public class Ticker {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> currentTick++, 1, 1);
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-            double maxPacketsPerSecond = Settings.getSettings().getMaxPacketsPerSecond();
+            double maxPacketsPerSecond = TitaniumConfig.getInstance().getMaxPacketsPerSecond();
             double maxPacketAllowance = maxPacketsPerSecond * 3;
 
             for (PlayerData value : DataManager.getInstance().getPlayerData().values()) {

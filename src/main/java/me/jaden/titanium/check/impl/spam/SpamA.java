@@ -4,6 +4,8 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerBlockPlacement;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
 import me.jaden.titanium.check.PacketCheck;
@@ -32,6 +34,26 @@ public class SpamA implements PacketCheck {
                     if (invalid(data)) {
                         event.setCancelled(true);
                     }
+                }
+            }
+        } else if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
+            WrapperPlayClientClickWindow wrapper = new WrapperPlayClientClickWindow(event);
+
+            ItemStack itemStack = wrapper.getCarriedItemStack();
+
+            if (itemStack.getType() == ItemTypes.WRITABLE_BOOK || itemStack.getType() == ItemTypes.WRITTEN_BOOK) {
+                if (invalid(data)) {
+                    event.setCancelled(true);
+                }
+            }
+        } else if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
+            WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
+
+            ItemStack itemStack = wrapper.getItemStack();
+
+            if (itemStack.getType() == ItemTypes.WRITABLE_BOOK || itemStack.getType() == ItemTypes.WRITTEN_BOOK) {
+                if (invalid(data)) {
+                    event.setCancelled(true);
                 }
             }
         }

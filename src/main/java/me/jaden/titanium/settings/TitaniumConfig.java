@@ -1,4 +1,4 @@
-package me.jaden.titanium;
+package me.jaden.titanium.settings;
 
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.packettype.PacketTypeCommon;
@@ -9,13 +9,17 @@ import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import me.jaden.titanium.Titanium;
 import org.bukkit.configuration.file.FileConfiguration;
 
 @Getter
 @Setter
-public class Settings {
+public class TitaniumConfig {
     @Getter
-    private static Settings settings;
+    private static TitaniumConfig instance;
+
+    private final MessagesConfig messagesConfig;
+    private final PermissionsConfig permissionsConfig;
 
     private List<String> disallowedCommands;
 
@@ -33,12 +37,14 @@ public class Settings {
 
     private Map<PacketTypeCommon, Double> multipliedPackets = new HashMap<>();
 
-    public Settings(Titanium plugin) {
-        settings = this;
+    public TitaniumConfig(Titanium plugin) {
+        instance = this;
 
         plugin.saveDefaultConfig();
 
         FileConfiguration configuration = plugin.getConfig();
+        this.messagesConfig = new MessagesConfig(configuration);
+        this.permissionsConfig = new PermissionsConfig(configuration);
 
         configuration.addDefaults(ImmutableMap.<String, Object>builder()
                 .put("limits.max-packets-per-second", 1000)
@@ -95,6 +101,5 @@ public class Settings {
         });
 
         this.disallowedCommands = configuration.getStringList("commands");
-
     }
 }

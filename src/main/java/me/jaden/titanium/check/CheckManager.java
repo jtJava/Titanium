@@ -7,7 +7,6 @@ import com.github.retrooper.packetevents.event.simple.PacketPlaySendEvent;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import java.util.HashMap;
 import java.util.Map;
-import me.jaden.titanium.Settings;
 import me.jaden.titanium.Titanium;
 import me.jaden.titanium.check.impl.book.BookA;
 import me.jaden.titanium.check.impl.book.BookB;
@@ -27,6 +26,7 @@ import me.jaden.titanium.check.impl.spam.SpamB;
 import me.jaden.titanium.check.impl.spam.SpamC;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
+import me.jaden.titanium.settings.TitaniumConfig;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -65,13 +65,13 @@ public class CheckManager {
                 new SignA()
         );
 
-        if (Settings.getSettings().isNoBooks()) {
+        if (TitaniumConfig.getInstance().isNoBooks()) {
             this.addPacketChecks(new BookB());
         } else {
             this.addPacketChecks(new BookA());
         }
 
-        if (Settings.getSettings().getMaxBytes() != -1) {
+        if (TitaniumConfig.getInstance().getMaxBytes() != -1) {
             this.addPacketChecks(new CrasherD());
         }
 
