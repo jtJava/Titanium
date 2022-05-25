@@ -15,12 +15,12 @@ import me.jaden.titanium.check.impl.crasher.CrasherA;
 import me.jaden.titanium.check.impl.crasher.CrasherC;
 import me.jaden.titanium.check.impl.crasher.CrasherD;
 import me.jaden.titanium.check.impl.crasher.CrasherE;
+import me.jaden.titanium.check.impl.creative.CreativeA;
+import me.jaden.titanium.check.impl.creative.CreativeB;
+import me.jaden.titanium.check.impl.creative.CreativeC;
 import me.jaden.titanium.check.impl.creative.CreativeD;
 import me.jaden.titanium.check.impl.firework.FireworkA;
-import me.jaden.titanium.check.impl.invalid.InvalidA;
-import me.jaden.titanium.check.impl.invalid.InvalidB;
-import me.jaden.titanium.check.impl.invalid.InvalidC;
-import me.jaden.titanium.check.impl.invalid.InvalidD;
+import me.jaden.titanium.check.impl.invalid.*;
 import me.jaden.titanium.check.impl.sign.SignA;
 import me.jaden.titanium.check.impl.spam.SpamA;
 import me.jaden.titanium.check.impl.spam.SpamB;
@@ -54,6 +54,7 @@ public class CheckManager {
                 new InvalidB(),
                 new InvalidC(),
                 new InvalidD(),
+                new InvalidE(),
 
                 // Crasher
                 new CrasherC(),
@@ -64,7 +65,12 @@ public class CheckManager {
                 // Firework
                 new FireworkA(),
 
+                // Creative
+                new CreativeA(),
+                new CreativeB(),
+                new CreativeC(),
                 new CreativeD(),
+
                 // Sign
                 new SignA()
         );
