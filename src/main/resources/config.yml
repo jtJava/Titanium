@@ -21,6 +21,7 @@ limits:
   ## Every server is different, you'll have to find a good value yourself.
   ## Set to -1 to disable
   max-bytes: 64000
+  max-bytes-per-second: 64000
 spam:
   ## Packet names can be found @ https://wiki.vg/Protocol in the Serverbound section.
   ## Valid format: HELD_ITEM_CHANGE or HELD ITEM CHANGE (Capitalization does not matter.)
@@ -31,6 +32,8 @@ spam:
 commands:
   ## This should be a list of commands you do not want executed on your server.
   ## Any chat message or tab completion starting with these will be blocked.
+  ## Any player with the command-bypass permission set below will be able to use these commands.
+  ## If a command already has a permission required by that plugin to access it, then you do not need to put it here.
   - "//calc"
   - "//calculate"
   - "//eval"
@@ -51,10 +54,14 @@ commands:
   - "/promote"
   - "/demote"
   - "/execute"
+  - "/mvhelp"
+  - "/mv"
 
 permissions:
+  command-bypass: "titanium.commandbypass"
   notification: "titanium.notification"
 
 messages:
-  kick-notification: "[Titanium] Disconnected %player% for flagging %checkname% (%info%)"
+  kick-notification: "[Titanium] Disconnected %player% for flagging %checkname%"
+  kick-notification-info: "(%info%)" ## This will be added to the end of the above message if there is info present.
   disconnect-message: "Timed out"

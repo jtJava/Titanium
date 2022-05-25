@@ -10,7 +10,7 @@ public class CrasherE implements PacketCheck {
 
     //Value from ExploitFixer config
     //https://github.com/2lstudios-mc/ExploitFixer/blob/master/resources/config.yml
-    private final int maxBytes = TitaniumConfig.getInstance().getMaxBytes();
+    private final int maxBytesPerSecond = TitaniumConfig.getInstance().getMaxPacketsPerSecond() == -1 ? 9999999 : TitaniumConfig.getInstance().getMaxPacketsPerSecond();
 
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
@@ -18,7 +18,7 @@ public class CrasherE implements PacketCheck {
         //Sequential Access Indexing
         //Where is ByteBufHelper#capacity?
         int writerIndex = ByteBufHelper.writerIndex(event.getByteBuf());
-        if (playerData.incrementBytesSent(writerIndex) > maxBytes) {
+        if (playerData.incrementBytesSent(writerIndex) > maxBytesPerSecond) {
             flag(event, "bytesSent: " + playerData.getBytesSent());
         }
     }

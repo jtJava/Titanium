@@ -8,12 +8,20 @@ import java.util.List;
 import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
+import org.bukkit.entity.Player;
 
 public class CommandA implements PacketCheck {
     private final List<String> disallowedCommands = TitaniumConfig.getInstance().getDisallowedCommands();
 
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
+        if (this.getPlayer(event).isPresent()) {
+            Player player = this.getPlayer(event).get();
+            if (player.hasPermission(TitaniumConfig.getInstance().getPermissionsConfig().getCommandBypassPermission()) || player.isOp()) {
+                return;
+            }
+        }
+
         if (event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE) {
             WrapperPlayClientTabComplete wrapper = new WrapperPlayClientTabComplete(event);
             for (String disallowedCommand : disallowedCommands) {

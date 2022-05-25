@@ -1,5 +1,7 @@
 package me.jaden.titanium.data;
 
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import me.jaden.titanium.settings.TitaniumConfig;
@@ -7,7 +9,8 @@ import me.jaden.titanium.settings.TitaniumConfig;
 @Setter
 @Getter
 public class PlayerData {
-    // Spam
+    private final Set<String> channels = new HashSet<>();
+
     private int lastBookEditTick;
     private int lastDropItemTick;
     private int lastCraftRequestTick;

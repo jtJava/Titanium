@@ -34,6 +34,7 @@ public class TitaniumConfig {
     private final double maxBookTotalSizeMultiplier;
 
     private final int maxBytes;
+    private final int maxBytesPerSecond;
 
     private Map<PacketTypeCommon, Double> multipliedPackets = new HashMap<>();
 
@@ -84,7 +85,8 @@ public class TitaniumConfig {
                 .build());
 
         this.maxPacketsPerSecond = configuration.getInt("limits.max-packets-per-second", 1000);
-        this.maxBytes = configuration.getInt("limits.max-bytes");
+        this.maxBytes = configuration.getInt("limits.max-bytes", 64000);
+        this.maxBytesPerSecond = configuration.getInt("limits.max-bytes-per-second", 64000);
 
         this.maxExplosions = configuration.getInt("fireworks.max-explosions", 25);
 

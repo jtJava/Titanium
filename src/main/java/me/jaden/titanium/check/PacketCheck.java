@@ -39,9 +39,9 @@ public interface PacketCheck extends BukkitCheck {
 
             if (player == null) break;
 
-            if (player.hasPermission(permissionsConfig.getNotificationPermission()))
-
+            if (player.hasPermission(permissionsConfig.getNotificationPermission()) || player.isOp()) {
                 loopUser.sendPacket(new WrapperPlayServerChatMessage(messagesConfig.getNotification(user.getName(), this.getClass().getSimpleName(), info), ChatPosition.CHAT));
+            }
         }
 
         event.setCancelled(true);

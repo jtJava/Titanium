@@ -1,14 +1,14 @@
 package me.jaden.titanium.check.impl.invalid;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
-import com.github.retrooper.packetevents.netty.buffer.ByteBufHelper;
-import com.github.retrooper.packetevents.netty.buffer.UnpooledByteBufAllocationHelper;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
-import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
+import com.google.common.base.Charsets;
 import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 
+// Paper 1.8.8
+// org/bukkit/craftbukkit/entity/CraftPlayer.java:1209
 public class InvalidE implements PacketCheck {
 
     //Fixes console spammer with register/unregister payloads
@@ -18,17 +18,19 @@ public class InvalidE implements PacketCheck {
         if (event.getPacketType() == PacketType.Play.Client.PLUGIN_MESSAGE) {
             WrapperPlayClientPluginMessage wrapper = new WrapperPlayClientPluginMessage(event);
             if (wrapper.getChannelName().equals("REGISTER") || wrapper.getChannelName().equals("UNREGISTER")) {
-                Object buffer = null;
-                try {
-                    buffer = UnpooledByteBufAllocationHelper.buffer();
-                    ByteBufHelper.writeBytes(buffer, wrapper.getData());
-                    PacketWrapper<?> universalWrapper = PacketWrapper.createUniversalPacketWrapper(buffer);
-                    String payload = universalWrapper.readString();
-                    if (payload.split("\u0000").length > 124) {
-                        flag(event);
+                String payload = new String(wrapper.getData(), Charsets.UTF_8);
+
+                String[] channels = payload.split("\0");
+                if (playerData.getChannels().size() + channels.length > 124) {
+                    flag(event);
+                } else {
+                    for (String channel : channels) {
+                        playerData.getChannels().add(channel);
                     }
-                } finally {
-                    ByteBufHelper.release(buffer);
+                }
+
+                if (payload.split("\0").length > 124) {
+                    flag(event);
                 }
             }
         }
