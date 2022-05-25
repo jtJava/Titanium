@@ -17,7 +17,7 @@ public class InvalidD implements PacketCheck {
             if (!this.getPlayer(event).isPresent()) return;
 
             if (wrapper.getSlot() < 0 || wrapper.getSlot() >= 9) {
-                flag(event);
+                flag(event, "slot: " + wrapper.getSlot());
             }
         }
     }

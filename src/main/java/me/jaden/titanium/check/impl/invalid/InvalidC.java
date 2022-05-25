@@ -20,7 +20,7 @@ public class InvalidC implements PacketCheck {
             Player player = this.getPlayer(event).get();
 
             if (!(wrapper.getSlot() >= 0 && wrapper.getSlot() < player.getInventory().getContents().length)) {
-                flag(event);
+                flag(event, "slot: " + wrapper.getSlot());
             }
         }
     }

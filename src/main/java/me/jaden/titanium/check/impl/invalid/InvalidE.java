@@ -24,8 +24,9 @@ public class InvalidE implements PacketCheck {
                     ByteBufHelper.writeBytes(buffer, wrapper.getData());
                     PacketWrapper<?> universalWrapper = PacketWrapper.createUniversalPacketWrapper(buffer);
                     String payload = universalWrapper.readString();
-                    if (payload.split("\u0000").length > 124) {
-                        flag(event);
+                    int length = payload.split("\u0000").length;
+                    if (length > 124) {
+                        flag(event, "length: " + length);
                     }
                 } finally {
                     ByteBufHelper.release(buffer);

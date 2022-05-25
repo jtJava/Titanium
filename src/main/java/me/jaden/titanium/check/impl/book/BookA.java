@@ -45,7 +45,7 @@ public class BookA implements PacketCheck {
                     com.github.retrooper.packetevents.protocol.item.ItemStack wrappedItemStack = universalWrapper.readItemStack();
 
                     pageList.addAll(this.getPages(wrappedItemStack));
-                    if (invalidTitleOrAuthor(wrappedItemStack)) flag(event);
+                    if (invalidTitleOrAuthor(wrappedItemStack)) flag(event, "invalid title or author");
                 } finally {
                     ByteBufHelper.release(buffer);
                 }
@@ -56,20 +56,20 @@ public class BookA implements PacketCheck {
 
             if (wrapper.getItemStack().isPresent()) {
                 pageList.addAll(this.getPages(wrapper.getItemStack().get()));
-                if (invalidTitleOrAuthor(wrapper.getItemStack().get())) flag(event);
+                if (invalidTitleOrAuthor(wrapper.getItemStack().get())) flag(event, "invalid title or author");
             }
         } else if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
             WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
 
             if (wrapper.getItemStack() != null) {
                 pageList.addAll(this.getPages(wrapper.getItemStack()));
-                if (invalidTitleOrAuthor(wrapper.getItemStack())) flag(event);
+                if (invalidTitleOrAuthor(wrapper.getItemStack())) flag(event, "invalid title or author");
             }
         } else if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
             WrapperPlayClientClickWindow wrapper = new WrapperPlayClientClickWindow(event);
             if (wrapper.getCarriedItemStack() != null) {
                 pageList.addAll(this.getPages(wrapper.getCarriedItemStack()));
-                if (invalidTitleOrAuthor(wrapper.getCarriedItemStack())) flag(event);
+                if (invalidTitleOrAuthor(wrapper.getCarriedItemStack())) flag(event, "invalid title or author");
             }
         } else {
             return;
@@ -83,30 +83,30 @@ public class BookA implements PacketCheck {
             int byteLength = testString.getBytes(java.nio.charset.StandardCharsets.UTF_8).length;
             if (byteLength > 256 * 4) {
                 // page too large
-                flag(event);
+                flag(event, "byteLength: " + byteLength);
                 return;
             }
             byteTotal += byteLength;
             int length = testString.length();
-            int multibytes = 0;
+            int multiBytes = 0;
             if (byteLength != length) {
                 for (char c : testString.toCharArray()) {
                     if (c > 127) {
-                        multibytes++;
+                        multiBytes++;
                     }
                 }
             }
             byteAllowed += (this.maxBookPageSize * Math.min(1, Math.max(0.1D, (double) length / 255D))) * multiplier;
 
-            if (multibytes > 1) {
+            if (multiBytes > 1) {
                 // penalize MB
-                byteAllowed -= multibytes;
+                byteAllowed -= multiBytes;
             }
         }
 
         if (byteTotal > byteAllowed) {
             // book too large
-            flag(event);
+            flag(event, "bytesTotal: " + byteTotal + " bytesAllowed: " + byteAllowed);
         }
     }
 

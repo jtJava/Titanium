@@ -23,14 +23,14 @@ public class InvalidA implements PacketCheck {
 
             Location location = wrapper.getLocation();
             if (this.containsInvalidValues(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch())) {
-                flag(event);
+                flag(event, "x: " + location.getX() + " y: " + location.getY() + " z:" + location.getZ() + " yaw:" + location.getYaw() + " pitch:" + location.getPitch());
             }
         } else if (event.getPacketType() == PacketType.Play.Client.VEHICLE_MOVE) {
             WrapperPlayClientVehicleMove wrapper = new WrapperPlayClientVehicleMove(event);
 
             Vector3d position = wrapper.getPosition();
             if (this.containsInvalidValues(position.getX(), position.getY(), position.getZ(), wrapper.getYaw(), wrapper.getPitch())) {
-                flag(event);
+                flag(event, "x: " + position.getX() + " y: " + position.getY() + " z:" + position.getZ() + " yaw:" + wrapper.getYaw() + " pitch:" + wrapper.getPitch());
             }
         }
     }

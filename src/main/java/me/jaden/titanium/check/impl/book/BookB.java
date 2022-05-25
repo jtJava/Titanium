@@ -17,14 +17,14 @@ public class BookB implements PacketCheck {
             WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
             if (wrapper.getItemStack() != null) {
                 if (wrapper.getItemStack().getType() == ItemTypes.WRITTEN_BOOK || wrapper.getItemStack().getType() == ItemTypes.WRITABLE_BOOK) {
-                    flag(event);
+                    flag(event, "item: " + wrapper.getItemStack().getType().getName().toString() + " packet: " + event.getPacketType().getName());
                 }
             }
         } else if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
             WrapperPlayClientClickWindow wrapper = new WrapperPlayClientClickWindow(event);
             if (wrapper.getCarriedItemStack() != null) {
                 if (wrapper.getCarriedItemStack().getType() == ItemTypes.WRITTEN_BOOK || wrapper.getCarriedItemStack().getType() == ItemTypes.WRITABLE_BOOK) {
-                    flag(event);
+                    flag(event, "item: " + wrapper.getCarriedItemStack().getType().getName().toString() + " packet: " + event.getPacketType().getName());
                 }
             }
         } else if (event.getPacketType() == PacketType.Play.Client.PLAYER_BLOCK_PLACEMENT) {
@@ -33,17 +33,17 @@ public class BookB implements PacketCheck {
             if (wrapper.getItemStack().isPresent()) {
                 com.github.retrooper.packetevents.protocol.item.ItemStack wrappedItemStack = wrapper.getItemStack().get();
                 if (wrappedItemStack.getType() == ItemTypes.WRITTEN_BOOK || wrappedItemStack.getType() == ItemTypes.WRITABLE_BOOK) {
-                    flag(event);
+                    flag(event, "item: " + wrappedItemStack.getType().getName().toString() + " packet: " + event.getPacketType().getName());
                 }
             }
         } else if (event.getPacketType() == PacketType.Play.Client.PLUGIN_MESSAGE) {
             WrapperPlayClientPluginMessage wrapper = new WrapperPlayClientPluginMessage(event);
             // Make sure it's a book payload
             if (wrapper.getChannelName().contains("MC|BEdit") || wrapper.getChannelName().contains("MC|BSign")) {
-                flag(event);
+                flag(event, "channel: " + wrapper.getChannelName() + " packet: " + event.getPacketType().getName());
             }
         } else if (event.getPacketType() == PacketType.Play.Client.EDIT_BOOK) {
-            flag(event);
+            flag(event, "packet: " + event.getPacketType().getName());
         }
     }
 }
