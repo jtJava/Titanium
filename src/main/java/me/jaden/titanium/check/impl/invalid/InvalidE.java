@@ -17,10 +17,11 @@ public class InvalidE implements PacketCheck {
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
         if (event.getPacketType() == PacketType.Play.Client.PLUGIN_MESSAGE) {
             WrapperPlayClientPluginMessage wrapper = new WrapperPlayClientPluginMessage(event);
-            if (wrapper.getChannelName().equals("REGISTER") || wrapper.getChannelName().equals("UNREGISTER")) {
-                String payload = new String(wrapper.getData(), Charsets.UTF_8);
+            String payload = new String(wrapper.getData(), Charsets.UTF_8);
 
-                String[] channels = payload.split("\0");
+            String[] channels = payload.split("\0");
+
+            if (wrapper.getChannelName().equals("REGISTER")) {
                 if (playerData.getChannels().size() + channels.length > 124) {
                     flag(event);
                 } else {
@@ -31,6 +32,10 @@ public class InvalidE implements PacketCheck {
 
                 if (payload.split("\0").length > 124) {
                     flag(event);
+                }
+            } else if (wrapper.getChannelName().equals("UNREGISTER")) {
+                for (String channel : channels) {
+                    playerData.getChannels().remove(channel);
                 }
             }
         }
