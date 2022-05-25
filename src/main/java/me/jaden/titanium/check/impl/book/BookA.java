@@ -75,7 +75,6 @@ public class BookA implements PacketCheck {
             return;
         }
 
-
         long byteTotal = 0;
         double multiplier = Math.min(1D, this.maxBookTotalSizeMultiplier);
         long byteAllowed = this.maxBookPageSize;

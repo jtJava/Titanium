@@ -24,16 +24,16 @@ public class MessagesConfig {
         this.disconnectMessage = configuration.getString("messages.disconnect-message", "Timed out");
     }
 
-    public Component getNotification(String playerName, String checkname, String info) {
-        return AdventureSerializer.getGsonSerializer().deserialize(
+    public Component getNotification(String playerName, String checkName, String info) {
+        return AdventureSerializer.fromLegacyFormat(
                 kickNotification.replaceAll("%player%", playerName)
-                        .replaceAll("%checkname%", checkname)
+                        .replaceAll("%checkname%", checkName)
                         .replaceAll("%info%", info)
         );
     }
 
     public Component getKickMessage(String checkName) {
-        return AdventureSerializer.getGsonSerializer().deserialize(
+        return AdventureSerializer.fromLegacyFormat(
                 disconnectMessage.replaceAll("%checkname%", checkName)
         );
     }

@@ -15,6 +15,7 @@ import me.jaden.titanium.check.impl.crasher.CrasherA;
 import me.jaden.titanium.check.impl.crasher.CrasherC;
 import me.jaden.titanium.check.impl.crasher.CrasherD;
 import me.jaden.titanium.check.impl.crasher.CrasherE;
+import me.jaden.titanium.check.impl.creative.CreativeD;
 import me.jaden.titanium.check.impl.firework.FireworkA;
 import me.jaden.titanium.check.impl.invalid.InvalidA;
 import me.jaden.titanium.check.impl.invalid.InvalidB;
@@ -63,6 +64,7 @@ public class CheckManager {
                 // Firework
                 new FireworkA(),
 
+                new CreativeD(),
                 // Sign
                 new SignA()
         );
