@@ -3,10 +3,12 @@ package me.jaden.titanium.settings;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.packettype.PacketTypeCommon;
 import com.google.common.collect.ImmutableMap;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import lombok.Getter;
 import lombok.Setter;
 import me.jaden.titanium.Titanium;
@@ -36,6 +38,11 @@ public class TitaniumConfig {
     private final int maxBytes;
     private final int maxBytesPerSecond;
 
+    private final boolean allowNegativeAmplifiers;
+    private final int maxPotionEffectAmplifier;
+    private final int maxPotionEffectDuration;
+    private final int maxPotionEffects;
+
     private Map<PacketTypeCommon, Double> multipliedPackets = new HashMap<>();
 
     public TitaniumConfig(Titanium plugin) {
@@ -55,6 +62,10 @@ public class TitaniumConfig {
                 .put("books.max-book-page-size", 2560)
                 .put("books.max-book-total-size-multiplier", 0.98D)
                 .put("books.no-books", false)
+                .put("potions.max-potion-effects", 5)
+                .put("potions.max-potion-effect-duration-ticks", 9600)
+                .put("potions.max-potion-effect-amplifier", 10)
+                .put("potions.allow-negative-effect-amplifier", false)
                 .put("spam.multipliers",
                         ImmutableMap.<String, Object>builder()
                                 .put("HELD_ITEM_CHANGE", 1.0D)
@@ -95,6 +106,11 @@ public class TitaniumConfig {
         this.maxBookPageSize = configuration.getInt("books.max-book-page-size", 2560);
         this.maxBookTotalSizeMultiplier = configuration.getDouble("books.max-book-page-size", 0.98D);
         this.noBooks = configuration.getBoolean("books.no-books", false);
+
+        this.maxPotionEffects = configuration.getInt("potions.max-potion-effects");
+        this.allowNegativeAmplifiers = configuration.getBoolean("potions.allow-negative-effect-amplifier");
+        this.maxPotionEffectDuration = configuration.getInt("potions.max-potion-effect-duration-ticks");
+        this.maxPotionEffectAmplifier = configuration.getInt("potions.max-potion-effect-amplifier");
 
         Map<String, Object> multiplierMap = configuration.getConfigurationSection("spam.multipliers").getValues(false);
         multiplierMap.forEach((packetType, multiplier) -> {

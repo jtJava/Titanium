@@ -5,8 +5,10 @@ import com.github.retrooper.packetevents.event.SimplePacketListenerAbstract;
 import com.github.retrooper.packetevents.event.simple.PacketPlayReceiveEvent;
 import com.github.retrooper.packetevents.event.simple.PacketPlaySendEvent;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import me.jaden.titanium.Titanium;
 import me.jaden.titanium.check.impl.book.BookA;
 import me.jaden.titanium.check.impl.book.BookB;
@@ -15,10 +17,7 @@ import me.jaden.titanium.check.impl.crasher.CrasherA;
 import me.jaden.titanium.check.impl.crasher.CrasherC;
 import me.jaden.titanium.check.impl.crasher.CrasherD;
 import me.jaden.titanium.check.impl.crasher.CrasherE;
-import me.jaden.titanium.check.impl.creative.CreativeA;
-import me.jaden.titanium.check.impl.creative.CreativeB;
-import me.jaden.titanium.check.impl.creative.CreativeC;
-import me.jaden.titanium.check.impl.creative.CreativeD;
+import me.jaden.titanium.check.impl.creative.*;
 import me.jaden.titanium.check.impl.firework.FireworkA;
 import me.jaden.titanium.check.impl.invalid.*;
 import me.jaden.titanium.check.impl.sign.SignA;
@@ -70,6 +69,9 @@ public class CheckManager {
                 new CreativeB(),
                 new CreativeC(),
                 new CreativeD(),
+                new CreativeE(),
+                new CreativeF(),
+                new CreativeG(),
 
                 // Sign
                 new SignA()
