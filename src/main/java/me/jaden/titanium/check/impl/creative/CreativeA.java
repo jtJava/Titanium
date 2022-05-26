@@ -12,6 +12,7 @@ import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 
 import java.util.Base64;
+import java.util.UUID;
 
 public class CreativeA implements PacketCheck {
 
@@ -41,16 +42,26 @@ public class CreativeA implements PacketCheck {
             return false;
         }
         NBTCompound skullOwner = nbtCompound.getCompoundTagOrNull("SkullOwner");
-        if (skullOwner.getTags().containsKey("Id") && !skullOwner.getTags().containsKey("Name")) {
+        if(skullOwner == null){
+            System.out.println("skullowner == null");
             return true;
+        }
+        if (skullOwner.getTags().containsKey("Id")) {
+            try {
+                UUID.fromString(skullOwner.getStringTagValueOrNull("Id"));
+            } catch (Exception e) {
+                return true;
+            }
         }
         if (skullOwner.getTags().containsKey("Properties")) {
             NBTCompound properties = skullOwner.getCompoundTagOrNull("Properties");
             if (properties == null) {
+                System.out.println("props null");
                 return true;
             }
             NBTList<NBTCompound> textures = properties.getCompoundListTagOrNull("textures");
             if (textures == null) {
+                System.out.println("textures null");
                 return true;
             }
             for (int i = 0; i < textures.size(); i++) {

@@ -9,6 +9,8 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCr
 import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 
+import java.util.UUID;
+
 public class CreativeB implements PacketCheck {
 
     //Fixes kick hopper item
@@ -39,8 +41,15 @@ public class CreativeB implements PacketCheck {
                         NBTCompound tag = item.getCompoundTagOrNull("tag");
                         if (tag.getTags().containsKey("SkullOwner")) {
                             NBTCompound skullOwner = tag.getCompoundTagOrNull("SkullOwner");
-                            if (skullOwner.getTags().containsKey("Id") && !skullOwner.getTags().containsKey("Name")) {
+                            if (skullOwner == null) {
                                 return true;
+                            }
+                            if (skullOwner.getTags().containsKey("Id")) {
+                                try {
+                                    UUID.fromString(skullOwner.getStringTagValueOrNull("Id"));
+                                } catch (Exception e) {
+                                    return true;
+                                }
                             }
                         }
                     }

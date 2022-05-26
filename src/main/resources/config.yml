@@ -8,6 +8,13 @@ books:
 
   ## Enable this if you don't need any book functionality on your server.
   no-books: false
+
+potions:
+  max-potion-effects: 5
+  max-potion-effect-duration-ticks: 9600
+  max-potion-effect-amplifier: 10
+  allow-negative-effect-amplifier: false
+
 limits:
   ## There is no perfect value for this.
   ## In order to prevent people getting kicked for lag, the max PPS is higher than shown below.
