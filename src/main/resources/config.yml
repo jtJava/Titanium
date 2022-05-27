@@ -9,11 +9,16 @@ books:
   ## Enable this if you don't need any book functionality on your server.
   no-books: false
 
-potions:
-  max-potion-effects: 5
-  max-potion-effect-duration-ticks: 9600
-  max-potion-effect-amplifier: 10
-  allow-negative-effect-amplifier: false
+creative:
+  ## This can stay disabled unless you give untrustworthy players creative.
+  ## If you have any issues with the creative checks, please make a ticket in our
+  ## support Discord @ discord.strafe.us or discord.gg/xAEnAUMv9a
+  enabled: false
+  potions:
+    max-potion-effects: 5
+    max-potion-effect-duration-ticks: 9600
+    max-potion-effect-amplifier: 10
+    allow-negative-effect-amplifier: false
 
 limits:
   ## There is no perfect value for this.

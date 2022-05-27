@@ -2,16 +2,14 @@ package me.jaden.titanium.check.impl.creative;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
-import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.nbt.NBTString;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
-import me.jaden.titanium.check.PacketCheck;
-import me.jaden.titanium.data.PlayerData;
-
 import java.util.ArrayList;
 import java.util.List;
+import me.jaden.titanium.check.PacketCheck;
+import me.jaden.titanium.data.PlayerData;
 
 public class CreativeE implements PacketCheck {
 

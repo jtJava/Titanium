@@ -8,11 +8,10 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import me.jaden.titanium.check.PacketCheck;
-import me.jaden.titanium.data.PlayerData;
-
 import java.util.Base64;
 import java.util.UUID;
+import me.jaden.titanium.check.PacketCheck;
+import me.jaden.titanium.data.PlayerData;
 
 public class CreativeA implements PacketCheck {
 
@@ -42,7 +41,7 @@ public class CreativeA implements PacketCheck {
             return false;
         }
         NBTCompound skullOwner = nbtCompound.getCompoundTagOrNull("SkullOwner");
-        if(skullOwner == null){
+        if (skullOwner == null) {
             return true;
         }
         if (skullOwner.getTags().containsKey("Id")) {
