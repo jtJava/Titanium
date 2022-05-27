@@ -13,13 +13,11 @@ import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
 public class CreativeF implements PacketCheck {
-
     //This prevents hacked potions that can do all sorts of annoying things (KillerPotions, NoRespawnPotions, TrollPotions)
-
-    private final int maxPotionEffects = TitaniumConfig.getInstance().getMaxPotionEffects();
-    private final boolean allowNegativeAmplifiers = TitaniumConfig.getInstance().isAllowNegativeAmplifiers();
-    private final int maxPotionEffectAmplifier = TitaniumConfig.getInstance().getMaxPotionEffectAmplifier();
-    private final int maxPotionEffectDuration = TitaniumConfig.getInstance().getMaxPotionEffectDuration();
+    private final int maxPotionEffects = TitaniumConfig.getInstance().getCreativeConfig().getMaxPotionEffects();
+    private final boolean allowNegativeAmplifiers = TitaniumConfig.getInstance().getCreativeConfig().isAllowNegativeAmplifiers();
+    private final int maxPotionEffectAmplifier = TitaniumConfig.getInstance().getCreativeConfig().getMaxPotionEffectAmplifier();
+    private final int maxPotionEffectDuration = TitaniumConfig.getInstance().getCreativeConfig().getMaxPotionEffectDuration();
 
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
