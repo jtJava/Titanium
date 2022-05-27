@@ -16,11 +16,9 @@ public class CrasherD implements PacketCheck {
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
         //https://netty.io/4.1/api/io/netty/buffer/ByteBuf.html
         //Sequential Access Indexing
-        //Where is ByteBufHelper#capacity?
-        int writerIndex = ByteBufHelper.writerIndex(event.getByteBuf());
-        if(writerIndex > maxBytes){
-            flag(event, "writerIndex: " + writerIndex);
+        int capacity = ByteBufHelper.capacity(event.getByteBuf());
+        if (capacity > maxBytes) {
+            flag(event, "Bytes: " + capacity + " Max Bytes: " + maxBytes);
         }
     }
-
 }

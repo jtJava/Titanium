@@ -22,16 +22,12 @@ public class InvalidE implements PacketCheck {
             String[] channels = payload.split("\0");
 
             if (wrapper.getChannelName().equals("REGISTER")) {
-                if (playerData.getChannels().size() + channels.length > 124) {
+                if (playerData.getChannels().size() + channels.length > 124 || channels.length > 124) {
                     flag(event);
                 } else {
                     for (String channel : channels) {
                         playerData.getChannels().add(channel);
                     }
-                }
-
-                if (payload.split("\0").length > 124) {
-                    flag(event);
                 }
             } else if (wrapper.getChannelName().equals("UNREGISTER")) {
                 for (String channel : channels) {

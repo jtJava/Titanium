@@ -16,10 +16,9 @@ public class CrasherE implements PacketCheck {
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
         //https://netty.io/4.1/api/io/netty/buffer/ByteBuf.html
         //Sequential Access Indexing
-        //Where is ByteBufHelper#capacity?
-        int writerIndex = ByteBufHelper.writerIndex(event.getByteBuf());
-        if (playerData.incrementBytesSent(writerIndex) > maxBytesPerSecond) {
-            flag(event, "bytesSent: " + playerData.getBytesSent());
+        int capacity = ByteBufHelper.capacity(event.getByteBuf());
+        if (playerData.incrementBytesSent(capacity) > maxBytesPerSecond) {
+            flag(event, "Bytes Sent: " + playerData.getBytesSent() + " Max Bytes/s: " + maxBytesPerSecond);
         }
     }
 }
