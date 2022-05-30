@@ -30,7 +30,6 @@ public final class Titanium extends JavaPlugin {
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
         PacketEvents.getAPI().getSettings().checkForUpdates(true).bStats(true);
         PacketEvents.getAPI().load();
-
     }
 
     @Override

@@ -21,15 +21,22 @@ public class TitaniumConfig {
     private final MessagesConfig messagesConfig;
     private final PermissionsConfig permissionsConfig;
     private final CreativeConfig creativeConfig;
+
     private final int maxPacketsPerSecond;
+
     private final int maxExplosions;
+
     private final int maxSignCharactersPerLine;
+
     private final boolean noBooks;
     private final int maxBookPageSize;
     private final double maxBookTotalSizeMultiplier;
+
     private final int maxBytes;
     private final int maxBytesPerSecond;
+
     private List<String> disallowedCommands;
+
     private Map<PacketTypeCommon, Double> multipliedPackets = new HashMap<>();
 
     public TitaniumConfig(Titanium plugin) {
