@@ -15,12 +15,19 @@ public class PlayerData {
     private int lastDropItemTick;
     private int lastCraftRequestTick;
     private int dropCount;
+    private int recursionCount;
 
     private double packetAllowance = TitaniumConfig.getInstance().getMaxPacketsPerSecond();
     private double packetCount;
 
     private int bytesSent;
 
+    public int incrementRecursionCount(){
+        return recursionCount++;
+    }
+    public void resetRecursion(){
+        recursionCount = 0;
+    }
     public int incrementBytesSent(int amount) {
         return bytesSent += amount;
     }

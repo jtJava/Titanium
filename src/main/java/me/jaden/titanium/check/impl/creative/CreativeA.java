@@ -10,30 +10,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.Base64;
 import java.util.UUID;
+
+import me.jaden.titanium.check.CreativeCheck;
 import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 
-public class CreativeA implements PacketCheck {
+public class CreativeA implements CreativeCheck {
 
 
     //Fixes crash head / glitch head
-    @Override
-    public void handle(PacketReceiveEvent event, PlayerData playerData) {
-        if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
-            WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
-            if (wrapper.getItemStack() != null) {
-                if (wrapper.getItemStack().getNBT() != null) {
-                    if (invalid(wrapper.getItemStack())) {
-                        flag(event);
-                    }
-                }
-            }
-        }
-    }
 
-    //https://minecraft.fandom.com/wiki/Head
-    private boolean invalid(ItemStack itemStack) {
-        NBTCompound nbtCompound = itemStack.getNBT();
+    public boolean handleCheck(ItemStack clickedStack, NBTCompound nbtCompound) {
         if (nbtCompound == null) {
             return false;
         }
@@ -100,4 +87,5 @@ public class CreativeA implements PacketCheck {
         }
         return false;
     }
+
 }
