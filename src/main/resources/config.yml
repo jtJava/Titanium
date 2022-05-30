@@ -14,6 +14,26 @@ creative:
   ## If you have any issues with the creative checks, please make a ticket in our
   ## support Discord @ discord.strafe.us or discord.gg/xAEnAUMv9a
   enabled: false
+
+  ## The creative check also checks nbt data nested in block entity tags (containers)
+  ## This prevents exploiters from bypassing creative checks by creating containers with the exploit item in it
+  ## This value is for the maximum recursion calls, the check is allowed to do per item
+  ## If a player reaches a value higher than this, they get kicked.
+  ## Increase if false positives occur, too high values could lead to exploitation of the check. Therefore, keep as low as possible.
+  max-nbt-recursions: 10
+
+  ## How many items in tags is a block entity tag (container) allowed to contain?
+  ## This is to prevent exploiters from sending very large containers, crashing the creative checks.
+  ## Same as with max nbt recursions, only increase if false positives occur and do not increase too high.
+  max-items-in-containers: 54
+
+  ## Limit all enchantments to a maximum level?
+  ## This prevents exploiters from creating hacked items with very high enchantments.
+  ## Increase max level or set to -1 to disable
+  max-level: 5
+
+  ## These are the limits for potions that players can create in creative mode.
+  ## This prevents exploiters from creating troll potions, (creative) kill potions etc.
   potions:
     max-potion-effects: 5
     max-potion-effect-duration-ticks: 9600

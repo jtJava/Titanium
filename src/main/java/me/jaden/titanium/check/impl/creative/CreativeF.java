@@ -1,18 +1,14 @@
 package me.jaden.titanium.check.impl.creative;
 
-import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTInt;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.nbt.NBTNumber;
-import com.github.retrooper.packetevents.protocol.packettype.PacketType;
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
-import me.jaden.titanium.check.PacketCheck;
-import me.jaden.titanium.data.PlayerData;
+import me.jaden.titanium.check.CreativeCheck;
 import me.jaden.titanium.settings.TitaniumConfig;
 
-public class CreativeF implements PacketCheck {
+public class CreativeF implements CreativeCheck {
     //This prevents hacked potions that can do all sorts of annoying things (KillerPotions, NoRespawnPotions, TrollPotions)
     private final int maxPotionEffects = TitaniumConfig.getInstance().getCreativeConfig().getMaxPotionEffects();
     private final boolean allowNegativeAmplifiers = TitaniumConfig.getInstance().getCreativeConfig().isAllowNegativeAmplifiers();
@@ -20,23 +16,7 @@ public class CreativeF implements PacketCheck {
     private final int maxPotionEffectDuration = TitaniumConfig.getInstance().getCreativeConfig().getMaxPotionEffectDuration();
 
     @Override
-    public void handle(PacketReceiveEvent event, PlayerData playerData) {
-        if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
-            WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
-            if (wrapper.getItemStack() != null) {
-                if (invalid(wrapper.getItemStack())) {
-                    flag(event);
-                }
-            }
-        }
-    }
-
-    private boolean invalid(ItemStack itemStack) {
-        if (itemStack.getNBT() == null) {
-            return false;
-        }
-
-        NBTCompound compound = itemStack.getNBT();
+    public boolean handleCheck(ItemStack clickedStack, NBTCompound compound) {
         if (!compound.getTags().containsKey("CustomPotionEffects")) {
             return false;
         }
@@ -52,9 +32,9 @@ public class CreativeF implements PacketCheck {
             NBTCompound effect = potionEffects.getTag(i);
 
             if (effect.getTags().containsKey("Duration")) {
-                NBTInt nbtInt = effect.getTagOfTypeOrNull("Duration", NBTInt.class);
-                if (nbtInt != null) {
-                    if (nbtInt.getAsInt() >= maxPotionEffectDuration) {
+                NBTNumber nbtNumber = effect.getNumberTagOrNull("Duration");
+                if (nbtNumber != null) {
+                    if (nbtNumber.getAsInt() >= maxPotionEffectDuration) {
                         return true;
                     }
                 }
@@ -78,5 +58,4 @@ public class CreativeF implements PacketCheck {
         }
         return false;
     }
-
 }

@@ -1,17 +1,15 @@
 package me.jaden.titanium.check.impl.creative;
 
-import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
+import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.nbt.NBTString;
-import com.github.retrooper.packetevents.protocol.packettype.PacketType;
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
+import me.jaden.titanium.check.CreativeCheck;
+
 import java.util.ArrayList;
 import java.util.List;
-import me.jaden.titanium.check.PacketCheck;
-import me.jaden.titanium.data.PlayerData;
 
-public class CreativeE implements PacketCheck {
+public class CreativeE implements CreativeCheck {
 
     //Fixes client-side crash books
 
@@ -19,20 +17,19 @@ public class CreativeE implements PacketCheck {
     //{generation:0,pages:[0:"{translate:translation.test.invalid}",],author:"someone",title:"a",resolved:1b,}
     //{generation:0,pages:[0:"{translate:translation.test.invalid2}",],author:"someone",title:"a",resolved:1b,}
 
-    @Override
-    public void handle(PacketReceiveEvent event, PlayerData playerData) {
-        if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
-            WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
-            if (wrapper.getItemStack() != null) {
-                if (invalid(wrapper.getItemStack())) {
-                    flag(event);
-                }
+    private List<String> getPages(NBTCompound nbtCompound) {
+        List<String> pageList = new ArrayList<>();
+        NBTList<NBTString> nbtList = nbtCompound.getStringListTagOrNull("pages");
+        if (nbtList != null) {
+            for (NBTString tag : nbtList.getTags()) {
+                pageList.add(tag.getValue());
             }
         }
+        return pageList;
     }
-
-    private boolean invalid(ItemStack itemStack) {
-        List<String> pages = getPages(itemStack);
+    @Override
+    public boolean handleCheck(ItemStack clickedStack, NBTCompound nbtCompound) {
+        List<String> pages = getPages(nbtCompound);
         if (pages.isEmpty()) {
             return false;
         }
@@ -43,21 +40,6 @@ public class CreativeE implements PacketCheck {
             }
         }
         return false;
-    }
-
-    private List<String> getPages(ItemStack itemStack) {
-        List<String> pageList = new ArrayList<>();
-
-        if (itemStack.getNBT() != null) {
-            NBTList<NBTString> nbtList = itemStack.getNBT().getStringListTagOrNull("pages");
-            if (nbtList != null) {
-                for (NBTString tag : nbtList.getTags()) {
-                    pageList.add(tag.getValue());
-                }
-            }
-        }
-
-        return pageList;
     }
 
 }

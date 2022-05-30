@@ -5,8 +5,10 @@ import com.github.retrooper.packetevents.event.SimplePacketListenerAbstract;
 import com.github.retrooper.packetevents.event.simple.PacketPlayReceiveEvent;
 import com.github.retrooper.packetevents.event.simple.PacketPlaySendEvent;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import me.jaden.titanium.Titanium;
 import me.jaden.titanium.check.impl.book.BookA;
 import me.jaden.titanium.check.impl.book.BookB;
@@ -15,13 +17,7 @@ import me.jaden.titanium.check.impl.crasher.CrasherA;
 import me.jaden.titanium.check.impl.crasher.CrasherC;
 import me.jaden.titanium.check.impl.crasher.CrasherD;
 import me.jaden.titanium.check.impl.crasher.CrasherE;
-import me.jaden.titanium.check.impl.creative.CreativeA;
-import me.jaden.titanium.check.impl.creative.CreativeB;
-import me.jaden.titanium.check.impl.creative.CreativeC;
-import me.jaden.titanium.check.impl.creative.CreativeD;
-import me.jaden.titanium.check.impl.creative.CreativeE;
-import me.jaden.titanium.check.impl.creative.CreativeF;
-import me.jaden.titanium.check.impl.creative.CreativeG;
+import me.jaden.titanium.check.impl.creative.*;
 import me.jaden.titanium.check.impl.firework.FireworkA;
 import me.jaden.titanium.check.impl.invalid.InvalidA;
 import me.jaden.titanium.check.impl.invalid.InvalidB;
@@ -43,11 +39,24 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 public class CheckManager {
     private final Map<Class<? extends PacketCheck>, PacketCheck> packetChecks = new HashMap<>();
     private final Map<Class<? extends BukkitCheck>, BukkitCheck> bukkitChecks = new HashMap<>();
+    private final Map<Class<? extends CreativeCheck>, CreativeCheck> creativeChecks = new HashMap<>();
 
     public CheckManager() {
         this.initializeListeners();
 
         ServerVersion serverVersion = PacketEvents.getAPI().getServerManager().getVersion();
+
+        //Add creative checks first, so that the creative check runner can load them
+        if (TitaniumConfig.getInstance().getCreativeConfig().isEnabled()) {
+            this.addCreativeChecks(
+                    new CreativeA(),
+                    new CreativeC(),
+                    new CreativeD(),
+                    new CreativeE(),
+                    new CreativeF(),
+                    new CreativeG()
+            );
+        }
 
         this.addPacketChecks(
                 // Spam (This should always be at the top for performance reasons)
@@ -73,13 +82,7 @@ public class CheckManager {
                 new FireworkA(),
 
                 // Creative
-                new CreativeA(),
-                new CreativeB(),
-                new CreativeC(),
-                new CreativeD(),
-                new CreativeE(),
-                new CreativeF(),
-                new CreativeG(),
+                new CreativeCheckRunner(creativeChecks.values()),
 
                 // Sign
                 new SignA()
@@ -158,4 +161,11 @@ public class CheckManager {
             this.bukkitChecks.put(check.getClass(), check);
         }
     }
+
+    private void addCreativeChecks(CreativeCheck... checks) {
+        for (CreativeCheck check : checks) {
+            this.creativeChecks.put(check.getClass(), check);
+        }
+    }
+
 }
