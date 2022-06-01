@@ -6,7 +6,6 @@ import com.github.retrooper.packetevents.event.ProtocolPacketEvent;
 import com.github.retrooper.packetevents.protocol.chat.ChatPosition;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerChatMessage;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDisconnect;
 import java.util.Optional;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
@@ -29,7 +28,7 @@ public interface PacketCheck extends BukkitCheck {
 
         User user = event.getUser();
         try {
-            user.sendPacket(new WrapperPlayServerDisconnect(messagesConfig.getKickMessage(this.getClass().getSimpleName())));
+            user.sendMessage(messagesConfig.getKickMessage(this.getClass().getSimpleName()));
         } catch (Exception ignored) {
         }
         user.closeConnection();
