@@ -3,9 +3,8 @@ package me.jaden.titanium.check;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.event.PacketSendEvent;
 import com.github.retrooper.packetevents.event.ProtocolPacketEvent;
-import com.github.retrooper.packetevents.protocol.chat.ChatPosition;
 import com.github.retrooper.packetevents.protocol.player.User;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerChatMessage;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDisconnect;
 import java.util.Optional;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
@@ -28,7 +27,7 @@ public interface PacketCheck extends BukkitCheck {
 
         User user = event.getUser();
         try {
-            user.sendMessage(messagesConfig.getKickMessage(this.getClass().getSimpleName()));
+            user.sendPacket(new WrapperPlayServerDisconnect(messagesConfig.getKickMessage(this.getClass().getSimpleName())));
         } catch (Exception ignored) {
         }
         user.closeConnection();
@@ -39,7 +38,7 @@ public interface PacketCheck extends BukkitCheck {
             if (player == null) break;
 
             if (player.hasPermission(permissionsConfig.getNotificationPermission()) || player.isOp()) {
-                loopUser.sendPacket(new WrapperPlayServerChatMessage(messagesConfig.getNotification(user.getName(), this.getClass().getSimpleName(), info), ChatPosition.CHAT));
+                loopUser.sendMessage(messagesConfig.getNotification(user.getName(), this.getClass().getSimpleName(), info));
             }
         }
 

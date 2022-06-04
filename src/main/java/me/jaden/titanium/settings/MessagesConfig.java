@@ -1,7 +1,7 @@
 package me.jaden.titanium.settings;
 
-import com.github.retrooper.packetevents.util.AdventureSerializer;
 import com.google.common.collect.ImmutableMap;
+import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -9,6 +9,10 @@ public class MessagesConfig {
     private final String staffNotification;
     private final String staffNotificationInfo;
     private final String disconnectMessage;
+
+    private final LegacyComponentSerializer componentSerializer = LegacyComponentSerializer.builder()
+            .character(LegacyComponentSerializer.AMPERSAND_CHAR)
+            .hexCharacter(LegacyComponentSerializer.HEX_CHAR).build();
 
     public MessagesConfig(FileConfiguration configuration) {
         configuration.addDefaults(ImmutableMap.<String, Object>builder()
@@ -23,7 +27,7 @@ public class MessagesConfig {
     }
 
     public Component getNotification(String playerName, String checkName, String info) {
-        Component notification = AdventureSerializer.fromLegacyFormat(staffNotification.replaceAll("%player%", playerName).replaceAll("%checkname%", checkName));
+        Component notification = componentSerializer.deserialize(staffNotification.replaceAll("%player%", playerName).replaceAll("%checkname%", checkName));
 
         if (!info.equals("")) {
             return notification.append(this.getInfo(info));
@@ -33,11 +37,11 @@ public class MessagesConfig {
     }
 
     private Component getInfo(String info) {
-        return AdventureSerializer.fromLegacyFormat(staffNotificationInfo.replaceAll("%info%", info));
+        return componentSerializer.deserialize(staffNotificationInfo.replaceAll("%info%", info));
     }
 
     public Component getKickMessage(String checkName) {
-        return AdventureSerializer.fromLegacyFormat(
+        return componentSerializer.deserialize(
                 disconnectMessage.replaceAll("%checkname%", checkName)
         );
     }

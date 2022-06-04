@@ -1,4 +1,4 @@
 name: Titanium
 version: '${project.version}'
 main: me.jaden.titanium.Titanium
-api-version: 1.18
+api-version: 1.13
