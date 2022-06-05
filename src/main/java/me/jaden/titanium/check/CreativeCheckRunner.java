@@ -2,15 +2,12 @@ package me.jaden.titanium.check;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
-import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
 import me.jaden.titanium.data.PlayerData;
-import me.jaden.titanium.settings.CreativeConfig;
 import me.jaden.titanium.settings.TitaniumConfig;
-import org.bukkit.Bukkit;
 
 import java.util.Collection;
 
@@ -55,7 +52,7 @@ public class CreativeCheckRunner implements PacketCheck {
                 for (CreativeCheck check : checks) {
                     //Maybe add a check result class, so that we can have more detailed verbose output...
                     if (check.handleCheck(wrapper.getItemStack(), compound)) {
-                        flag(event, "failed normal creative nbt check (no recursion)");
+                        flag(event, "failed normal creative nbt check (item: " + wrapper.getItemStack().getType().getName() + ")");
                     }
                 }
             }
@@ -84,13 +81,14 @@ public class CreativeCheckRunner implements PacketCheck {
             //Loop through all items
             for (int i = 0; i < items.size(); i++) {
                 NBTCompound item = items.getTag(i);
+
                 //Check if the item has the tag "tag" meaning it got extra nbt (besides the default item data of damage, count, id etc.)
                 if (item.getTags().containsKey("tag")) {
                     NBTCompound tag = item.getCompoundTagOrNull("tag");
                     //call creative checks to check for illegal tags
                     for (CreativeCheck check : checks) {
                         if (check.handleCheck(clickedItem, tag)) {
-                            flag(event, "item tag data (recursions: " + data.getRecursionCount() + ")");
+                            flag(event, "item tag data (recursions: " + data.getRecursionCount() + " item: " + clickedItem.getType().getName() + ")");
                             return;
                         }
                     }
@@ -101,11 +99,11 @@ public class CreativeCheckRunner implements PacketCheck {
                     }
                 } else {
                     //this actually only needed for the crash anvil check, since the crash anvil actually works without having "tag"
-                    //it sets the damage value of the item anvil to 3 which results in the client placing it crashing
-                    //there might be checks in the future that need this functionality, so best to keep it as is
+                    //it sets the damage (legacy data) value of the item anvil to 3 which results in the client placing it crashing
+                    //not a fan of this approach, it runs a few unnecessary checks
                     for (CreativeCheck check : checks) {
                         if (check.handleCheck(clickedItem, item)) {
-                            flag(event, "item base data (recursions: " + data.getRecursionCount() + ")");
+                            flag(event, "item base data (recursions: " + data.getRecursionCount() + " item: " + clickedItem.getType().getName() + ")");
                             return;
                         }
                     }

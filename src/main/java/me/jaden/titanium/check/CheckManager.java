@@ -51,11 +51,13 @@ public class CheckManager {
             this.addCreativeChecks(
                     new CreativeA(),
                     new CreativeC(),
-                    new CreativeD(),
                     new CreativeE(),
                     new CreativeF(),
                     new CreativeG()
             );
+            if (TitaniumConfig.getInstance().getCreativeConfig().getMaxLevel() != -1) {
+                this.addCreativeChecks(new CreativeD());
+            }
         }
 
         this.addPacketChecks(
