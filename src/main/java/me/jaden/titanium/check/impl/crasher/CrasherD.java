@@ -10,7 +10,7 @@ public class CrasherD implements PacketCheck {
 
     //Value from ExploitFixer config
     //https://github.com/2lstudios-mc/ExploitFixer/blob/master/resources/config.yml
-    private final int maxBytes = TitaniumConfig.getInstance().getMaxBytes() == -1 ? 9999999 : TitaniumConfig.getInstance().getMaxBytes();
+    private final int maxBytes = TitaniumConfig.getInstance().getMaxBytes();
 
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {

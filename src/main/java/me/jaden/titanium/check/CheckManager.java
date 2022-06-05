@@ -95,6 +95,10 @@ public class CheckManager {
             this.addPacketChecks(new CrasherD());
         }
 
+        if (TitaniumConfig.getInstance().getMaxBytesPerSecond() != -1) {
+            this.addPacketChecks(new CrasherE());
+        }
+
         if (serverVersion.isNewerThan(ServerVersion.V_1_10)) {
             this.addBukkitChecks(new CrasherA());
         }
