@@ -25,7 +25,7 @@ public class CommandA implements PacketCheck {
         if (event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE) {
             WrapperPlayClientTabComplete wrapper = new WrapperPlayClientTabComplete(event);
             for (String disallowedCommand : disallowedCommands) {
-                if (wrapper.getText().startsWith(disallowedCommand)) {
+                if (wrapper.getText().toLowerCase().startsWith(disallowedCommand)) {
                     event.setCancelled(true);
                     break;
                 }
@@ -33,7 +33,7 @@ public class CommandA implements PacketCheck {
         } else if (event.getPacketType() == PacketType.Play.Client.CHAT_MESSAGE) {
             WrapperPlayClientChatMessage wrapper = new WrapperPlayClientChatMessage(event);
             for (String disallowedCommand : disallowedCommands) {
-                if (wrapper.getMessage().startsWith(disallowedCommand)) {
+                if (wrapper.getMessage().toLowerCase().startsWith(disallowedCommand)) {
                     event.setCancelled(true);
                     break;
                 }
