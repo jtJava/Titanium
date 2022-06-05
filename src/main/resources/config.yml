@@ -30,7 +30,8 @@ creative:
   ## Limit all enchantments to a maximum level?
   ## This prevents exploiters from creating hacked items with very high enchantments.
   ## Increase max level or set to -1 to disable
-  max-level: 5
+  enchantments:
+    max-level: 5
 
   ## These are the limits for potions that players can create in creative mode.
   ## This prevents exploiters from creating troll potions, (creative) kill potions etc.

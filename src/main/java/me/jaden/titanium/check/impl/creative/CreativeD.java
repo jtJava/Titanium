@@ -15,11 +15,12 @@ import me.jaden.titanium.check.PacketCheck;
 import me.jaden.titanium.data.PlayerData;
 
 public class CreativeD implements CreativeCheck {
-    private static final ClientVersion CLIENT_VERSION = PacketEvents.getAPI().getServerManager().getVersion().toClientVersion();
 
     @Override
     public boolean handleCheck(ItemStack clickedStack, NBTCompound nbtCompound) {
-        if (nbtCompound.getTags().containsKey("ench")) {
+        //This is "version safe", since we check both the older 'ench' and the newer 'Enchantments' tag
+        //Not a very clean approach. A way to get items within pe itemstacks would certainly be helpful
+        if (nbtCompound.getTags().containsKey("ench") || nbtCompound.getTags().containsKey("Enchantments")) {
             NBTList<NBTCompound> enchantments = nbtCompound.getCompoundListTagOrNull("ench");
             for (int i = 0; i < enchantments.size(); i++) {
                 NBTCompound enchantment = enchantments.getTag(i);

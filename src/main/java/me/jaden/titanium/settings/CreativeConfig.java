@@ -22,9 +22,9 @@ public class CreativeConfig {
                 .put("creative.potions.max-potion-effect-duration-ticks", 9600)
                 .put("creative.potions.max-potion-effect-amplifier", 10)
                 .put("creative.potions.allow-negative-effect-amplifier", false)
-                .put("max-nbt-recursions", 10)
-                .put("max-items-in-containers", 54)
-                .put("max-level", 5)
+                .put("creative.max-nbt-recursions", 10)
+                .put("creative.max-items-in-containers", 54)
+                .put("creative.enchantments.max-level", 5)
                 .build());
         this.enabled = configuration.getBoolean("creative.enabled", false);
         this.maxPotionEffects = configuration.getInt("creative.potions.max-potion-effects");
@@ -33,6 +33,6 @@ public class CreativeConfig {
         this.maxPotionEffectAmplifier = configuration.getInt("creative.potions.max-potion-effect-amplifier");
         this.maxRecursions = configuration.getInt("creative.max-nbt-recursions");
         this.maxItems = configuration.getInt("creative.max-items-in-containers");
-        this.maxLevel = configuration.getInt("creative.max-level");
+        this.maxLevel = configuration.getInt("creative.enchantments.max-level");
     }
 }

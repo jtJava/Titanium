@@ -4,7 +4,6 @@ import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTNumber;
-import com.github.retrooper.packetevents.protocol.nbt.NBTString;
 import me.jaden.titanium.check.CreativeCheck;
 
 public class CreativeG implements CreativeCheck {
