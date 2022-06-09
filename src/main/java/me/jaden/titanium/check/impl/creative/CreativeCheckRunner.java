@@ -1,4 +1,4 @@
-package me.jaden.titanium.check;
+package me.jaden.titanium.check.impl.creative;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
@@ -6,28 +6,27 @@ import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
-import java.util.Collection;
-
-public class CreativeCheckRunner implements PacketCheck {
-
+public class CreativeCheckRunner extends BaseCheck {
     /*
     This class is for running and handling all creative checks
      */
-    private final Collection<CreativeCheck> checks;
+    private final Set<CreativeCheck> checks;
 
     private final int maxRecursions = TitaniumConfig.getInstance().getCreativeConfig().getMaxRecursions();
     private final int maxItems = TitaniumConfig.getInstance().getCreativeConfig().getMaxItems();
 
     public CreativeCheckRunner(Collection<CreativeCheck> checks) {
-        this.checks = checks;
+        this.checks = new HashSet<>(checks);
     }
 
-
-    //Maybe only trigger checks on certain items to save performance
-
+    //TODO: Maybe only trigger checks on certain items to save performance
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
         if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
@@ -52,7 +51,7 @@ public class CreativeCheckRunner implements PacketCheck {
                 for (CreativeCheck check : checks) {
                     //Maybe add a check result class, so that we can have more detailed verbose output...
                     if (check.handleCheck(wrapper.getItemStack(), compound)) {
-                        flag(event, "failed normal creative nbt check (item: " + wrapper.getItemStack().getType().getName() + ")");
+                        flagPacket(event, "Item: " + wrapper.getItemStack().getType().getName());
                     }
                 }
             }
@@ -62,7 +61,7 @@ public class CreativeCheckRunner implements PacketCheck {
     private void recursion(PacketReceiveEvent event, PlayerData data, ItemStack clickedItem, NBTCompound blockEntityTag) {
         //prevent recursion abuse with deeply nested items
         if (data.incrementRecursionCount() > maxRecursions) {
-            flag(event, "too many recursions");
+            flagPacket(event, "Too many recursions: " + data.getRecursionCount());
             return;
         }
         if (blockEntityTag.getTags().containsKey("Items")) {
@@ -75,7 +74,7 @@ public class CreativeCheckRunner implements PacketCheck {
             //it might be possible to send an item container via creative packets with a large amount of items in nbt
             //however I haven't actually found an exploit doing this
             if (items.size() > maxItems) {
-                flag(event, "too many items (items: " + items.size() + ")");
+                flagPacket(event, "Too many items: " + items.size());
                 return;
             }
             //Loop through all items
@@ -88,7 +87,7 @@ public class CreativeCheckRunner implements PacketCheck {
                     //call creative checks to check for illegal tags
                     for (CreativeCheck check : checks) {
                         if (check.handleCheck(clickedItem, tag)) {
-                            flag(event, "item tag data (recursions: " + data.getRecursionCount() + " item: " + clickedItem.getType().getName() + ")");
+                            flagPacket(event, "Recursions: " + data.getRecursionCount() + " Item: " + clickedItem.getType().getName());
                             return;
                         }
                     }
@@ -103,7 +102,7 @@ public class CreativeCheckRunner implements PacketCheck {
                     //not a fan of this approach, it runs a few unnecessary checks
                     for (CreativeCheck check : checks) {
                         if (check.handleCheck(clickedItem, item)) {
-                            flag(event, "item base data (recursions: " + data.getRecursionCount() + " item: " + clickedItem.getType().getName() + ")");
+                            flagPacket(event, "Recursions: " + data.getRecursionCount() + " Item: " + clickedItem.getType().getName());
                             return;
                         }
                     }

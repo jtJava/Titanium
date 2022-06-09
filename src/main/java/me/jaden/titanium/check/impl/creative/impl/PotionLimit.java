@@ -1,14 +1,13 @@
-package me.jaden.titanium.check.impl.creative;
+package me.jaden.titanium.check.impl.creative.impl;
 
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
-import com.github.retrooper.packetevents.protocol.nbt.NBTInt;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.nbt.NBTNumber;
-import me.jaden.titanium.check.CreativeCheck;
+import me.jaden.titanium.check.impl.creative.CreativeCheck;
 import me.jaden.titanium.settings.TitaniumConfig;
 
-public class CreativeF implements CreativeCheck {
+public class PotionLimit implements CreativeCheck {
     //This prevents hacked potions that can do all sorts of annoying things (KillerPotions, NoRespawnPotions, TrollPotions)
     private final int maxPotionEffects = TitaniumConfig.getInstance().getCreativeConfig().getMaxPotionEffects();
     private final boolean allowNegativeAmplifiers = TitaniumConfig.getInstance().getCreativeConfig().isAllowNegativeAmplifiers();

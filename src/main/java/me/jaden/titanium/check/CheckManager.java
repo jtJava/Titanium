@@ -5,10 +5,8 @@ import com.github.retrooper.packetevents.event.SimplePacketListenerAbstract;
 import com.github.retrooper.packetevents.event.simple.PacketPlayReceiveEvent;
 import com.github.retrooper.packetevents.event.simple.PacketPlaySendEvent;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import me.jaden.titanium.Titanium;
 import me.jaden.titanium.check.impl.book.BookA;
 import me.jaden.titanium.check.impl.book.BookB;
@@ -17,7 +15,14 @@ import me.jaden.titanium.check.impl.crasher.CrasherA;
 import me.jaden.titanium.check.impl.crasher.CrasherC;
 import me.jaden.titanium.check.impl.crasher.CrasherD;
 import me.jaden.titanium.check.impl.crasher.CrasherE;
-import me.jaden.titanium.check.impl.creative.*;
+import me.jaden.titanium.check.impl.creative.CreativeCheck;
+import me.jaden.titanium.check.impl.creative.CreativeCheckRunner;
+import me.jaden.titanium.check.impl.creative.impl.CreativeAnvil;
+import me.jaden.titanium.check.impl.creative.impl.CreativeClientBookCrash;
+import me.jaden.titanium.check.impl.creative.impl.CreativeMap;
+import me.jaden.titanium.check.impl.creative.impl.CreativeSkull;
+import me.jaden.titanium.check.impl.creative.impl.EnchantLimit;
+import me.jaden.titanium.check.impl.creative.impl.PotionLimit;
 import me.jaden.titanium.check.impl.firework.FireworkA;
 import me.jaden.titanium.check.impl.invalid.InvalidA;
 import me.jaden.titanium.check.impl.invalid.InvalidB;
@@ -32,12 +37,9 @@ import me.jaden.titanium.check.impl.spam.SpamD;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class CheckManager {
-    private final Map<Class<? extends PacketCheck>, PacketCheck> packetChecks = new HashMap<>();
+    private final Map<Class<? extends BaseCheck>, Check> packetChecks = new HashMap<>();
     private final Map<Class<? extends BukkitCheck>, BukkitCheck> bukkitChecks = new HashMap<>();
     private final Map<Class<? extends CreativeCheck>, CreativeCheck> creativeChecks = new HashMap<>();
 
@@ -49,18 +51,18 @@ public class CheckManager {
         //Add creative checks first, so that the creative check runner can load them
         if (TitaniumConfig.getInstance().getCreativeConfig().isEnabled()) {
             this.addCreativeChecks(
-                    new CreativeA(),
-                    new CreativeC(),
-                    new CreativeE(),
-                    new CreativeF(),
-                    new CreativeG()
+                    new CreativeSkull(),
+                    new CreativeMap(),
+                    new CreativeClientBookCrash(),
+                    new PotionLimit(),
+                    new CreativeAnvil()
             );
-            if (TitaniumConfig.getInstance().getCreativeConfig().getMaxLevel() != -1) {
-                this.addCreativeChecks(new CreativeD());
+            if (TitaniumConfig.getInstance().getCreativeConfig().getMaxEnchantmentLevel() != -1) {
+                this.addCreativeChecks(new EnchantLimit());
             }
         }
 
-        this.addPacketChecks(
+        this.addChecks(
                 // Spam (This should always be at the top for performance reasons)
                 new SpamA(),
                 new SpamB(),
@@ -83,37 +85,36 @@ public class CheckManager {
                 // Firework
                 new FireworkA(),
 
-                // Creative
-                new CreativeCheckRunner(creativeChecks.values()),
-
                 // Sign
                 new SignA()
         );
 
         if (TitaniumConfig.getInstance().isNoBooks()) {
-            this.addPacketChecks(new BookB());
+            this.addChecks(new BookB());
         } else {
-            this.addPacketChecks(new BookA());
+            this.addChecks(new BookA());
         }
 
         if (TitaniumConfig.getInstance().getMaxBytes() != -1) {
-            this.addPacketChecks(new CrasherD());
+            this.addChecks(new CrasherD());
         }
 
         if (TitaniumConfig.getInstance().getMaxBytesPerSecond() != -1) {
-            this.addPacketChecks(new CrasherE());
+            this.addChecks(new CrasherE());
         }
 
         if (serverVersion.isNewerThan(ServerVersion.V_1_10)) {
             this.addBukkitChecks(new CrasherA());
         }
+
+        this.addChecks(new CreativeCheckRunner(creativeChecks.values()));
     }
 
     private void initializeListeners() {
         PacketEvents.getAPI().getEventManager().registerListener(new SimplePacketListenerAbstract() {
             @Override
             public void onPacketPlayReceive(PacketPlayReceiveEvent event) {
-                for (PacketCheck check : packetChecks.values()) {
+                for (Check check : packetChecks.values()) {
                     if (event.isCancelled()) {
                         return;
                     }
@@ -128,7 +129,7 @@ public class CheckManager {
 
             @Override
             public void onPacketPlaySend(PacketPlaySendEvent event) {
-                for (PacketCheck check : packetChecks.values()) {
+                for (Check check : packetChecks.values()) {
                     if (event.isCancelled()) {
                         return;
                     }
@@ -142,19 +143,16 @@ public class CheckManager {
             }
         });
         Titanium plugin = Titanium.getPlugin();
-        plugin.getServer().getPluginManager().registerEvents(new Listener() {
-            @EventHandler(ignoreCancelled = true)
-            void onInventoryClickEvent(InventoryClickEvent event) {
-                for (BukkitCheck check : bukkitChecks.values()) {
-                    check.onInventoryClick(event);
-                }
-            }
-        }, plugin);
+        this.bukkitChecks.forEach((loopClass, bukkitCheck) -> plugin.getServer().getPluginManager().registerEvents(bukkitCheck, plugin));
     }
 
-    private void addPacketChecks(PacketCheck... checks) {
-        for (PacketCheck check : checks) {
+    private void addChecks(BaseCheck... checks) {
+        for (BaseCheck check : checks) {
             this.packetChecks.put(check.getClass(), check);
+
+            if (check instanceof CreativeCheck) {
+                this.addCreativeChecks((CreativeCheck) check);
+            }
         }
     }
 
@@ -169,5 +167,4 @@ public class CheckManager {
             this.creativeChecks.put(check.getClass(), check);
         }
     }
-
 }

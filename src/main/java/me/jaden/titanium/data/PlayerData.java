@@ -10,7 +10,7 @@ import me.jaden.titanium.settings.TitaniumConfig;
 @Getter
 public class PlayerData {
     private final Set<String> channels = new HashSet<>();
-
+    private boolean receivingAlerts = false;
     private int lastBookEditTick;
     private int lastDropItemTick;
     private int lastCraftRequestTick;
@@ -22,12 +22,14 @@ public class PlayerData {
 
     private int bytesSent;
 
-    public int incrementRecursionCount(){
+    public int incrementRecursionCount() {
         return recursionCount++;
     }
-    public void resetRecursion(){
+
+    public void resetRecursion() {
         recursionCount = 0;
     }
+
     public int incrementBytesSent(int amount) {
         return bytesSent += amount;
     }

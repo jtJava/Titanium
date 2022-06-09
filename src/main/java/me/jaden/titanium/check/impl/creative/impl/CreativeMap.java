@@ -1,15 +1,15 @@
-package me.jaden.titanium.check.impl.creative;
+package me.jaden.titanium.check.impl.creative.impl;
 
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.nbt.NBTByte;
 import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.nbt.NBTType;
-import me.jaden.titanium.check.CreativeCheck;
+import me.jaden.titanium.check.impl.creative.CreativeCheck;
 
-public class CreativeC implements CreativeCheck {
+//Fixes CrashMap exploit
+public class CreativeMap implements CreativeCheck {
 
-    //Fixes CrashMap exploit
     @Override
     public boolean handleCheck(ItemStack clickedStack, NBTCompound compound) {
         if (compound.getTags().containsKey("Decorations")) {
@@ -26,5 +26,4 @@ public class CreativeC implements CreativeCheck {
         }
         return false;
     }
-
 }

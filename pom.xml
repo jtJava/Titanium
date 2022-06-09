@@ -6,7 +6,7 @@
 
     <groupId>me.jaden.titanium</groupId>
     <artifactId>titanium</artifactId>
-    <version>1.1.4-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Titanium</name>
@@ -108,7 +108,7 @@
         <dependency>
             <groupId>com.github.retrooper.packetevents</groupId>
             <artifactId>spigot</artifactId>
-            <version>2.0-f3850dab24-1</version>
+            <version>2.0-055f473964-1</version>
             <scope>compile</scope>
         </dependency>
 

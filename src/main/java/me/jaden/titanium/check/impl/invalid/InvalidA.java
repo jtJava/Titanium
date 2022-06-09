@@ -7,13 +7,13 @@ import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientVehicleMove;
 import com.google.common.primitives.Floats;
-import me.jaden.titanium.check.PacketCheck;
+import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 
 // PaperMC
 // net/minecraft/server/network/ServerGamePacketListenerImpl.java:515
 // net/minecraft/server/network/ServerGamePacketListenerImpl.java:1283
-public class InvalidA implements PacketCheck {
+public class InvalidA extends BaseCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData data) {
         if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) {
@@ -23,14 +23,14 @@ public class InvalidA implements PacketCheck {
 
             Location location = wrapper.getLocation();
             if (this.containsInvalidValues(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch())) {
-                flag(event);
+                flagPacket(event);
             }
         } else if (event.getPacketType() == PacketType.Play.Client.VEHICLE_MOVE) {
             WrapperPlayClientVehicleMove wrapper = new WrapperPlayClientVehicleMove(event);
 
             Vector3d position = wrapper.getPosition();
             if (this.containsInvalidValues(position.getX(), position.getY(), position.getZ(), wrapper.getYaw(), wrapper.getPitch())) {
-                flag(event);
+                flagPacket(event);
             }
         }
     }

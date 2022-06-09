@@ -13,7 +13,7 @@ public class CreativeConfig {
     private final int maxPotionEffects;
     private final int maxRecursions;
     private final int maxItems;
-    private final int maxLevel;
+    private final int maxEnchantmentLevel;
 
     public CreativeConfig(FileConfiguration configuration) {
         configuration.addDefaults(ImmutableMap.<String, Object>builder()
@@ -27,12 +27,12 @@ public class CreativeConfig {
                 .put("creative.enchantments.max-level", 5)
                 .build());
         this.enabled = configuration.getBoolean("creative.enabled", false);
-        this.maxPotionEffects = configuration.getInt("creative.potions.max-potion-effects");
-        this.allowNegativeAmplifiers = configuration.getBoolean("creative.potions.allow-negative-effect-amplifier");
-        this.maxPotionEffectDuration = configuration.getInt("creative.potions.max-potion-effect-duration-ticks");
-        this.maxPotionEffectAmplifier = configuration.getInt("creative.potions.max-potion-effect-amplifier");
-        this.maxRecursions = configuration.getInt("creative.max-nbt-recursions");
-        this.maxItems = configuration.getInt("creative.max-items-in-containers");
-        this.maxLevel = configuration.getInt("creative.enchantments.max-level");
+        this.maxPotionEffects = configuration.getInt("creative.potions.max-potion-effects", 5);
+        this.allowNegativeAmplifiers = configuration.getBoolean("creative.potions.allow-negative-effect-amplifier", false);
+        this.maxPotionEffectDuration = configuration.getInt("creative.potions.max-potion-effect-duration-ticks", 9600);
+        this.maxPotionEffectAmplifier = configuration.getInt("creative.potions.max-potion-effect-amplifier", 10);
+        this.maxRecursions = configuration.getInt("creative.max-nbt-recursions", 10);
+        this.maxItems = configuration.getInt("creative.max-items-in-containers", 54);
+        this.maxEnchantmentLevel = configuration.getInt("creative.enchantments.max-level", 5);
     }
 }

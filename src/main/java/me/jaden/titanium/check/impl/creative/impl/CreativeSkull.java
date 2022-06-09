@@ -1,20 +1,18 @@
-package me.jaden.titanium.check.impl.creative;
+package me.jaden.titanium.check.impl.creative.impl;
 
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import me.jaden.titanium.check.CreativeCheck;
-
 import java.util.Base64;
 import java.util.UUID;
+import me.jaden.titanium.check.impl.creative.CreativeCheck;
 
-public class CreativeA implements CreativeCheck {
+//Fixes crash head / glitch head
+public class CreativeSkull implements CreativeCheck {
 
-
-    //Fixes crash head / glitch head
-
+    @Override
     public boolean handleCheck(ItemStack clickedStack, NBTCompound nbtCompound) {
         if (nbtCompound == null) {
             return false;
@@ -78,12 +76,11 @@ public class CreativeA implements CreativeCheck {
                 if (url.trim().length() == 0) {
                     return true;
                 }
-                if(!(url.startsWith("http://textures.minecraft.net/texture/") || url.startsWith("https://textures.minecraft.net/texture/"))){
+                if (!(url.startsWith("http://textures.minecraft.net/texture/") || url.startsWith("https://textures.minecraft.net/texture/"))) {
                     return true;
                 }
             }
         }
         return false;
     }
-
 }

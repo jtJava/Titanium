@@ -1,12 +1,12 @@
-package me.jaden.titanium.check.impl.creative;
+package me.jaden.titanium.check.impl.creative.impl;
 
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTNumber;
-import me.jaden.titanium.check.CreativeCheck;
+import me.jaden.titanium.check.impl.creative.CreativeCheck;
 
-public class CreativeG implements CreativeCheck {
+public class CreativeAnvil implements CreativeCheck {
 
     //This prevents the creation of buggy anvils that crash the client when placed
     //https://bugs.mojang.com/browse/MC-82677
@@ -34,5 +34,4 @@ public class CreativeG implements CreativeCheck {
         }
         return false;
     }
-
 }

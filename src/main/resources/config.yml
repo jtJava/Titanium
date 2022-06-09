@@ -1,7 +1,7 @@
 fireworks:
   max-explosions: 25
 signs:
-  max-characters-per-line: 16
+  max-characters-per-line: 20
 books:
   max-book-page-size: 2560
   max-book-total-size-multiplier: 0.98
@@ -96,5 +96,5 @@ permissions:
 
 messages:
   disconnect-message: "&7(&eTitanium&7) &fYou have been disconnected due \n&fto sending harmful packets."
-  staff-notification: "&7(&eTitanium&7) &f%player% &7disconnected for flagging &f%checkname%"
+  staff-notification: "&7(&eTitanium&7) &f%player% &7disconnected for flagging &f%checkname% "
   staff-notification-info: "&7(&e%info%&7)" ## This will be added to the end of the above message if there is info present.

@@ -6,15 +6,15 @@ import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerBlockPlacement;
-import me.jaden.titanium.check.PacketCheck;
+import me.jaden.titanium.check.BaseCheck;
+import me.jaden.titanium.check.impl.creative.CreativeCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
 // PaperMC
 // net.minecraft.server.network.ServerGamePacketListenerImpl#handleEditBook
-public class FireworkA implements PacketCheck {
+public class FireworkA extends BaseCheck implements CreativeCheck {
     private final int maxExplosions = TitaniumConfig.getInstance().getMaxExplosions(); // default paper value
 
     @Override
@@ -23,20 +23,19 @@ public class FireworkA implements PacketCheck {
             WrapperPlayClientPlayerBlockPlacement wrapper = new WrapperPlayClientPlayerBlockPlacement(event);
 
             if (wrapper.getItemStack().isPresent()) {
-                if (this.invalid(wrapper.getItemStack().get())) flag(event);
-            }
-        } else if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
-            WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
-
-            if (wrapper.getItemStack() != null) {
-                if (this.invalid(wrapper.getItemStack())) flag(event);
+                if (this.invalid(wrapper.getItemStack().get())) flagPacket(event);
             }
         } else if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
             WrapperPlayClientClickWindow wrapper = new WrapperPlayClientClickWindow(event);
             if (wrapper.getCarriedItemStack() != null) {
-                if (this.invalid(wrapper.getCarriedItemStack())) flag(event);
+                if (this.invalid(wrapper.getCarriedItemStack())) flagPacket(event);
             }
         }
+    }
+
+    @Override
+    public boolean handleCheck(ItemStack clickedStack, NBTCompound nbtCompound) {
+        return invalid(clickedStack);
     }
 
     private boolean invalid(ItemStack itemStack) {

@@ -4,12 +4,12 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
 import com.google.common.base.Charsets;
-import me.jaden.titanium.check.PacketCheck;
+import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 
 // Paper 1.8.8
 // org/bukkit/craftbukkit/entity/CraftPlayer.java:1209
-public class InvalidE implements PacketCheck {
+public class InvalidE extends BaseCheck {
 
     //Fixes console spammer with register/unregister payloads
 
@@ -23,7 +23,7 @@ public class InvalidE implements PacketCheck {
 
             if (wrapper.getChannelName().equals("REGISTER")) {
                 if (playerData.getChannels().size() + channels.length > 124 || channels.length > 124) {
-                    flag(event);
+                    flagPacket(event);
                 } else {
                     for (String channel : channels) {
                         playerData.getChannels().add(channel);

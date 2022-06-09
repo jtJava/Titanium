@@ -2,11 +2,11 @@ package me.jaden.titanium.check.impl.crasher;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.netty.buffer.ByteBufHelper;
-import me.jaden.titanium.check.PacketCheck;
+import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
-public class CrasherD implements PacketCheck {
+public class CrasherD extends BaseCheck {
 
     //Value from ExploitFixer config
     //https://github.com/2lstudios-mc/ExploitFixer/blob/master/resources/config.yml
@@ -18,7 +18,7 @@ public class CrasherD implements PacketCheck {
         //Sequential Access Indexing
         int capacity = ByteBufHelper.capacity(event.getByteBuf());
         if (capacity > maxBytes) {
-            flag(event, "Bytes: " + capacity + " Max Bytes: " + maxBytes);
+            flagPacket(event, "Bytes: " + capacity + " Max Bytes: " + maxBytes);
         }
     }
 }

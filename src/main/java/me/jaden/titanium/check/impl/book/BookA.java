@@ -4,24 +4,25 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.netty.buffer.ByteBufHelper;
 import com.github.retrooper.packetevents.netty.buffer.UnpooledByteBufAllocationHelper;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
+import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.nbt.NBTString;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEditBook;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerBlockPlacement;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
 import java.util.ArrayList;
 import java.util.List;
-import me.jaden.titanium.check.PacketCheck;
+import me.jaden.titanium.check.BaseCheck;
+import me.jaden.titanium.check.impl.creative.CreativeCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
 // PaperMC
 // net.minecraft.server.network.ServerGamePacketListenerImpl#handleEditBook
-public class BookA implements PacketCheck {
+public class BookA extends BaseCheck implements CreativeCheck {
     private final int maxBookPageSize = TitaniumConfig.getInstance().getMaxBookPageSize(); // default paper value
     private final double maxBookTotalSizeMultiplier = TitaniumConfig.getInstance().getMaxBookTotalSizeMultiplier(); // default paper value
 
@@ -44,8 +45,9 @@ public class BookA implements PacketCheck {
                     PacketWrapper<?> universalWrapper = PacketWrapper.createUniversalPacketWrapper(buffer);
                     com.github.retrooper.packetevents.protocol.item.ItemStack wrappedItemStack = universalWrapper.readItemStack();
 
+                    if (invalidTitleOrAuthor(wrappedItemStack)) flagPacket(event);
+
                     pageList.addAll(this.getPages(wrappedItemStack));
-                    if (invalidTitleOrAuthor(wrappedItemStack)) flag(event);
                 } finally {
                     ByteBufHelper.release(buffer);
                 }
@@ -55,26 +57,31 @@ public class BookA implements PacketCheck {
             WrapperPlayClientPlayerBlockPlacement wrapper = new WrapperPlayClientPlayerBlockPlacement(event);
 
             if (wrapper.getItemStack().isPresent()) {
+                if (invalidTitleOrAuthor(wrapper.getItemStack().get())) flagPacket(event);
                 pageList.addAll(this.getPages(wrapper.getItemStack().get()));
-                if (invalidTitleOrAuthor(wrapper.getItemStack().get())) flag(event);
-            }
-        } else if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
-            WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
-
-            if (wrapper.getItemStack() != null) {
-                pageList.addAll(this.getPages(wrapper.getItemStack()));
-                if (invalidTitleOrAuthor(wrapper.getItemStack())) flag(event);
             }
         } else if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
             WrapperPlayClientClickWindow wrapper = new WrapperPlayClientClickWindow(event);
             if (wrapper.getCarriedItemStack() != null) {
+                if (invalidTitleOrAuthor(wrapper.getCarriedItemStack())) flagPacket(event);
                 pageList.addAll(this.getPages(wrapper.getCarriedItemStack()));
-                if (invalidTitleOrAuthor(wrapper.getCarriedItemStack())) flag(event);
             }
         } else {
             return;
         }
 
+        if (invalid(pageList)) {
+            flagPacket(event);
+        }
+    }
+
+
+    @Override
+    public boolean handleCheck(ItemStack clickedStack, NBTCompound nbtCompound) {
+        return invalid(this.getPages(clickedStack)) || invalidTitleOrAuthor(clickedStack);
+    }
+
+    private boolean invalid(List<String> pageList) {
         long byteTotal = 0;
         double multiplier = Math.min(1D, this.maxBookTotalSizeMultiplier);
         long byteAllowed = this.maxBookPageSize;
@@ -83,8 +90,7 @@ public class BookA implements PacketCheck {
             int byteLength = testString.getBytes(java.nio.charset.StandardCharsets.UTF_8).length;
             if (byteLength > 256 * 4) {
                 // page too large
-                flag(event);
-                return;
+                return true;
             }
             byteTotal += byteLength;
             int length = testString.length();
@@ -104,10 +110,8 @@ public class BookA implements PacketCheck {
             }
         }
 
-        if (byteTotal > byteAllowed) {
-            // book too large
-            flag(event);
-        }
+        // book too large if true
+        return byteTotal > byteAllowed;
     }
 
     private boolean invalidTitleOrAuthor(ItemStack itemStack) {

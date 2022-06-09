@@ -5,12 +5,12 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientChatMessage;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientTabComplete;
 import java.util.List;
-import me.jaden.titanium.check.PacketCheck;
+import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 import org.bukkit.entity.Player;
 
-public class CommandA implements PacketCheck {
+public class CommandA extends BaseCheck {
     private final List<String> disallowedCommands = TitaniumConfig.getInstance().getDisallowedCommands();
 
     @Override

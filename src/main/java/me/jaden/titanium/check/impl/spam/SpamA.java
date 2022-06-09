@@ -8,15 +8,15 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCl
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerBlockPlacement;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
-import me.jaden.titanium.check.PacketCheck;
+import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.util.Ticker;
 
-public class SpamA implements PacketCheck {
+public class SpamA extends BaseCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData data) {
         if (event.getPacketType() == PacketType.Play.Client.EDIT_BOOK) {
-            if (invalid(data)) flag(event);
+            if (invalid(data)) flagPacket(event);
         } else if (event.getPacketType() == PacketType.Play.Client.PLUGIN_MESSAGE) {
             WrapperPlayClientPluginMessage wrapper = new WrapperPlayClientPluginMessage(event);
             // Make sure it's a book payload
@@ -24,7 +24,7 @@ public class SpamA implements PacketCheck {
                 return;
             }
 
-            if (invalid(data)) flag(event);
+            if (invalid(data)) flagPacket(event);
         } else if (event.getPacketType() == PacketType.Play.Client.PLAYER_BLOCK_PLACEMENT) {
             WrapperPlayClientPlayerBlockPlacement wrapper = new WrapperPlayClientPlayerBlockPlacement(event);
             if (wrapper.getItemStack().isPresent()) {
