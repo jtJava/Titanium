@@ -2,6 +2,7 @@ package me.jaden.titanium.settings;
 
 import com.google.common.collect.ImmutableMap;
 import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -10,6 +11,7 @@ public class MessagesConfig {
     private final String staffNotificationInfo;
     private final String disconnectMessage;
 
+    @Getter
     private final LegacyComponentSerializer componentSerializer = LegacyComponentSerializer.builder()
             .character(LegacyComponentSerializer.AMPERSAND_CHAR)
             .hexCharacter(LegacyComponentSerializer.HEX_CHAR).build();

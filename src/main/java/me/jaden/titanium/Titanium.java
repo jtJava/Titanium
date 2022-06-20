@@ -57,5 +57,7 @@ public final class Titanium extends JavaPlugin {
     @Override
     public void onDisable() {
         PacketEvents.getAPI().terminate();
+
+        this.ticker.getTask().cancel();
     }
 }

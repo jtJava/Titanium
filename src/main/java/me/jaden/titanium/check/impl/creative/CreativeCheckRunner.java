@@ -6,29 +6,36 @@ import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
+import org.bukkit.GameMode;
 
 public class CreativeCheckRunner extends BaseCheck {
     /*
     This class is for running and handling all creative checks
      */
-    private final Set<CreativeCheck> checks;
+    private final List<CreativeCheck> checks;
 
     private final int maxRecursions = TitaniumConfig.getInstance().getCreativeConfig().getMaxRecursions();
     private final int maxItems = TitaniumConfig.getInstance().getCreativeConfig().getMaxItems();
 
     public CreativeCheckRunner(Collection<CreativeCheck> checks) {
-        this.checks = new HashSet<>(checks);
+        this.checks = new ArrayList<>(checks);
     }
 
     //TODO: Maybe only trigger checks on certain items to save performance
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
+
+        if (this.getPlayer(event).isPresent() && this.getPlayer(event).get().getGameMode() != GameMode.CREATIVE) {
+            event.setCancelled(true);
+            return;
+        }
+
         if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
             WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
             //No need to call creative checks if the item is null

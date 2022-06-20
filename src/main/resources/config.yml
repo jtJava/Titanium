@@ -53,8 +53,9 @@ limits:
   ## You might want this lower or higher depending on your server and server version.
   ## Every server is different, you'll have to find a good value yourself.
   ## Set to -1 to disable
+  ## This value is doubled internally for 1.7 players due to them not having packet compression as far as I'm aware, I could be wrong.
   max-bytes: 64000
-  max-bytes-per-second: 64000
+  max-bytes-per-second: 256000
 spam:
   ## Packet names can be found @ https://wiki.vg/Protocol in the Serverbound section.
   ## Valid format: HELD_ITEM_CHANGE or HELD ITEM CHANGE (Capitalization does not matter.)

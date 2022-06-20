@@ -6,6 +6,8 @@ import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDi
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.settings.MessagesConfig;
 import me.jaden.titanium.settings.TitaniumConfig;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 
 public abstract class BaseCheck implements Check {
     private final TitaniumConfig titaniumConfig = TitaniumConfig.getInstance();
@@ -26,10 +28,12 @@ public abstract class BaseCheck implements Check {
     }
 
     protected void alert(User user, String info) {
+        Component component = messagesConfig.getNotification(user.getName(), this.getClass().getSimpleName(), info);
         DataManager.getInstance().getPlayerData().forEach((loopUser, playerData) -> {
             if (playerData.isReceivingAlerts()) {
-                loopUser.sendMessage(messagesConfig.getNotification(user.getName(), this.getClass().getSimpleName(), info));
+                loopUser.sendMessage(component);
             }
         });
+        Bukkit.getLogger().info(messagesConfig.getComponentSerializer().serialize(component));
     }
 }

@@ -6,6 +6,7 @@ import com.github.retrooper.packetevents.event.simple.PacketPlayReceiveEvent;
 import com.github.retrooper.packetevents.event.simple.PacketPlaySendEvent;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import me.jaden.titanium.Titanium;
 import me.jaden.titanium.check.impl.book.BookA;
@@ -41,7 +42,7 @@ import me.jaden.titanium.settings.TitaniumConfig;
 public class CheckManager {
     private final Map<Class<? extends BaseCheck>, Check> packetChecks = new HashMap<>();
     private final Map<Class<? extends BukkitCheck>, BukkitCheck> bukkitChecks = new HashMap<>();
-    private final Map<Class<? extends CreativeCheck>, CreativeCheck> creativeChecks = new HashMap<>();
+    private final Map<Class<? extends CreativeCheck>, CreativeCheck> creativeChecks = new LinkedHashMap<>();
 
     public CheckManager() {
         this.initializeListeners();

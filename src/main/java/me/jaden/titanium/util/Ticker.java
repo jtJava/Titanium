@@ -5,12 +5,16 @@ import me.jaden.titanium.Titanium;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
+import org.bukkit.scheduler.BukkitTask;
 
+@Getter
 public class Ticker {
     @Getter
     private static Ticker instance;
-    @Getter
+
     private int currentTick;
+
+    private final BukkitTask task;
 
     public Ticker() {
         instance = this;
@@ -18,7 +22,7 @@ public class Ticker {
         Titanium plugin = Titanium.getPlugin();
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> currentTick++, 1, 1);
 
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+        this.task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             double maxPacketsPerSecond = TitaniumConfig.getInstance().getMaxPacketsPerSecond();
             double maxPacketAllowance = maxPacketsPerSecond * 3;
 
@@ -27,6 +31,6 @@ public class Ticker {
                 value.setPacketCount(0);
                 value.setBytesSent(0);
             }
-        }, 20, 20);
+        }, 0, 20);
     }
 }
