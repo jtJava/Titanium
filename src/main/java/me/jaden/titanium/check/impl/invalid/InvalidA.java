@@ -6,7 +6,6 @@ import com.github.retrooper.packetevents.protocol.world.Location;
 import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientVehicleMove;
-import com.google.common.primitives.Floats;
 import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 
@@ -36,6 +35,6 @@ public class InvalidA extends BaseCheck {
     }
 
     private boolean containsInvalidValues(double x, double y, double z, float yaw, float pitch) {
-        return Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z) || !Floats.isFinite(pitch) || !Floats.isFinite(yaw);
+        return Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z) || !Float.isFinite(pitch) || !Float.isFinite(yaw);
     }
 }
