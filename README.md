@@ -86,7 +86,7 @@
 To get Titanium up and running on your server follow these simple steps.
 
 ### Prerequisites
-Titanium supports Spigot 1.8.8 - Latest (1.18.2). It requires the latest development builds of [ViaVersion](https://ci.viaversion.com/job/ViaVersion-DEV/) and [ProtocolLib 5.0](https://ci.dmulloy2.net/job/ProtocolLib/com.comphenix.protocol$ProtocolLib/) 
+Titanium supports Spigot 1.8.8 - Latest (1.19). It requires the latest development builds of [ViaVersion](https://ci.viaversion.com/job/ViaVersion-DEV/) and [ProtocolLib 5.0](https://ci.dmulloy2.net/job/ProtocolLib/com.comphenix.protocol$ProtocolLib/) 
 if you're using either of those plugins.
 
 ### Installation
