@@ -18,8 +18,8 @@ public abstract class BaseCheck implements Check {
         event.setCancelled(true);
 
         User user = event.getUser();
-        this.disconnect(user);
         this.alert(user, info);
+        this.disconnect(user);
     }
 
     protected void disconnect(User user) {

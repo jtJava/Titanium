@@ -16,7 +16,7 @@ public class BukkitJoinListener implements Listener {
     void onJoin(PlayerJoinEvent event) {
         DataManager dataManager = this.titanium.getDataManager();
 
-        if (event.getPlayer().hasPermission(this.titanium.getTitaniumConfig().getPermissionsConfig().getNotificationPermission())) {
+        if (event.getPlayer().hasPermission(this.titanium.getTitaniumConfig().getPermissionsConfig().getNotificationPermission()) || event.getPlayer().isOp()) {
             dataManager.getPlayerData().keySet().stream()
                     .filter(user -> user.getUUID().equals(event.getPlayer().getUniqueId())).findFirst()
                     .ifPresent(user -> dataManager.getPlayerData(user).setReceivingAlerts(true));
