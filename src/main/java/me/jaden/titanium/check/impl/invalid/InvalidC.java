@@ -15,9 +15,9 @@ public class InvalidC extends BaseCheck {
         if (event.getPacketType() == PacketType.Play.Client.PICK_ITEM) {
             WrapperPlayClientHeldItemChange wrapper = new WrapperPlayClientHeldItemChange(event);
 
-            if (!this.getPlayer(event).isPresent()) return;
+            Player player = this.getPlayer(event);
 
-            Player player = this.getPlayer(event).get();
+            if (player == null) return;
 
             if (!(wrapper.getSlot() >= 0 && wrapper.getSlot() < player.getInventory().getContents().length)) {
                 flagPacket(event);

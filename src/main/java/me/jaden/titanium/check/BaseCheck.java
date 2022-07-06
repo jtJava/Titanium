@@ -29,11 +29,11 @@ public abstract class BaseCheck implements Check {
 
     protected void alert(User user, String info) {
         Component component = messagesConfig.getNotification(user.getName(), this.getClass().getSimpleName(), info);
+        Bukkit.getLogger().info(messagesConfig.getComponentSerializer().serialize(component));
         DataManager.getInstance().getPlayerData().forEach((loopUser, playerData) -> {
             if (playerData.isReceivingAlerts()) {
                 loopUser.sendMessage(component);
             }
         });
-        Bukkit.getLogger().info(messagesConfig.getComponentSerializer().serialize(component));
     }
 }

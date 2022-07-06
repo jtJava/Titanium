@@ -24,7 +24,7 @@ public interface Check {
 
     }
 
-    default Optional<Player> getPlayer(ProtocolPacketEvent<Object> event) {
-        return Optional.ofNullable(Bukkit.getPlayer(event.getUser().getUUID()));
+    default Player getPlayer(ProtocolPacketEvent<Object> event) {
+        return Optional.ofNullable((Player) event.getPlayer()).orElse(Bukkit.getPlayer(event.getUser().getUUID()));
     }
 }

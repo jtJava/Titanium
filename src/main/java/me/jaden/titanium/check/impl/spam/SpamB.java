@@ -20,9 +20,9 @@ public class SpamB extends BaseCheck {
 
             if (wrapper.getAction() != DiggingAction.DROP_ITEM) return;
 
-            if (!this.getPlayer(event).isPresent()) return;
+            Player player = this.getPlayer(event);
 
-            Player player = this.getPlayer(event).get();
+            if (this.getPlayer(event) == null) return;
 
             int currentTick = Ticker.getInstance().getCurrentTick();
 

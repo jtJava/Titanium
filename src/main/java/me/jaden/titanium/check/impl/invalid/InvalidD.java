@@ -14,8 +14,6 @@ public class InvalidD extends BaseCheck {
         if (event.getPacketType() == PacketType.Play.Client.HELD_ITEM_CHANGE) {
             WrapperPlayClientHeldItemChange wrapper = new WrapperPlayClientHeldItemChange(event);
 
-            if (!this.getPlayer(event).isPresent()) return;
-
             if (wrapper.getSlot() < 0 || wrapper.getSlot() >= 9) {
                 flagPacket(event);
             }

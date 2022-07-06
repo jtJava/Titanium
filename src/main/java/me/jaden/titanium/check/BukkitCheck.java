@@ -10,8 +10,8 @@ public abstract class BukkitCheck extends BaseCheck implements Listener {
     public void flagBukkit(Player player, String info, Cancellable cancellable) {
         User user = PacketEvents.getAPI().getPlayerManager().getUser(player);
 
-        disconnect(user);
         alert(user, info);
+        disconnect(user);
 
         cancellable.setCancelled(true);
     }

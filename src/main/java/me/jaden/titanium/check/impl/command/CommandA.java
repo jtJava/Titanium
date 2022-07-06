@@ -15,8 +15,8 @@ public class CommandA extends BaseCheck {
 
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
-        if (this.getPlayer(event).isPresent()) {
-            Player player = this.getPlayer(event).get();
+        if (this.getPlayer(event) != null) {
+            Player player = this.getPlayer(event);
             if (player.hasPermission(TitaniumConfig.getInstance().getPermissionsConfig().getCommandBypassPermission()) || player.isOp()) {
                 return;
             }

@@ -13,6 +13,7 @@ import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 
 public class CreativeCheckRunner extends BaseCheck {
     /*
@@ -30,9 +31,8 @@ public class CreativeCheckRunner extends BaseCheck {
     //TODO: Maybe only trigger checks on certain items to save performance
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
-
-        if (this.getPlayer(event).isPresent() && this.getPlayer(event).get().getGameMode() != GameMode.CREATIVE) {
-            event.setCancelled(true);
+        Player player = this.getPlayer(event);
+        if (player != null && player.getGameMode() != GameMode.CREATIVE) {
             return;
         }
 
