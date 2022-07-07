@@ -11,10 +11,7 @@ import me.jaden.titanium.Titanium;
 import me.jaden.titanium.check.impl.book.BookA;
 import me.jaden.titanium.check.impl.book.BookB;
 import me.jaden.titanium.check.impl.command.CommandA;
-import me.jaden.titanium.check.impl.crasher.CrasherA;
-import me.jaden.titanium.check.impl.crasher.CrasherC;
-import me.jaden.titanium.check.impl.crasher.CrasherD;
-import me.jaden.titanium.check.impl.crasher.CrasherE;
+import me.jaden.titanium.check.impl.crasher.*;
 import me.jaden.titanium.check.impl.creative.CreativeCheck;
 import me.jaden.titanium.check.impl.creative.CreativeCheckRunner;
 import me.jaden.titanium.check.impl.creative.impl.CreativeAnvil;
@@ -44,8 +41,6 @@ public class CheckManager {
     private final Map<Class<? extends CreativeCheck>, CreativeCheck> creativeChecks = new HashMap<>();
 
     public CheckManager() {
-        this.initializeListeners();
-
         ServerVersion serverVersion = PacketEvents.getAPI().getServerManager().getVersion();
 
         //Add creative checks first, so that the creative check runner can load them
@@ -106,8 +101,9 @@ public class CheckManager {
         if (serverVersion.isNewerThan(ServerVersion.V_1_10)) {
             this.addBukkitChecks(new CrasherA());
         }
-
+        this.addBukkitChecks(new CrasherB());
         this.addChecks(new CreativeCheckRunner(creativeChecks.values()));
+        this.initializeListeners();
     }
 
     private void initializeListeners() {
