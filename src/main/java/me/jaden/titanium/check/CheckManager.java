@@ -103,8 +103,8 @@ public class CheckManager {
             this.addChecks(new CrasherE());
         }
 
-        if (serverVersion.isNewerThan(ServerVersion.V_1_10)) {
-            this.addBukkitChecks(new CrasherA());
+        if (serverVersion.isNewerThanOrEquals(ServerVersion.V_1_10)) {
+            this.addChecks(new CrasherA());
         }
 
         this.addChecks(new CreativeCheckRunner(creativeChecks.values()));
