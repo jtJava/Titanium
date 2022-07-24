@@ -18,7 +18,7 @@ public class CrasherE extends BaseCheck {
         //https://netty.io/4.1/api/io/netty/buffer/ByteBuf.html
         //Sequential Access Indexing
         int capacity = ByteBufHelper.capacity(event.getByteBuf());
-        int maxBytesPerSecond = this.maxBytesPerSecond * (playerData.getClientVersion().isOlderThan(ClientVersion.V_1_8) ? 2 : 1);
+        int maxBytesPerSecond = this.maxBytesPerSecond * (event.getUser().getClientVersion().isOlderThan(ClientVersion.V_1_8) ? 2 : 1);
 
         if (playerData.incrementBytesSent(capacity) > maxBytesPerSecond) {
             flagPacket(event, "Bytes Sent: " + playerData.getBytesSent() + " Max Bytes/s: " + maxBytesPerSecond);

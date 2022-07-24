@@ -1,6 +1,5 @@
 package me.jaden.titanium.data;
 
-import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
@@ -10,8 +9,6 @@ import me.jaden.titanium.settings.TitaniumConfig;
 @Setter
 @Getter
 public class PlayerData {
-    private ClientVersion clientVersion = ClientVersion.V_1_7_10;
-
     private final Set<String> channels = new HashSet<>();
     private boolean receivingAlerts = false;
     private int lastBookEditTick;

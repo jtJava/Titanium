@@ -18,7 +18,7 @@ public class CrasherD extends BaseCheck {
         //https://netty.io/4.1/api/io/netty/buffer/ByteBuf.html
         //Sequential Access Indexing
         int capacity = ByteBufHelper.capacity(event.getByteBuf());
-        int maxBytes = this.maxBytes * (playerData.getClientVersion().isOlderThan(ClientVersion.V_1_8) ? 2 : 1);
+        int maxBytes = this.maxBytes * (event.getUser().getClientVersion().isOlderThan(ClientVersion.V_1_8) ? 2 : 1);
 
         if (capacity > maxBytes) {
             flagPacket(event, "Bytes: " + capacity + " Max Bytes: " + maxBytes);
