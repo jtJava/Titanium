@@ -1,8 +1,11 @@
 package me.jaden.titanium.check;
 
 import com.github.retrooper.packetevents.event.ProtocolPacketEvent;
+import com.github.retrooper.packetevents.protocol.packettype.PacketTypeCommon;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDisconnect;
+import java.util.HashSet;
+import java.util.Set;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.settings.MessagesConfig;
 import me.jaden.titanium.settings.TitaniumConfig;
@@ -12,6 +15,12 @@ import org.bukkit.Bukkit;
 public abstract class BaseCheck implements Check {
     private final TitaniumConfig titaniumConfig = TitaniumConfig.getInstance();
     private final MessagesConfig messagesConfig = titaniumConfig.getMessagesConfig();
+
+    protected final Set<PacketTypeCommon> checkedPacketTypes = new HashSet<>();
+
+    public boolean preconditions(ProtocolPacketEvent<Object> event) {
+        return !this.checkedPacketTypes.contains(event.getPacketType());
+    }
 
     @Override
     public void flagPacket(ProtocolPacketEvent<Object> event, String info) {

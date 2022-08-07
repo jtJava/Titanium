@@ -39,7 +39,7 @@ import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
 public class CheckManager {
-    private final Map<Class<? extends BaseCheck>, Check> packetChecks = new HashMap<>();
+    private final Map<Class<? extends BaseCheck>, BaseCheck> packetChecks = new HashMap<>();
     private final Map<Class<? extends BukkitCheck>, BukkitCheck> bukkitChecks = new HashMap<>();
     private final Map<Class<? extends CreativeCheck>, CreativeCheck> creativeChecks = new HashMap<>();
 
@@ -112,10 +112,15 @@ public class CheckManager {
 
     private void initializeListeners() {
         PacketEvents.getAPI().getEventManager().registerListener(new SimplePacketListenerAbstract() {
+            //TODO: merge these into one method so there's no duplicate code.
             @Override
             public void onPacketPlayReceive(PacketPlayReceiveEvent event) {
-                for (Check check : packetChecks.values()) {
+                for (BaseCheck check : packetChecks.values()) {
                     if (event.isCancelled()) {
+                        return;
+                    }
+
+                    if (!check.preconditions(event)) {
                         return;
                     }
 
@@ -129,8 +134,12 @@ public class CheckManager {
 
             @Override
             public void onPacketPlaySend(PacketPlaySendEvent event) {
-                for (Check check : packetChecks.values()) {
+                for (BaseCheck check : packetChecks.values()) {
                     if (event.isCancelled()) {
+                        return;
+                    }
+
+                    if (!check.preconditions(event)) {
                         return;
                     }
 
