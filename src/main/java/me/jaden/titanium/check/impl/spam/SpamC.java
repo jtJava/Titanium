@@ -14,7 +14,7 @@ public class SpamC extends BaseCheck {
     public void handle(PacketReceiveEvent event, PlayerData data) {
         double multiplier = multiplierMap.getOrDefault(event.getPacketType(), 1.0D);
         if (data.incrementPacketCount(multiplier) > data.getPacketAllowance()) {
-            flagPacket(event);
+            flagPacket(event, "Packet Count: " + data.getPacketCount() + " Packet Allowance: " + data.getPacketAllowance());
         } else {
             data.decrementPacketAllowance();
         }

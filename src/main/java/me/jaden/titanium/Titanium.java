@@ -1,10 +1,13 @@
 package me.jaden.titanium;
 
+import co.aikar.commands.PaperCommandManager;
 import com.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import me.jaden.titanium.check.CheckManager;
+import me.jaden.titanium.command.TitaniumCommand;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.settings.TitaniumConfig;
 import me.jaden.titanium.util.Ticker;
@@ -18,12 +21,17 @@ public final class Titanium extends JavaPlugin {
     @Getter
     private static Titanium plugin;
 
+    private final LegacyComponentSerializer componentSerializer = LegacyComponentSerializer.builder()
+            .character(LegacyComponentSerializer.AMPERSAND_CHAR)
+            .hexCharacter(LegacyComponentSerializer.HEX_CHAR).build();
+
     private TitaniumConfig titaniumConfig;
 
     private Ticker ticker;
 
     private DataManager dataManager;
     private CheckManager checkManager;
+    private PaperCommandManager commandManager;
 
     @Override
     public void onLoad() {
@@ -42,6 +50,9 @@ public final class Titanium extends JavaPlugin {
 
         this.dataManager = new DataManager();
         this.checkManager = new CheckManager();
+
+        this.commandManager = new PaperCommandManager(this);
+        this.commandManager.registerCommand(new TitaniumCommand());
 
         if (!getServer().spigot().getConfig().getBoolean("settings.late-bind", true)) {
             Bukkit.getLogger().warning("[Titanium] Late bind is disabled, this can allow players" +

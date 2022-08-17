@@ -3,6 +3,7 @@ package me.jaden.titanium.settings;
 import com.google.common.collect.ImmutableMap;
 import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
 import lombok.Getter;
+import me.jaden.titanium.Titanium;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -12,9 +13,7 @@ public class MessagesConfig {
     private final String disconnectMessage;
 
     @Getter
-    private final LegacyComponentSerializer componentSerializer = LegacyComponentSerializer.builder()
-            .character(LegacyComponentSerializer.AMPERSAND_CHAR)
-            .hexCharacter(LegacyComponentSerializer.HEX_CHAR).build();
+    private final LegacyComponentSerializer componentSerializer;
 
     public MessagesConfig(FileConfiguration configuration) {
         configuration.addDefaults(ImmutableMap.<String, Object>builder()
@@ -26,6 +25,8 @@ public class MessagesConfig {
         this.staffNotification = configuration.getString("messages.staff-notification", "&7(&eTitanium&7) &8» &f%player% &7disconnected for flagging &f%checkname%");
         this.staffNotificationInfo = configuration.getString("messages.staff-notication-info", "&7(&e%info%&7)");
         this.disconnectMessage = configuration.getString("messages.disconnect-message", "&7(&eTitanium&7) &8» &fYou have been disconnected due \n&fto sending harmful packets.");
+
+        this.componentSerializer = Titanium.getPlugin().getComponentSerializer();
     }
 
     public Component getNotification(String playerName, String checkName, String info) {

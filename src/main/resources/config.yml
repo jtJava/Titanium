@@ -60,6 +60,11 @@ spam:
   ## Packet names can be found @ https://wiki.vg/Protocol in the Serverbound section.
   ## Valid format: HELD_ITEM_CHANGE or HELD ITEM CHANGE (Capitalization does not matter.)
   multipliers:
+    PLAYER_POSITION: 0.5
+    PLAYER_POSITION_AND_ROTATION: 0.5
+    PLAYER_ROTATION: 0.5
+    PLAYER_FLYING: 0.5
+
     HELD_ITEM_CHANGE: 1.0
     ANIMATION: 1.0
 

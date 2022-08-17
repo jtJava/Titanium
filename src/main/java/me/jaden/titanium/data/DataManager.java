@@ -7,6 +7,7 @@ import com.github.retrooper.packetevents.event.UserDisconnectEvent;
 import com.github.retrooper.packetevents.protocol.player.User;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import lombok.Getter;
 
 public class DataManager {
@@ -39,8 +40,12 @@ public class DataManager {
         return this.playerData.get(user);
     }
 
+    public PlayerData getPlayerData(UUID uuid) {
+        return this.playerData.keySet().stream().filter(user -> user.getUUID() == uuid).findFirst().map(this.playerData::get).orElse(null);
+    }
+
     public void addPlayerData(User user) {
-        this.playerData.put(user, new PlayerData());
+        this.playerData.put(user, new PlayerData(user));
     }
 
     public void removePlayerData(User user) {

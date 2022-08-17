@@ -50,19 +50,29 @@ public class TitaniumConfig {
         this.creativeConfig = new CreativeConfig(configuration);
 
         configuration.addDefaults(ImmutableMap.<String, Object>builder()
+
                 .put("limits.max-packets-per-second", 1000)
                 .put("limits.max-bytes", 64000)
+
                 .put("fireworks.max-explosions", 25)
+
                 .put("signs.max-characters-per-line", 16)
+
                 .put("books.max-book-page-size", 2560)
                 .put("books.max-book-total-size-multiplier", 0.98D)
                 .put("books.no-books", false)
+
                 .put("spam.multipliers",
                         ImmutableMap.<String, Object>builder()
+                                .put("PLAYER_POSITION", 0.5D)
+                                .put("PLAYER_POSITION_AND_ROTATION", 0.5D)
+                                .put("PLAYER_ROTATION", 0.5D)
+                                .put("PLAYER_FLYING", 0.5D)
                                 .put("HELD_ITEM_CHANGE", 1.0D)
                                 .put("ANIMATION", 1.0D)
                                 .build()
                 )
+
                 .put("commands", Arrays.asList(
                                 "//calc",
                                 "//calculate",

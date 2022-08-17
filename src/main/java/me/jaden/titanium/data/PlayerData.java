@@ -1,14 +1,19 @@
 package me.jaden.titanium.data;
 
+import com.github.retrooper.packetevents.protocol.player.User;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import me.jaden.titanium.settings.TitaniumConfig;
 
 @Setter
 @Getter
+@RequiredArgsConstructor
 public class PlayerData {
+    private final User user;
+
     private final Set<String> channels = new HashSet<>();
     private boolean receivingAlerts = false;
     private int lastBookEditTick;
@@ -40,7 +45,7 @@ public class PlayerData {
 
     public double incrementPacketCount(double multiplier) {
         double packetCount = Math.max(this.packetCount, 1);
-        return packetCount * multiplier;
+        return this.packetCount += 1 * multiplier;
     }
 
     public double decrementPacketAllowance() {
