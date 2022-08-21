@@ -4,7 +4,6 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientChatMessage;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientTabComplete;
-import java.util.Arrays;
 import java.util.List;
 import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
@@ -14,12 +13,12 @@ import org.bukkit.entity.Player;
 public class CommandA extends BaseCheck {
     private final List<String> disallowedCommands = TitaniumConfig.getInstance().getDisallowedCommands();
 
-    public CommandA() {
-        this.checkedPacketTypes.addAll(Arrays.asList(PacketType.Play.Client.TAB_COMPLETE, PacketType.Play.Client.CHAT_MESSAGE));
-    }
-
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
+        if (!canCheck(event)) {
+            return;
+        }
+
         if (this.getPlayer(event) != null) {
             Player player = this.getPlayer(event);
             if (player.hasPermission(TitaniumConfig.getInstance().getPermissionsConfig().getCommandBypassPermission()) || player.isOp()) {
@@ -45,4 +44,10 @@ public class CommandA extends BaseCheck {
             }
         }
     }
+
+    private boolean canCheck(PacketReceiveEvent event) {
+        return event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE || event.getPacketType() == PacketType.Play.Client.CHAT_MESSAGE;
+    }
 }
+
+

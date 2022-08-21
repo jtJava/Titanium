@@ -120,10 +120,6 @@ public class CheckManager {
                         return;
                     }
 
-                    if (!check.preconditions(event)) {
-                        return;
-                    }
-
                     PlayerData data = DataManager.getInstance().getPlayerData(event.getUser());
 
                     if (data != null) {
@@ -136,10 +132,6 @@ public class CheckManager {
             public void onPacketPlaySend(PacketPlaySendEvent event) {
                 for (BaseCheck check : packetChecks.values()) {
                     if (event.isCancelled()) {
-                        return;
-                    }
-
-                    if (!check.preconditions(event)) {
                         return;
                     }
 
