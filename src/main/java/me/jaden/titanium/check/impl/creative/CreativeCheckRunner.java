@@ -31,12 +31,13 @@ public class CreativeCheckRunner extends BaseCheck {
     //TODO: Maybe only trigger checks on certain items to save performance
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
-        Player player = this.getPlayer(event);
-        if (player != null && player.getGameMode() != GameMode.CREATIVE) {
-            return;
-        }
-
         if (event.getPacketType() == PacketType.Play.Client.CREATIVE_INVENTORY_ACTION) {
+            Player player = this.getPlayer(event);
+            if (player != null && player.getGameMode() != GameMode.CREATIVE) {
+                event.setCancelled(true);
+                return;
+            }
+
             WrapperPlayClientCreativeInventoryAction wrapper = new WrapperPlayClientCreativeInventoryAction(event);
             //No need to call creative checks if the item is null
             if (wrapper.getItemStack() == null) {
@@ -117,5 +118,4 @@ public class CreativeCheckRunner extends BaseCheck {
             }
         }
     }
-
 }

@@ -7,7 +7,7 @@ import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
-public class SignA extends BaseCheck {
+public class SignLength extends BaseCheck {
     // We add two to account for the " characters at the beginning and end.
     private final int maxCharactersPerLine = TitaniumConfig.getInstance().getMaxSignCharactersPerLine() + 2;
 
@@ -17,7 +17,7 @@ public class SignA extends BaseCheck {
             WrapperPlayClientUpdateSign wrapper = new WrapperPlayClientUpdateSign(event);
             for (String textLine : wrapper.getTextLines()) {
                 if (textLine.length() > this.maxCharactersPerLine) {
-                    flagPacket(event, "Length: " + textLine.length());
+                    flagPacket(event, "Length: " + textLine.length(), false);
                 }
             }
         }

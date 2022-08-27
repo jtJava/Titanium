@@ -96,6 +96,16 @@ commands:
   - "/mvhelp"
   - "/mv"
 
+disabled-checks:
+## Checks can be found here, this is just a simple list. https://github:com/jtJava/Titanium/tree/master/src/main/java/me/jaden/titanium/check/impl
+## I would prefer if you would report issues you have with checks to me, but if you need immediate changes, then you should disable it here.
+## - "SpamA"
+
+
+options:
+  ## This makes it so players will only be kicked if cancelling the packet will not completely ruin their gameplay or their connection.
+  only-necessary-kicks: true
+
 permissions:
   command-bypass: "titanium.commandbypass"
   notification: "titanium.notification"

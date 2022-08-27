@@ -7,7 +7,7 @@ import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
-public class CrasherE extends BaseCheck {
+public class BandwidthLimit extends BaseCheck {
 
     //Value from ExploitFixer config
     //https://github.com/2lstudios-mc/ExploitFixer/blob/master/resources/config.yml
@@ -17,11 +17,13 @@ public class CrasherE extends BaseCheck {
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
         //https://netty.io/4.1/api/io/netty/buffer/ByteBuf.html
         //Sequential Access Indexing
-        int capacity = ByteBufHelper.capacity(event.getByteBuf());
+        int readableBytes = ByteBufHelper.readableBytes(event.getByteBuf());
         int maxBytesPerSecond = this.maxBytesPerSecond * (event.getUser().getClientVersion().isOlderThan(ClientVersion.V_1_8) ? 2 : 1);
 
-        if (playerData.incrementBytesSent(capacity) > maxBytesPerSecond) {
+        if (playerData.incrementBytesSent(readableBytes) > maxBytesPerSecond) {
             flagPacket(event, "Bytes Sent: " + playerData.getBytesSent() + " Max Bytes/s: " + maxBytesPerSecond);
         }
+
+        System.out.println(ByteBufHelper.capacity(event.getByteBuf()) + "\\" + ByteBufHelper.readableBytes(event.getByteBuf()));
     }
 }

@@ -10,7 +10,7 @@ import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 
 // Yes, I know this isn't properly fixed. This should be fixed in the spigot.
-public class CrasherC extends BaseCheck {
+public class Log4J extends BaseCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
         if (event.getPacketType() == PacketType.Play.Client.CHAT_MESSAGE) {

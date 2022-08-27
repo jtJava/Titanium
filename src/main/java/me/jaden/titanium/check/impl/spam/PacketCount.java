@@ -7,7 +7,7 @@ import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
-public class SpamC extends BaseCheck {
+public class PacketCount extends BaseCheck {
     private final Map<PacketTypeCommon, Double> multiplierMap = TitaniumConfig.getInstance().getMultipliedPackets();
 
     @Override

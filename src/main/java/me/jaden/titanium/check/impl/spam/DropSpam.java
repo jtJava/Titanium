@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 // PaperMC
 // net.minecraft.server.network.ServerGamePacketListenerImpl#handlePlayerAction
-public class SpamB extends BaseCheck {
+public class DropSpam extends BaseCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData data) {
         if (event.getPacketType() == PacketType.Play.Client.PLAYER_DIGGING) {
@@ -21,9 +21,6 @@ public class SpamB extends BaseCheck {
             if (wrapper.getAction() != DiggingAction.DROP_ITEM) return;
 
             Player player = this.getPlayer(event);
-
-            if (this.getPlayer(event) == null) return;
-
             int currentTick = Ticker.getInstance().getCurrentTick();
 
             if (player.getGameMode() != GameMode.SPECTATOR) {
@@ -36,7 +33,7 @@ public class SpamB extends BaseCheck {
                     // Else we increment the drop count and check the amount.
                     data.incrementDropCount();
                     if (data.getDropCount() >= 20) {
-                        flagPacket(event);
+                        flagPacket(event, true);
                     }
                 }
             }

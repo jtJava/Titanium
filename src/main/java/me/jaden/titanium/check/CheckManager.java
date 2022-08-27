@@ -8,13 +8,13 @@ import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import java.util.HashMap;
 import java.util.Map;
 import me.jaden.titanium.Titanium;
-import me.jaden.titanium.check.impl.book.BookA;
-import me.jaden.titanium.check.impl.book.BookB;
-import me.jaden.titanium.check.impl.command.CommandA;
-import me.jaden.titanium.check.impl.crasher.CrasherA;
-import me.jaden.titanium.check.impl.crasher.CrasherC;
-import me.jaden.titanium.check.impl.crasher.CrasherD;
-import me.jaden.titanium.check.impl.crasher.CrasherE;
+import me.jaden.titanium.check.impl.book.Book;
+import me.jaden.titanium.check.impl.book.MassiveBook;
+import me.jaden.titanium.check.impl.command.BlockedCommand;
+import me.jaden.titanium.check.impl.crasher.BandwidthLimit;
+import me.jaden.titanium.check.impl.crasher.Lectern;
+import me.jaden.titanium.check.impl.crasher.Log4J;
+import me.jaden.titanium.check.impl.crasher.PacketSize;
 import me.jaden.titanium.check.impl.creative.CreativeCheck;
 import me.jaden.titanium.check.impl.creative.CreativeCheckRunner;
 import me.jaden.titanium.check.impl.creative.impl.CreativeAnvil;
@@ -23,24 +23,23 @@ import me.jaden.titanium.check.impl.creative.impl.CreativeMap;
 import me.jaden.titanium.check.impl.creative.impl.CreativeSkull;
 import me.jaden.titanium.check.impl.creative.impl.EnchantLimit;
 import me.jaden.titanium.check.impl.creative.impl.PotionLimit;
-import me.jaden.titanium.check.impl.firework.FireworkA;
-import me.jaden.titanium.check.impl.invalid.InvalidA;
-import me.jaden.titanium.check.impl.invalid.InvalidB;
-import me.jaden.titanium.check.impl.invalid.InvalidC;
-import me.jaden.titanium.check.impl.invalid.InvalidD;
-import me.jaden.titanium.check.impl.invalid.InvalidE;
-import me.jaden.titanium.check.impl.sign.SignA;
-import me.jaden.titanium.check.impl.spam.SpamA;
-import me.jaden.titanium.check.impl.spam.SpamB;
-import me.jaden.titanium.check.impl.spam.SpamC;
-import me.jaden.titanium.check.impl.spam.SpamD;
+import me.jaden.titanium.check.impl.firework.FireworkSize;
+import me.jaden.titanium.check.impl.invalid.ChannelCount;
+import me.jaden.titanium.check.impl.invalid.InvalidMove;
+import me.jaden.titanium.check.impl.invalid.InvalidPickItem;
+import me.jaden.titanium.check.impl.invalid.InvalidSlotChange;
+import me.jaden.titanium.check.impl.invalid.InvalidViewDistance;
+import me.jaden.titanium.check.impl.sign.SignLength;
+import me.jaden.titanium.check.impl.spam.BookSpam;
+import me.jaden.titanium.check.impl.spam.CraftSpam;
+import me.jaden.titanium.check.impl.spam.DropSpam;
+import me.jaden.titanium.check.impl.spam.PacketCount;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
 public class CheckManager {
     private final Map<Class<? extends BaseCheck>, BaseCheck> packetChecks = new HashMap<>();
-    private final Map<Class<? extends BukkitCheck>, BukkitCheck> bukkitChecks = new HashMap<>();
     private final Map<Class<? extends CreativeCheck>, CreativeCheck> creativeChecks = new HashMap<>();
 
     public CheckManager() {
@@ -64,50 +63,52 @@ public class CheckManager {
 
         this.addChecks(
                 // Spam (This should always be at the top for performance reasons)
-                new SpamA(),
-                new SpamB(),
-                new SpamC(),
-                new SpamD(),
+                new BookSpam(),
+                new DropSpam(),
+                new PacketCount(),
+                new CraftSpam(),
 
                 // Invalid
-                new InvalidA(),
-                new InvalidB(),
-                new InvalidC(),
-                new InvalidD(),
-                new InvalidE(),
+                new InvalidMove(),
+                new InvalidViewDistance(),
+                new InvalidPickItem(),
+                new InvalidSlotChange(),
+                new ChannelCount(),
 
                 // Crasher
-                new CrasherC(),
-                new CrasherE(),
+                new Log4J(),
+                new BandwidthLimit(),
 
-                new CommandA(),
+                new BlockedCommand(),
 
                 // Firework
-                new FireworkA(),
+                new FireworkSize(),
 
                 // Sign
-                new SignA()
+                new SignLength()
         );
 
         if (TitaniumConfig.getInstance().isNoBooks()) {
-            this.addChecks(new BookB());
+            this.addChecks(new Book());
         } else {
-            this.addChecks(new BookA());
+            this.addChecks(new MassiveBook());
         }
 
         if (TitaniumConfig.getInstance().getMaxBytes() != -1) {
-            this.addChecks(new CrasherD());
+            this.addChecks(new PacketSize());
         }
 
         if (TitaniumConfig.getInstance().getMaxBytesPerSecond() != -1) {
-            this.addChecks(new CrasherE());
+            this.addChecks(new BandwidthLimit());
         }
 
         if (serverVersion.isNewerThanOrEquals(ServerVersion.V_1_14)) {
-            this.addChecks(new CrasherA());
+            this.addChecks(new Lectern());
         }
 
         this.addChecks(new CreativeCheckRunner(creativeChecks.values()));
+
+        this.removeDisabledChecks();
     }
 
     private void initializeListeners() {
@@ -143,8 +144,6 @@ public class CheckManager {
                 }
             }
         });
-        Titanium plugin = Titanium.getPlugin();
-        this.bukkitChecks.forEach((loopClass, bukkitCheck) -> plugin.getServer().getPluginManager().registerEvents(bukkitCheck, plugin));
     }
 
     private void addChecks(BaseCheck... checks) {
@@ -157,15 +156,17 @@ public class CheckManager {
         }
     }
 
-    private void addBukkitChecks(BukkitCheck... checks) {
-        for (BukkitCheck check : checks) {
-            this.bukkitChecks.put(check.getClass(), check);
-        }
-    }
-
     private void addCreativeChecks(CreativeCheck... checks) {
         for (CreativeCheck check : checks) {
             this.creativeChecks.put(check.getClass(), check);
+        }
+    }
+
+    private void removeDisabledChecks() {
+        for (String disabledCheck : TitaniumConfig.getInstance().getDisabledChecks()) {
+            this.creativeChecks.keySet().removeIf(clazz -> clazz.getName().contains(disabledCheck));
+            this.packetChecks.keySet().removeIf(clazz -> clazz.getName().contains(disabledCheck));
+            Titanium.getPlugin().getLogger().info(disabledCheck + " has been disabled if it exists!");
         }
     }
 }

@@ -13,7 +13,7 @@ import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
 // PaperMC
-public class FireworkA extends BaseCheck implements CreativeCheck {
+public class FireworkSize extends BaseCheck implements CreativeCheck {
     private final int maxExplosions = TitaniumConfig.getInstance().getMaxExplosions(); // default paper value
 
     @Override

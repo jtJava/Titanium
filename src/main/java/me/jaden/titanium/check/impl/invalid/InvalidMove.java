@@ -12,7 +12,7 @@ import me.jaden.titanium.data.PlayerData;
 // PaperMC
 // net/minecraft/server/network/ServerGamePacketListenerImpl.java:515
 // net/minecraft/server/network/ServerGamePacketListenerImpl.java:1283
-public class InvalidA extends BaseCheck {
+public class InvalidMove extends BaseCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData data) {
         if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) {

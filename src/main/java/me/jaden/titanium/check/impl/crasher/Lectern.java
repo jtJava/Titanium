@@ -9,7 +9,7 @@ import org.bukkit.event.inventory.InventoryType;
 
 // https://github.com/PaperMC/Paper/commit/ea2c81e4b9232447f9896af2aac4cd0bf62386fd
 // https://wiki.vg/Inventory
-public class CrasherA extends BaseCheck {
+public class Lectern extends BaseCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
         if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {

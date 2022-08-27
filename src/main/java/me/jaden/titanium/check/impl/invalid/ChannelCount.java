@@ -9,7 +9,7 @@ import me.jaden.titanium.data.PlayerData;
 
 // Paper 1.8.8
 // org/bukkit/craftbukkit/entity/CraftPlayer.java:1209
-public class InvalidE extends BaseCheck {
+public class ChannelCount extends BaseCheck {
 
     //Fixes console spammer with register/unregister payloads
 

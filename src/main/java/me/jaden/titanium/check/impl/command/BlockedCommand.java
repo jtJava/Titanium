@@ -10,7 +10,7 @@ import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 import org.bukkit.entity.Player;
 
-public class CommandA extends BaseCheck {
+public class BlockedCommand extends BaseCheck {
     private final List<String> disallowedCommands = TitaniumConfig.getInstance().getDisallowedCommands();
 
     @Override

@@ -34,10 +34,13 @@ public class TitaniumConfig {
 
     private final int maxBytes;
     private final int maxBytesPerSecond;
+    private final List<String> disabledChecks;
 
     private List<String> disallowedCommands;
 
     private Map<PacketTypeCommon, Double> multipliedPackets = new HashMap<>();
+
+    private boolean onlyNecessaryKicks;
 
     public TitaniumConfig(Titanium plugin) {
         instance = this;
@@ -94,6 +97,7 @@ public class TitaniumConfig {
                                 "/execute"
                         )
                 )
+                .put("options.only-necessary-kicks", true)
                 .build());
 
         this.maxPacketsPerSecond = configuration.getInt("limits.max-packets-per-second", 1000);
@@ -115,5 +119,6 @@ public class TitaniumConfig {
         });
 
         this.disallowedCommands = configuration.getStringList("commands");
+        this.disabledChecks = configuration.getStringList("disabled-checks");
     }
 }

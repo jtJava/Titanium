@@ -22,7 +22,7 @@ import me.jaden.titanium.settings.TitaniumConfig;
 
 // PaperMC
 // net.minecraft.server.network.ServerGamePacketListenerImpl#handleEditBook
-public class BookA extends BaseCheck implements CreativeCheck {
+public class MassiveBook extends BaseCheck implements CreativeCheck {
     private final int maxBookPageSize = TitaniumConfig.getInstance().getMaxBookPageSize(); // default paper value
     private final double maxBookTotalSizeMultiplier = TitaniumConfig.getInstance().getMaxBookTotalSizeMultiplier(); // default paper value
 

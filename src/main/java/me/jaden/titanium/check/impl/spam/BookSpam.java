@@ -12,7 +12,7 @@ import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.util.Ticker;
 
-public class SpamA extends BaseCheck {
+public class BookSpam extends BaseCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData data) {
         if (event.getPacketType() == PacketType.Play.Client.EDIT_BOOK) {
