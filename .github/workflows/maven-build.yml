@@ -20,7 +20,7 @@ jobs:
     - name: Set up JDK ${{ matrix.java }}
       uses: actions/setup-java@v3
       with:
-        java-version: '11'
+        java-version: ${{ matrix.java }}
         distribution: 'adopt'
 
     - name: Build with Maven
@@ -30,4 +30,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Artifacts
-        path: target
+        path: target/Titanium.jar
