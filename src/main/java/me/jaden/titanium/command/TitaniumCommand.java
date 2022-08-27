@@ -11,6 +11,7 @@ import me.jaden.titanium.Titanium;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
 import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Player;
 
 @CommandAlias("titanium")
 public class TitaniumCommand extends BaseCommand {
@@ -18,7 +19,7 @@ public class TitaniumCommand extends BaseCommand {
     @Syntax("[player]")
     @CommandCompletion("@players")
     @CommandPermission("titanium.notification")
-    public void info(OnlinePlayer executor, OnlinePlayer onlinePlayer) {
+    public void info(Player executor, OnlinePlayer onlinePlayer) {
         Titanium plugin = Titanium.getPlugin();
         PlayerData playerData = DataManager.getInstance().getPlayerData(onlinePlayer.getPlayer().getUniqueId());
 
@@ -30,14 +31,14 @@ public class TitaniumCommand extends BaseCommand {
                         + "&eBytes Sent: &f" + playerData.getBytesSent() + " of " + plugin.getTitaniumConfig().getMaxBytesPerSecond() + "\n"
         );
 
-        DataManager.getInstance().getPlayerData(executor.getPlayer().getUniqueId()).getUser().sendMessage(message);
+        DataManager.getInstance().getPlayerData(executor.getUniqueId()).getUser().sendMessage(message);
     }
 
     @Subcommand("information")
     @Syntax("[player]")
     @CommandCompletion("@players")
     @CommandPermission("titanium.notification")
-    public void informationAlias(OnlinePlayer executor, OnlinePlayer onlinePlayer) {
+    public void informationAlias(Player executor, OnlinePlayer onlinePlayer) {
         this.info(executor, onlinePlayer);
     }
 }
