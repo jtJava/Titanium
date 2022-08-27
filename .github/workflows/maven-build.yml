@@ -9,9 +9,9 @@ jobs:
     strategy:
       matrix:
         # Use these Java versions
-        java: [8, 11, 17]
+        java: [8]
         # and run on both Linux and Windows
-        os: [ubuntu-20.04, windows-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -29,17 +29,28 @@ jobs:
       - name: Publish to GitHub Actions
         uses: actions/upload-artifact@v2
         with:
-          name: Artifacts
+          name: Artifact
           path: target/Titanium.jar
 
+      - name: Create Meta
+        id: create_meta
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            body=${{ github.event.head_commit.message }}
+          else
+            body="Automated pull request build action."
+          fi
+          echo "::set-output name=tag::$tag"
+          
       - name: Create Draft Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: <tofill>
-          release_name: <tofill>
+          tag_name: $(basename "${{ github.ref }}")
+          release_name: $(basename "${{ github.ref }}")
+          
           draft: true
           prerelease: false
 
@@ -49,7 +60,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: target/Titanium.jar
-          asset_name: Titanium
+          asset_name: Titanium.jar
           asset_content_type: application/zip
 
       - uses: eregon/publish-release@v1
