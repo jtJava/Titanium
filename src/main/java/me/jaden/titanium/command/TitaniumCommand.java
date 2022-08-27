@@ -16,7 +16,6 @@ import net.kyori.adventure.text.Component;
 public class TitaniumCommand extends BaseCommand {
     @Subcommand("info")
     @Syntax("[player]")
-    @CommandAlias("information")
     @CommandCompletion("@players")
     @CommandPermission("titanium.notification")
     public void info(OnlinePlayer executor, OnlinePlayer onlinePlayer) {
@@ -32,5 +31,13 @@ public class TitaniumCommand extends BaseCommand {
         );
 
         DataManager.getInstance().getPlayerData(executor.getPlayer().getUniqueId()).getUser().sendMessage(message);
+    }
+
+    @Subcommand("information")
+    @Syntax("[player]")
+    @CommandCompletion("@players")
+    @CommandPermission("titanium.notification")
+    public void informationAlias(OnlinePlayer executor, OnlinePlayer onlinePlayer) {
+        this.info(executor, onlinePlayer);
     }
 }

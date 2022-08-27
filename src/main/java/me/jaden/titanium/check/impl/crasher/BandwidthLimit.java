@@ -23,7 +23,5 @@ public class BandwidthLimit extends BaseCheck {
         if (playerData.incrementBytesSent(readableBytes) > maxBytesPerSecond) {
             flagPacket(event, "Bytes Sent: " + playerData.getBytesSent() + " Max Bytes/s: " + maxBytesPerSecond);
         }
-
-        System.out.println(ByteBufHelper.capacity(event.getByteBuf()) + "\\" + ByteBufHelper.readableBytes(event.getByteBuf()));
     }
 }
