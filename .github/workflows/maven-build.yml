@@ -32,16 +32,6 @@ jobs:
           name: Artifact
           path: target/Titanium.jar
 
-      - name: Create Meta
-        id: create_meta
-        run: |
-          if [[ "${{ github.event_name }}" == "push" ]]; then
-            body=${{ github.event.head_commit.message }}
-          else
-            body="Automated pull request build action."
-          fi
-          echo "::set-output name=tag::$tag"
-          
       - name: Create Draft Release
         id: create_release
         uses: actions/create-release@v1
