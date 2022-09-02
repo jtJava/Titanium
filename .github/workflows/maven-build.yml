@@ -26,6 +26,12 @@ jobs:
       - name: Build with Maven
         run: mvn install
 
+      - uses: mavrosxristoforos/get-xml-info@1.0
+        id: get-xml-info
+        with:
+          xml-path: 'pom.xml'
+          xpath: '/project/version'
+
       - name: Publish to GitHub Actions
         uses: actions/upload-artifact@v2
         with:
@@ -38,8 +44,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: autorelease
-          release_name: autorelease
+          tag_name: v${{ steps.get-xml-info.outputs.info }}
+          release_name: v${{ steps.get-xml-info.outputs.info }}
           
           draft: true
           prerelease: false
