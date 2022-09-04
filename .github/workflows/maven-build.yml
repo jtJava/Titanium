@@ -44,8 +44,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.get-xml-info.outputs.info }}
-          release_name: v${{ steps.get-xml-info.outputs.info }}
+          tag_name: latest
+          release_name: Auto Release
           
           draft: true
           prerelease: false
