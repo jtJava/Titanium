@@ -26,12 +26,6 @@ jobs:
       - name: Build with Maven
         run: mvn install
 
-      - uses: mavrosxristoforos/get-xml-info@1.0
-        id: get-xml-info
-        with:
-          xml-file: 'pom.xml'
-          xpath: '//project/version'
-
       - name: Publish to GitHub Actions
         uses: actions/upload-artifact@v2
         with:
