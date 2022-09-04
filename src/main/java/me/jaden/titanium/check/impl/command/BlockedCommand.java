@@ -5,48 +5,64 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientChatMessage;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientTabComplete;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import me.jaden.titanium.check.BaseCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 import org.bukkit.entity.Player;
 
 public class BlockedCommand extends BaseCheck {
+    private static final Pattern PLUGIN_EXCLUSION = Pattern.compile("/(\\S+:)");
     private final List<String> disallowedCommands = TitaniumConfig.getInstance().getDisallowedCommands();
 
     @Override
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
-        if (!canCheck(event)) {
-            return;
-        }
-
-        if (this.getPlayer(event) != null) {
-            Player player = this.getPlayer(event);
-            if (player.hasPermission(TitaniumConfig.getInstance().getPermissionsConfig().getCommandBypassPermission()) || player.isOp()) {
-                return;
-            }
-        }
-
         if (event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE) {
             WrapperPlayClientTabComplete wrapper = new WrapperPlayClientTabComplete(event);
             for (String disallowedCommand : disallowedCommands) {
-                if (wrapper.getText().toLowerCase().startsWith(disallowedCommand)) {
-                    event.setCancelled(true);
+                if (wrapper.getText().toLowerCase().contains(disallowedCommand)) {
+                    if (!checkPermissions(event)) {
+                        flagPacket(event, "Disallowed tab complete: " + wrapper.getText(), false);
+                    }
                     break;
                 }
             }
         } else if (event.getPacketType() == PacketType.Play.Client.CHAT_MESSAGE) {
             WrapperPlayClientChatMessage wrapper = new WrapperPlayClientChatMessage(event);
+            String message = wrapper.getMessage().toLowerCase();
             for (String disallowedCommand : disallowedCommands) {
-                if (wrapper.getMessage().toLowerCase().startsWith(disallowedCommand)) {
-                    event.setCancelled(true);
+                if (message.contains(disallowedCommand)) {
+                    if (!checkPermissions(event)) {
+                        flagPacket(event, "Disallowed command: " + message, false);
+                    }
+                    break;
+                }
+                String pluginCommand = replaceGroup(PLUGIN_EXCLUSION.pattern(), message, 1, 1, "");
+                if (pluginCommand.contains(disallowedCommand)) {
+                    if (!checkPermissions(event)) {
+                        flagPacket(event, "Disallowed command: " + pluginCommand, false);
+                    }
                     break;
                 }
             }
         }
     }
 
-    private boolean canCheck(PacketReceiveEvent event) {
-        return event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE || event.getPacketType() == PacketType.Play.Client.CHAT_MESSAGE;
+    private boolean checkPermissions(PacketReceiveEvent event) {
+        Player player = this.getPlayer(event);
+        if (player == null) {
+            return false;
+        }
+
+        return player.hasPermission(TitaniumConfig.getInstance().getPermissionsConfig().getCommandBypassPermission()) || player.isOp();
+    }
+
+    private String replaceGroup(String regex, String source, int groupToReplace, int groupOccurrence, String replacement) {
+        Matcher m = Pattern.compile(regex).matcher(source);
+        for (int i = 0; i < groupOccurrence; i++)
+            if (!m.find()) return source; // pattern not met, may also throw an exception here
+        return new StringBuilder(source).replace(m.start(groupToReplace), m.end(groupToReplace), replacement).toString();
     }
 }
 
