@@ -9,10 +9,10 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCl
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerBlockPlacement;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
 import me.jaden.titanium.check.BaseCheck;
-import me.jaden.titanium.check.impl.creative.CreativeCheck;
+import me.jaden.titanium.check.impl.creative.ItemCheck;
 import me.jaden.titanium.data.PlayerData;
 
-public class Book extends BaseCheck implements CreativeCheck {
+public class Book extends BaseCheck implements ItemCheck {
     @Override
     public void handle(PacketReceiveEvent event, PlayerData data) {
         if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
@@ -43,7 +43,7 @@ public class Book extends BaseCheck implements CreativeCheck {
     }
 
     @Override
-    public boolean handleCheck(ItemStack clickedStack, NBTCompound nbtCompound) {
+    public boolean handleCheck(PacketReceiveEvent event, ItemStack clickedStack, NBTCompound nbtCompound) {
         return clickedStack.getType() == ItemTypes.WRITTEN_BOOK || clickedStack.getType() == ItemTypes.WRITABLE_BOOK;
     }
 }

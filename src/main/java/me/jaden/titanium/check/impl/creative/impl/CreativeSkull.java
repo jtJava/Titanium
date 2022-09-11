@@ -1,5 +1,6 @@
 package me.jaden.titanium.check.impl.creative.impl;
 
+import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
@@ -7,13 +8,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.Base64;
 import java.util.UUID;
-import me.jaden.titanium.check.impl.creative.CreativeCheck;
+import me.jaden.titanium.check.impl.creative.ItemCheck;
 
 //Fixes crash head / glitch head
-public class CreativeSkull implements CreativeCheck {
+public class CreativeSkull implements ItemCheck {
 
     @Override
-    public boolean handleCheck(ItemStack clickedStack, NBTCompound nbtCompound) {
+    public boolean handleCheck(PacketReceiveEvent event, ItemStack clickedStack, NBTCompound nbtCompound) {
         if (nbtCompound == null) {
             return false;
         }

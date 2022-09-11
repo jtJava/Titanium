@@ -15,8 +15,8 @@ import me.jaden.titanium.check.impl.crasher.BandwidthLimit;
 import me.jaden.titanium.check.impl.crasher.Lectern;
 import me.jaden.titanium.check.impl.crasher.Log4J;
 import me.jaden.titanium.check.impl.crasher.PacketSize;
-import me.jaden.titanium.check.impl.creative.CreativeCheck;
-import me.jaden.titanium.check.impl.creative.CreativeCheckRunner;
+import me.jaden.titanium.check.impl.creative.ItemCheck;
+import me.jaden.titanium.check.impl.creative.ItemCheckRunner;
 import me.jaden.titanium.check.impl.creative.impl.CreativeAnvil;
 import me.jaden.titanium.check.impl.creative.impl.CreativeClientBookCrash;
 import me.jaden.titanium.check.impl.creative.impl.CreativeMap;
@@ -40,7 +40,7 @@ import me.jaden.titanium.settings.TitaniumConfig;
 
 public class CheckManager {
     private final Map<Class<? extends BaseCheck>, BaseCheck> packetChecks = new HashMap<>();
-    private final Map<Class<? extends CreativeCheck>, CreativeCheck> creativeChecks = new HashMap<>();
+    private final Map<Class<? extends ItemCheck>, ItemCheck> creativeChecks = new HashMap<>();
 
     public CheckManager() {
         this.initializeListeners();
@@ -106,7 +106,7 @@ public class CheckManager {
             this.addChecks(new Lectern());
         }
 
-        this.addChecks(new CreativeCheckRunner(creativeChecks.values()));
+        this.addChecks(new ItemCheckRunner(creativeChecks.values()));
 
         this.removeDisabledChecks();
     }
@@ -150,14 +150,14 @@ public class CheckManager {
         for (BaseCheck check : checks) {
             this.packetChecks.put(check.getClass(), check);
 
-            if (check instanceof CreativeCheck) {
-                this.addCreativeChecks((CreativeCheck) check);
+            if (check instanceof ItemCheck) {
+                this.addCreativeChecks((ItemCheck) check);
             }
         }
     }
 
-    private void addCreativeChecks(CreativeCheck... checks) {
-        for (CreativeCheck check : checks) {
+    private void addCreativeChecks(ItemCheck... checks) {
+        for (ItemCheck check : checks) {
             this.creativeChecks.put(check.getClass(), check);
         }
     }

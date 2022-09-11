@@ -27,6 +27,9 @@ public class PlayerData {
 
     private int bytesSent;
 
+    private int openWindowType;
+    private int openWindowContainer;
+
     public int incrementRecursionCount() {
         return recursionCount++;
     }
