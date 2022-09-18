@@ -7,6 +7,7 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.annotation.Syntax;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
+import java.util.concurrent.TimeUnit;
 import me.jaden.titanium.Titanium;
 import me.jaden.titanium.data.DataManager;
 import me.jaden.titanium.data.PlayerData;
@@ -29,6 +30,20 @@ public class TitaniumCommand extends BaseCommand {
                         + "&ePacket Count: &f" + playerData.getPacketCount() + "\n"
                         + "&ePacket Allowance: &f" + playerData.getPacketAllowance() + "\n"
                         + "&eBytes Sent: &f" + playerData.getBytesSent() + " of " + plugin.getTitaniumConfig().getMaxBytesPerSecond() + "\n"
+        );
+
+        DataManager.getInstance().getPlayerData(executor.getUniqueId()).getUser().sendMessage(message);
+    }
+
+    @Subcommand("debug")
+    @CommandPermission("titanium.notification")
+    public void debug(Player executor) {
+        Titanium plugin = Titanium.getPlugin();
+
+        long delta = System.currentTimeMillis() - plugin.getTicker().getLastReset();
+        Component message = plugin.getComponentSerializer().deserialize(
+                "&7&m--------&r&7 (&eTitanium&7) &fDebug &7&m--------\n"
+                        + "&eTime Since Playerdata Reset: &f" + TimeUnit.MILLISECONDS.toSeconds(delta) + "\n"
         );
 
         DataManager.getInstance().getPlayerData(executor.getUniqueId()).getUser().sendMessage(message);

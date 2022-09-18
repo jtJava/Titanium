@@ -1,5 +1,6 @@
 package me.jaden.titanium.util;
 
+import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import lombok.Getter;
 import me.jaden.titanium.Titanium;
 import me.jaden.titanium.data.DataManager;
@@ -16,6 +17,8 @@ public class Ticker {
 
     private final BukkitTask task;
 
+    private long lastReset;
+
     public Ticker() {
         instance = this;
 
@@ -24,13 +27,16 @@ public class Ticker {
 
         this.task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             double maxPacketsPerSecond = TitaniumConfig.getInstance().getMaxPacketsPerSecond();
-            double maxPacketAllowance = maxPacketsPerSecond * 3;
+            double maxPacketAllowance = maxPacketsPerSecond * 2;
 
             for (PlayerData value : DataManager.getInstance().getPlayerData().values()) {
-                value.setPacketAllowance(Math.min(maxPacketAllowance, value.getPacketAllowance() + maxPacketsPerSecond));
+//                value.setPacketAllowance(Math.min(maxPacketAllowance, value.getPacketAllowance() + maxPacketsPerSecond));
+                value.setPacketAllowance(maxPacketAllowance);
                 value.setPacketCount(0);
                 value.setBytesSent(0);
             }
+
+            this.lastReset = System.currentTimeMillis();
         }, 0, 20);
     }
 }
