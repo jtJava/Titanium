@@ -5,16 +5,16 @@ import com.github.retrooper.packetevents.event.PacketListenerCommon;
 import com.github.retrooper.packetevents.event.UserConnectEvent;
 import com.github.retrooper.packetevents.event.UserDisconnectEvent;
 import com.github.retrooper.packetevents.protocol.player.User;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 
 public class DataManager {
     @Getter
     private static DataManager instance;
     @Getter
-    private final Map<User, PlayerData> playerData = new HashMap<>();
+    private final Map<User, PlayerData> playerData = new ConcurrentHashMap<>();
 
     public DataManager() {
         instance = this;
