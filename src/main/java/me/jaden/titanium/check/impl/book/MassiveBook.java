@@ -16,13 +16,13 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPl
 import java.util.ArrayList;
 import java.util.List;
 import me.jaden.titanium.check.BaseCheck;
-import me.jaden.titanium.check.impl.creative.CreativeCheck;
+import me.jaden.titanium.check.impl.creative.ItemCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
 // PaperMC
 // net.minecraft.server.network.ServerGamePacketListenerImpl#handleEditBook
-public class MassiveBook extends BaseCheck implements CreativeCheck {
+public class MassiveBook extends BaseCheck implements ItemCheck {
     private final int maxBookPageSize = TitaniumConfig.getInstance().getMaxBookPageSize(); // default paper value
     private final double maxBookTotalSizeMultiplier = TitaniumConfig.getInstance().getMaxBookTotalSizeMultiplier(); // default paper value
 
@@ -77,7 +77,7 @@ public class MassiveBook extends BaseCheck implements CreativeCheck {
 
 
     @Override
-    public boolean handleCheck(ItemStack clickedStack, NBTCompound nbtCompound) {
+    public boolean handleCheck(PacketReceiveEvent event, ItemStack clickedStack, NBTCompound nbtCompound) {
         return invalid(this.getPages(clickedStack)) || invalidTitleOrAuthor(clickedStack);
     }
 

@@ -8,12 +8,12 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerBlockPlacement;
 import me.jaden.titanium.check.BaseCheck;
-import me.jaden.titanium.check.impl.creative.CreativeCheck;
+import me.jaden.titanium.check.impl.creative.ItemCheck;
 import me.jaden.titanium.data.PlayerData;
 import me.jaden.titanium.settings.TitaniumConfig;
 
 // PaperMC
-public class FireworkSize extends BaseCheck implements CreativeCheck {
+public class FireworkSize extends BaseCheck implements ItemCheck {
     private final int maxExplosions = TitaniumConfig.getInstance().getMaxExplosions(); // default paper value
 
     @Override
@@ -33,7 +33,7 @@ public class FireworkSize extends BaseCheck implements CreativeCheck {
     }
 
     @Override
-    public boolean handleCheck(ItemStack clickedStack, NBTCompound nbtCompound) {
+    public boolean handleCheck(PacketReceiveEvent event, ItemStack clickedStack, NBTCompound nbtCompound) {
         return invalid(clickedStack);
     }
 

@@ -1,13 +1,14 @@
 package me.jaden.titanium.check.impl.creative.impl;
 
+import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTList;
 import com.github.retrooper.packetevents.protocol.nbt.NBTNumber;
-import me.jaden.titanium.check.impl.creative.CreativeCheck;
+import me.jaden.titanium.check.impl.creative.ItemCheck;
 import me.jaden.titanium.settings.TitaniumConfig;
 
-public class PotionLimit implements CreativeCheck {
+public class PotionLimit implements ItemCheck {
     //This prevents hacked potions that can do all sorts of annoying things (KillerPotions, NoRespawnPotions, TrollPotions)
     private final int maxPotionEffects = TitaniumConfig.getInstance().getCreativeConfig().getMaxPotionEffects();
     private final boolean allowNegativeAmplifiers = TitaniumConfig.getInstance().getCreativeConfig().isAllowNegativeAmplifiers();
@@ -15,12 +16,12 @@ public class PotionLimit implements CreativeCheck {
     private final int maxPotionEffectDuration = TitaniumConfig.getInstance().getCreativeConfig().getMaxPotionEffectDuration();
 
     @Override
-    public boolean handleCheck(ItemStack clickedStack, NBTCompound compound) {
-        if (!compound.getTags().containsKey("CustomPotionEffects")) {
+    public boolean handleCheck(PacketReceiveEvent event, ItemStack clickedStack, NBTCompound nbtCompound) {
+        if (!nbtCompound.getTags().containsKey("CustomPotionEffects")) {
             return false;
         }
 
-        NBTList<NBTCompound> potionEffects = compound.getCompoundListTagOrNull("CustomPotionEffects");
+        NBTList<NBTCompound> potionEffects = nbtCompound.getCompoundListTagOrNull("CustomPotionEffects");
 
         //Limit how many custom potion effects a potion can have
         if (potionEffects.size() >= maxPotionEffects) {

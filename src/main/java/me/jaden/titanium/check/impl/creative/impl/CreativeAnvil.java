@@ -1,12 +1,13 @@
 package me.jaden.titanium.check.impl.creative.impl;
 
+import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.nbt.NBTNumber;
-import me.jaden.titanium.check.impl.creative.CreativeCheck;
+import me.jaden.titanium.check.impl.creative.ItemCheck;
 
-public class CreativeAnvil implements CreativeCheck {
+public class CreativeAnvil implements ItemCheck {
 
     //This prevents the creation of buggy anvils that crash the client when placed
     //https://bugs.mojang.com/browse/MC-82677
@@ -19,7 +20,7 @@ public class CreativeAnvil implements CreativeCheck {
     }
 
     @Override
-    public boolean handleCheck(ItemStack clickedStack, NBTCompound nbtCompound) {
+    public boolean handleCheck(PacketReceiveEvent event, ItemStack clickedStack, NBTCompound nbtCompound) {
         if (invalid(clickedStack)) {
             return true;
         }
