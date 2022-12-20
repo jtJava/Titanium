@@ -31,15 +31,18 @@ jobs:
         with:
           name: Artifact
           path: target/Titanium.jar
-
+          
+      - name: Get Commit Hash
+        id: hash_commit
+        uses: pr-mpt/actions-commit-hash@v2
+        
       - name: Create Draft Release
         id: create_release
         uses: actions/create-release@v1
-      - uses: pr-mpt/actions-commit-hash@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.create_release.outputs.short }}
+          tag_name: ${{ steps.hash_commit.outputs.short }}
           release_name: Auto Release
           
           draft: true
