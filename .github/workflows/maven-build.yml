@@ -35,10 +35,11 @@ jobs:
       - name: Create Draft Release
         id: create_release
         uses: actions/create-release@v1
+      - uses: pr-mpt/actions-commit-hash@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: latest
+          tag_name: ${{ steps.create_release.outputs.short }}
           release_name: Auto Release
           
           draft: true
