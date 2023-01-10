@@ -20,17 +20,18 @@ public class BlockedCommand extends BaseCheck {
     public void handle(PacketReceiveEvent event, PlayerData playerData) {
         if (event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE) {
             WrapperPlayClientTabComplete wrapper = new WrapperPlayClientTabComplete(event);
+            String message = wrapper.getText().toLowerCase().replaceAll("\\s+", " ");
             for (String disallowedCommand : disallowedCommands) {
-                if (wrapper.getText().toLowerCase().contains(disallowedCommand)) {
+                if (message.contains(disallowedCommand)) {
                     if (!checkPermissions(event)) {
-                        flagPacket(event, "Disallowed tab complete: " + wrapper.getText(), false);
+                        flagPacket(event, "Disallowed tab complete: " + message, false);
                     }
                     break;
                 }
             }
         } else if (event.getPacketType() == PacketType.Play.Client.CHAT_MESSAGE) {
             WrapperPlayClientChatMessage wrapper = new WrapperPlayClientChatMessage(event);
-            String message = wrapper.getMessage().toLowerCase();
+            String message = wrapper.getMessage().toLowerCase().replaceAll("\\s+", " ");
             for (String disallowedCommand : disallowedCommands) {
                 if (message.contains(disallowedCommand)) {
                     if (!checkPermissions(event)) {
