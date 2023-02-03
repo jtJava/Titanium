@@ -114,3 +114,4 @@ messages:
   disconnect-message: "&7(&eTitanium&7) &fYou have been disconnected due \n&fto sending harmful packets."
   staff-notification: "&7(&eTitanium&7) &f%player% &7flagged &f%checkname% "
   staff-notification-info: "&7(&e%info%&7)" ## This will be added to the end of the above message if there is info present.
+  blocked-command-message: "Unknown command. Type \"/help\" for help."
