@@ -6,7 +6,7 @@
 
     <groupId>me.jaden.titanium</groupId>
     <artifactId>titanium</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.4.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Titanium</name>
@@ -21,7 +21,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.13.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -30,7 +30,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -43,31 +43,12 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
                                 <relocation>
-                                    <pattern>com.github.retrooper</pattern>
-                                    <shadedPattern>com.github.retrooper.titanium
-                                    </shadedPattern> <!--relocate packetevents package. choose something unique!-->
-                                </relocation>
-                                <relocation>
-                                    <pattern>io.github.retrooper</pattern>
-                                    <shadedPattern>io.github.retrooper.titanium
-                                    </shadedPattern> <!--relocate packetevents package. choose something unique!-->
-                                </relocation>
-                                <relocation>
-                                    <pattern>net.kyori</pattern>
-                                    <shadedPattern>com.github.retrooper.titanium.packetevents.libs.net.kyori
-                                    </shadedPattern> <!--relocate packetevents package. choose something unique!-->
-                                </relocation>
-
-                                <relocation>
-                                    <pattern>com.google.gson</pattern>
-                                    <shadedPattern>com.github.retrooper.titanium.packetevents.libs.com.google.gson
-                                    </shadedPattern> <!--relocate packetevents package. choose something unique!-->
-                                </relocation>
-
-                                <relocation>
                                     <pattern>org.bstats</pattern>
-                                    <!-- Replace this with your package! -->
-                                    <shadedPattern>me.jaden.titanium</shadedPattern>
+                                    <shadedPattern>me.jaden.titanium.bstats</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>co.aikar</pattern>
+                                    <shadedPattern>me.jaden.titanium.acf</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -111,23 +92,23 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.retrooper.packetevents</groupId>
-            <artifactId>spigot</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>com.github.retrooper</groupId>
+            <artifactId>packetevents-spigot</artifactId>
+            <version>2.5.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>1.18.32</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.2</version>
             <scope>compile</scope>
         </dependency>
 

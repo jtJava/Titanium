@@ -17,7 +17,7 @@ public abstract class BaseCheck implements Check {
     private final MessagesConfig messagesConfig = titaniumConfig.getMessagesConfig();
 
     @Override
-    public void flagPacket(ProtocolPacketEvent<Object> event, String info, boolean kick) {
+    public void flagPacket(ProtocolPacketEvent event, String info, boolean kick) {
         event.setCancelled(true);
 
         User user = event.getUser();
@@ -28,12 +28,12 @@ public abstract class BaseCheck implements Check {
     }
 
     @Override
-    public void flagPacket(ProtocolPacketEvent<Object> event, String info) {
+    public void flagPacket(ProtocolPacketEvent event, String info) {
         this.flagPacket(event, info, true);
     }
 
     @Override
-    public void flagPacket(ProtocolPacketEvent<Object> event, boolean kick) {
+    public void flagPacket(ProtocolPacketEvent event, boolean kick) {
         this.flagPacket(event, "", kick);
     }
 
@@ -52,7 +52,7 @@ public abstract class BaseCheck implements Check {
         }
     }
 
-    protected Player getPlayer(ProtocolPacketEvent<Object> event) {
+    protected Player getPlayer(ProtocolPacketEvent event) {
         return Optional.ofNullable((Player) event.getPlayer()).orElse(Bukkit.getPlayer(event.getUser().getUUID()));
     }
 }

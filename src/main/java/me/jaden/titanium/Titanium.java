@@ -1,9 +1,7 @@
 package me.jaden.titanium;
 
 import co.aikar.commands.PaperCommandManager;
-import com.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
-import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import me.jaden.titanium.check.CheckManager;
@@ -34,13 +32,6 @@ public final class Titanium extends JavaPlugin {
     private PaperCommandManager commandManager;
 
     @Override
-    public void onLoad() {
-        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
-        PacketEvents.getAPI().getSettings().checkForUpdates(false).bStats(true);
-        PacketEvents.getAPI().load();
-    }
-
-    @Override
     public void onEnable() {
         plugin = this;
 
@@ -61,14 +52,10 @@ public final class Titanium extends JavaPlugin {
 
         //bStats
         new Metrics(this, 15258);
-
-        PacketEvents.getAPI().init();
     }
 
     @Override
     public void onDisable() {
-        PacketEvents.getAPI().terminate();
-
         this.ticker.getTask().cancel();
     }
 }
