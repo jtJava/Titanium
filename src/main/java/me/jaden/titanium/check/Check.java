@@ -7,15 +7,15 @@ import me.jaden.titanium.data.PlayerData;
 
 public interface Check {
 
-    default void flagPacket(ProtocolPacketEvent<Object> event) {
+    default void flagPacket(ProtocolPacketEvent event) {
         flagPacket(event, "");
     }
 
-    void flagPacket(ProtocolPacketEvent<Object> event, String info);
+    void flagPacket(ProtocolPacketEvent event, String info);
 
-    void flagPacket(ProtocolPacketEvent<Object> event, String info, boolean kick);
+    void flagPacket(ProtocolPacketEvent event, String info, boolean kick);
 
-    void flagPacket(ProtocolPacketEvent<Object> event, boolean kick);
+    void flagPacket(ProtocolPacketEvent event, boolean kick);
 
     default void handle(PacketReceiveEvent event, PlayerData playerData) {
 
