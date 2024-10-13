@@ -9,32 +9,33 @@ jobs:
     strategy:
       matrix:
         # Use these Java versions
-        java: [8]
+        java: [21]
         # and run on both Linux and Windows
-        os: [ubuntu-20.04]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
-          distribution: 'adopt'
+          distribution: 'zulu'
+          cache: maven
 
       - name: Build with Maven
         run: mvn install
 
       - name: Publish to GitHub Actions
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Artifact
           path: target/Titanium.jar
           
       - name: Get Commit Hash
         id: hash_commit
-        uses: pr-mpt/actions-commit-hash@v2
+        uses: prompt/actions-commit-hash@v3
         
       - name: Create Draft Release
         id: create_release
